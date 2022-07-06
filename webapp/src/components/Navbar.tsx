@@ -38,17 +38,17 @@ function Navbar() {
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/information' className='nav-links' onClick={closeMMenu}>
+                        <Link to='/Information' className='nav-links' onClick={closeMMenu}>
                             Information
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/goals' className='nav-links' onClick={closeMMenu}>
+                        <Link to='/Goals' className='nav-links' onClick={closeMMenu}>
                             Goals
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/stats' className='nav-links' onClick={closeMMenu}>
+                        <Link to='/Stats' className='nav-links' onClick={closeMMenu}>
                             Statistics
                         </Link>
                     </li>
