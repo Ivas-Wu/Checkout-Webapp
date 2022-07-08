@@ -7,14 +7,14 @@ export interface ITask {
     deadline: number;
 }
 
-interface INavbarProps {
+interface IGoalTaskProps {
   task: ITask;
   modifyTask (taskNameToModify: string): void;
   completeTask(taskNameToDelete: string): void;
 }
 
-export const Goaltask: React.FC<INavbarProps> = ({ 
-  task, modifyTask,completeTask }: INavbarProps
+export const Goaltask: React.FC<IGoalTaskProps> = ({ 
+  task, modifyTask,completeTask }: IGoalTaskProps
   ) => {
   return (
     <div className="task">

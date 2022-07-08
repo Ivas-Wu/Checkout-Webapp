@@ -1,6 +1,5 @@
 import '../../App.css'
 import React from "react";
-import { Button } from '../Button'
 import { Goalform } from "../Goalform";
 
 export interface IGoalsPageProps {};
