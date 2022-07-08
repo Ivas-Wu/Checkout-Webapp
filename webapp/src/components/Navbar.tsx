@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 import { Button } from './Button';
 import './Navbar.css';
 
-function Navbar() {
+interface INavbarProps {
+    Buttonfunc:() => void;
+    Buttonname: string;
+};
+
+export const Navbar: React.FC<INavbarProps> = ({Buttonfunc, Buttonname}:INavbarProps) => {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
 
@@ -53,7 +58,10 @@ function Navbar() {
                         </Link>
                     </li>
                 </ul>
-                {button && <Button buttonStyle='btn--outline'>TEST BUTTON</Button>}
+                {button && <Button buttonStyle='btn--outline' 
+                onClick={() => {
+                    Buttonfunc();
+                    }}>{Buttonname}</Button>}
             </div> 
         </nav>
     </>

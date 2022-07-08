@@ -2,7 +2,7 @@ import '../../App.css'
 
 export interface IStatisticsPageProps {};
 
-const Statistics: React.FunctionComponent<IStatisticsPageProps> = props => {
+const Statistics: React.FC<IStatisticsPageProps> = () => {
     return (
         <>
             <div>This is the Statistics Page</div>

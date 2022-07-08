@@ -27,8 +27,7 @@ function App() {
   return (
     <>
       <Router>
-        <Navbar />
-        <Button onClick={logOut} >Logout</Button>
+        <Navbar Buttonfunc={logOut} Buttonname='Logout'/>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/Information' element={<Information />} />

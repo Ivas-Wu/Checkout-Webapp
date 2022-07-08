@@ -5,7 +5,7 @@ import { Table } from "../Table";
 
 export interface IInformationPageProps {};
 
-const Information: React.FunctionComponent<IInformationPageProps> = props => {
+const Information: React.FC<IInformationPageProps> = () => {
   const columns = React.useMemo(
     () => [
       {

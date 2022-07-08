@@ -5,7 +5,7 @@ import { Goalform } from "../Goalform";
 
 export interface IGoalsPageProps {};
 
-const Goals: React.FunctionComponent<IGoalsPageProps> = props => {
+const Goals: React.FC<IGoalsPageProps> = () => {
     return (
         <>
             <div>This is the Goals Page</div>

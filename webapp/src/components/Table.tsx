@@ -36,14 +36,14 @@ const Styles = styled.div`
   }
 `;
 
-interface Props {
+interface ITableProps {
   columns: Array<Column<object>>;
   data: Array<object>;
 }
 
-export const Table: React.FC<Props> = ({ 
+export const Table: React.FC<ITableProps> = ({ 
     columns, data 
-}) => {
+}:ITableProps) => {
   const {
     getTableProps,
     getTableBodyProps,

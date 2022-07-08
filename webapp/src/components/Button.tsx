@@ -6,14 +6,14 @@ const STYLES = ['btn--primary', 'btn--outline', 'btn--extra'];
 
 const SIZES = ['btn--medium', 'btn--large'];
 
-interface Props {
+interface IButtonProps {
     children : string;
     onClick?: () =>  void;
     buttonStyle?: string;
     buttonSize?: string;
 }
 
-export const Button: React.FC<Props> = ({
+export const Button: React.FC<IButtonProps> = ({
     children,
     onClick,
     buttonStyle,
@@ -29,3 +29,5 @@ export const Button: React.FC<Props> = ({
         </button>
     )
 };
+
+export default Button;

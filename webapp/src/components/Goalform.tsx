@@ -4,7 +4,7 @@ import "./Goalform.css";
 
 export interface IGoalFormProps {};
 
-export const Goalform: React.FunctionComponent<IGoalFormProps> = props => {
+export const Goalform: React.FC<IGoalFormProps> = () => {
     const [task, setTask] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [amount, setAmount] = useState<number>(0);
