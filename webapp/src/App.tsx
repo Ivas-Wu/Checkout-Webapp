@@ -8,7 +8,6 @@ import Stats from './components/pages/Stats'
 import Goals from './components/pages/Goals'
 import Login from './components/auth/Login';
 import useAuthToken from './components/auth/useAuthToken';
-import { Button } from '@mui/material';
 
 
 function App() {
