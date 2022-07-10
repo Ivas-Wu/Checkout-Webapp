@@ -22,12 +22,14 @@ This is the API for the Checkout App
  5. Ensure the username is postgres (should also be default)
  6. Paste the password from the env file in. 
  7. Save and you should be connected!
+ 8. Make sure you right click on the instance and disconnect when you are done using
 
 ### Using PGAdmin
 - They have pretty good docs, almost identical syntax to ECE356, there's just a UI now
 - Use the window on the left to selet the postgres database from inside the instance 
 - To view the tables in a UI select Schemas -> Public -> Tables then select from there
 - A better way to do this is to just use Tools -> Query Tool from the top navbar, then just write the SQL you need in there (i.e. `SELECT * FROM users`)
+- Please disconnect when finished using, not a huge deal if you forget but remembering helps us not run up minutes
 
 ## Using Postman to Manually Call the API
 - Ensure the API is running
