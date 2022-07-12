@@ -28,10 +28,10 @@ function App() {
       <Router>
         <Navbar Buttonfunc={logOut} Buttonname='Logout'/>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/Information' element={<Information />} />
-          <Route path='/Stats' element={<Stats />} />
-          <Route path='/Goals' element={<Goals />} />
+          <Route path='/hpme' element={<Home />} />
+          <Route path='/information' element={<Information />} />
+          <Route path='/stats' element={<Stats />} />
+          <Route path='/goals' element={<Goals />} />
         </Routes>
       </Router>
     </>
