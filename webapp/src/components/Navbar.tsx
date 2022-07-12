@@ -38,22 +38,22 @@ export const Navbar: React.FC<INavbarProps> = ({Buttonfunc, Buttonname}:INavbarP
                 </div>
                 <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                     <li className='nav-item'>
-                        <Link to='/' className='nav-links' onClick={closeMMenu}>
+                        <Link to='/home' className='nav-links' onClick={closeMMenu}>
                             Home
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/Information' className='nav-links' onClick={closeMMenu}>
+                        <Link to='/information' className='nav-links' onClick={closeMMenu}>
                             Information
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/Goals' className='nav-links' onClick={closeMMenu}>
+                        <Link to='/goals' className='nav-links' onClick={closeMMenu}>
                             Goals
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/Stats' className='nav-links' onClick={closeMMenu}>
+                        <Link to='/stats' className='nav-links' onClick={closeMMenu}>
                             Statistics
                         </Link>
                     </li>
