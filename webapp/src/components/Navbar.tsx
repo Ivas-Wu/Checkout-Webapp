@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import LoginButton from './auth/LoginButton';
 import LogoutButton from './auth/LogoutButton';
+import SignUpButton from './auth/SignUpButton';
 import './Navbar.css';
 
 export const Navbar: React.FC = () => {
@@ -56,7 +57,10 @@ export const Navbar: React.FC = () => {
                         <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
                     </div> 
                 </div>
-                <div style={{paddingLeft:'1150px', paddingRight: '50px'}}>
+                <div style={{paddingLeft:'900px', paddingRight: '20px'}}>
+                    <SignUpButton />
+                </div>
+                <div style={{paddingRight: '50px'}}>
                     <LoginButton />
                 </div>
             </div>}
