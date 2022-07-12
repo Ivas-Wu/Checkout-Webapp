@@ -1,6 +1,5 @@
 import React from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { Header} from './Popup.styles';
 import "./ImageHandler.css"
 
 export interface IImageHandlerProps {}
@@ -38,7 +37,6 @@ const ImageHandler: React.FC<IImageHandlerProps> = () => {
           dragProps
         }) => (
           <div className="upload__image-wrapper">
-            <Header>Upload Image</Header>
             <button
               style={isDragging ? { color: "red" } : undefined}
               onClick={onImageUpload}
