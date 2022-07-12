@@ -6,7 +6,7 @@ interface TableReqs {
 }
 
 // Eventually add a union type instead like User | Receipt | Item | ... when I get around to building backend for those
-// Until then TableReqs will do
+// Until then TableReqs will do, it pretty much just forces it to have an id
 
 export interface TableProps<T extends TableReqs> {
     cols: GridColDef[],
