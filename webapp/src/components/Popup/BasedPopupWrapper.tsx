@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, ReactNode } from 'react'
 import Popup from './Popup';
-import { DesktopPopupContainer} from './Popup.styles';
+import { DesktopPopupContainer, Header } from './Popup.styles';
 import ImageHandler from './ImageHandler'
 
 export interface BasePopupWrapperProps {
@@ -28,6 +28,7 @@ const BasePopupWrapper: React.FC<Props> = ({content, ContainerComponent, CloseBu
 
     return (<Popup onBackdropClick={onBackdropClick}>
       <DesktopPopupContainer>
+        <Header>{header}</Header>
         <ImageHandler></ImageHandler>
       </DesktopPopupContainer>
     </Popup>);

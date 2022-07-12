@@ -35,6 +35,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
     return (
         <>
             <div>This is the Statistics Page</div>
+            <div>Can try using this https://jquense.github.io/react-widgets/docs/Dropdowns</div>
             <button onClick={() => setGraphs(charts.BAR)}>Bar</button>
             <button onClick={() => setGraphs(charts.LINE)}>Line</button>
             <button onClick={() => setGraphs(charts.PI)}>Pi</button>
