@@ -1,7 +1,10 @@
 import requests
 import json
+import re
 
-def ocr_space_file(filename, api_key, overlay=False, tabulate=True, language='eng'):
+PLACE_NAME = 'Place Name'
+
+def ocr_receipt(filename, api_key, overlay=False, tabulate=True, language='eng'):
     """ OCR.space API request with local file.
     :param filename: Your file path & name.
     :param overlay: Is OCR.space overlay required in your response.
@@ -23,15 +26,42 @@ def ocr_space_file(filename, api_key, overlay=False, tabulate=True, language='en
                           files={filename: f},
                           data=payload,
                           )
-    return r.content.decode()
+    ocr_content = r.content.decode()
+    ocr_content_json = json.loads(ocr_content)
+    return_json = convert_to_json(ocr_content_json['ParsedResults'][0]['ParsedText'])
+    return return_json
 
+def convert_to_json(receipt):
+    json_receipt = {}
+    lineiterator = receipt.splitlines()
+    json_receipt[PLACE_NAME] = process_string(lineiterator[0])
+    for line in lineiterator:
+        name, price = match_regex(line)
+        if name and price:
+            json_receipt[name] = price
+    #
+
+    return json_receipt
+
+def match_regex(string):
+    name_matches = re.search("([A-Za-z_\s]*)", string)
+    price_matches = re.search("([0-9]+\.[0-9]{2})", string)
+    if name_matches and price_matches:
+        return process_string(name_matches.group(0)), price_matches.group(0)
+    else:
+        return "" , ""
+
+def process_string(string):
+    return_string = string.strip('\n')
+    return_string = return_string.strip('\t')
+    return return_string
 
 def main():
     api_key = 'K83047060888957'
     file_path = './sample_data/1012-receipt.jpg'
-    return_file = ocr_space_file(filename=file_path, api_key=api_key, overlay=False)
-    return_json = json.loads(return_file)
-    print(return_json['ParsedResults'][0]['ParsedText'])
+    return_file = ocr_receipt(filename=file_path, api_key=api_key, overlay=False)
+    print(return_file)
+    
 
 if __name__ == "__main__":
     main()
