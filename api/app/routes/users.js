@@ -13,7 +13,7 @@ router.post("/", user.create);
 router.get("/", user.findAll);
 
 // get all active users
-router.get("/published", user.findAllActive);
+router.get("/active", user.findAllActive);
 
 // get one user
 router.get("/:id", user.findOne);
