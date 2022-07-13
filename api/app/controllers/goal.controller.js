@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require('../models');
 const Goal = db.goal;
 // create a new goal
 exports.create = (req, res) => {
@@ -16,7 +16,7 @@ exports.create = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "error creating goal",
+        message: err.message || 'error creating goal',
       });
     });
 };
@@ -30,7 +30,7 @@ exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "error getting all goals",
+        message: err.message || 'error getting all goals',
       });
     });
 };
@@ -49,7 +49,7 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error getting goal id=" + id,
+        message: 'error getting goal id=' + id,
       });
     });
 };
@@ -62,7 +62,7 @@ exports.update = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "goal updated",
+          message: 'goal updated',
         });
       } else {
         res.send({
@@ -72,7 +72,7 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error updating goal with id=" + id,
+        message: 'error updating goal with id=' + id,
       });
     });
 };
@@ -85,7 +85,7 @@ exports.delete = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "goal deleted",
+          message: 'goal deleted',
         });
       } else {
         res.send({
@@ -95,7 +95,7 @@ exports.delete = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error deleting goal id=" + id,
+        message: 'error deleting goal id=' + id,
       });
     });
 };

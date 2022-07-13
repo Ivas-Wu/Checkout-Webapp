@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require('../models');
 const Receipt = db.receipt;
 // create a new receipt
 exports.create = (req, res) => {
@@ -17,7 +17,7 @@ exports.create = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "error creating receipt",
+        message: err.message || 'error creating receipt',
       });
     });
 };
@@ -31,7 +31,7 @@ exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "error getting all receipts",
+        message: err.message || 'error getting all receipts',
       });
     });
 };
@@ -50,7 +50,7 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error getting receipt id=" + id,
+        message: 'error getting receipt id=' + id,
       });
     });
 };
@@ -63,7 +63,7 @@ exports.update = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "receipt updated",
+          message: 'receipt updated',
         });
       } else {
         res.send({
@@ -73,7 +73,7 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error updating receipt with id=" + id,
+        message: 'error updating receipt with id=' + id,
       });
     });
 };
@@ -86,7 +86,7 @@ exports.delete = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "receipt deleted",
+          message: 'receipt deleted',
         });
       } else {
         res.send({
@@ -96,7 +96,7 @@ exports.delete = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error deleting receipt id=" + id,
+        message: 'error deleting receipt id=' + id,
       });
     });
 };
