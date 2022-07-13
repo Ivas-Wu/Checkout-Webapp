@@ -1,17 +1,17 @@
-import '../../App.css'
-import React from "react";
-import { Goalform } from "../Goalform";
+import '../../App.css';
+import React from 'react';
+import { Goalform } from '../Goalform';
 
-export interface IGoalsPageProps {};
+export interface IGoalsPageProps {}
 
 const Goals: React.FC<IGoalsPageProps> = () => {
-    return (
-        <>
-            <div>This is the Goals Page</div>
-            <div>TODO: Delete and modify goals</div>
-            <Goalform/>
-        </>
-    )
-}
+  return (
+    <>
+      <div>This is the Goals Page</div>
+      <div>TODO: Delete and modify goals</div>
+      <Goalform />
+    </>
+  );
+};
 
 export default Goals;

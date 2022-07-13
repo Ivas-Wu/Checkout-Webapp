@@ -1,11 +1,10 @@
-import React, { MouseEventHandler } from 'react'
+import React, { MouseEventHandler } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
-
 interface PopupProps {
   onBackdropClick: () => void;
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 const Overlay = styled.div`
@@ -18,22 +17,20 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
-const stopPropagation: MouseEventHandler<HTMLDivElement> = e => {
+const stopPropagation: MouseEventHandler<HTMLDivElement> = (e) => {
   e.persist();
   e.stopPropagation();
 };
 
+const Popup: React.FC<PopupProps> = ({ onBackdropClick, children }) => {
+  return ReactDOM.createPortal(
+    <Overlay onClick={onBackdropClick}>
+      <div onClick={stopPropagation}>{children}</div>
+    </Overlay>,
+    document.getElementById('popup-root')!
+  );
+};
 
-
-const Popup: React.FC<PopupProps> = ({onBackdropClick, children}) => {
-    return ReactDOM.createPortal(
-      <Overlay onClick={onBackdropClick}>
-        <div onClick={stopPropagation}>{children}</div>
-      </Overlay>,
-      document.getElementById('popup-root')!
-    );
-}
-
-export default Popup
+export default Popup;

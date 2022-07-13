@@ -1,21 +1,23 @@
-import React from "react";
+import React from 'react';
 
 export interface ITask {
-    taskName: string;
-    taskDescription: string;
-    amountSpent: number;
-    deadline: number;
+  taskName: string;
+  taskDescription: string;
+  amountSpent: number;
+  deadline: number;
 }
 
 interface IGoalTaskProps {
   task: ITask;
-  modifyTask (taskNameToModify: string): void;
+  modifyTask(taskNameToModify: string): void;
   completeTask(taskNameToDelete: string): void;
 }
 
-export const Goaltask: React.FC<IGoalTaskProps> = ({ 
-  task, modifyTask,completeTask }: IGoalTaskProps
-  ) => {
+export const Goaltask: React.FC<IGoalTaskProps> = ({
+  task,
+  modifyTask,
+  completeTask,
+}: IGoalTaskProps) => {
   return (
     <div className="task">
       <div className="content">
