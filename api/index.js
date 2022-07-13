@@ -1,15 +1,15 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+import express from "express";
+import { json, urlencoded } from "body-parser";
+import cors from "cors";
 require('dotenv').config()
 
 const app = express();
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(json())
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(urlencoded({ extended: true }))
 
 var corsOptions = {
   origin: 'http://localhost:3000'
@@ -18,7 +18,7 @@ var corsOptions = {
 app.use(cors(corsOptions))
 
 // connect to db
-const db = require("./app/models");
+import db from "./app/models";
 db.sequelize.authenticate().then(() => {
       console.log("Connected to the database!");
     })
@@ -37,9 +37,9 @@ db.sequelize.sync()
 
 
 // routes
-const user = require('./app/routes/users')
+import user from './app/routes/users';
 app.use('/api/users', user)
-const goal = require('./app/routes/goals')
+import goal from './app/routes/goals';
 app.use('/api/goals', goal)
 const receipt = require('./app/routes/receipts')
 app.use('/api/receipts', receipt)
