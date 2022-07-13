@@ -1,7 +1,7 @@
-import React, { MouseEventHandler, ReactNode } from 'react'
+import React, { MouseEventHandler, ReactNode } from 'react';
 import Popup from './Popup';
 import { DesktopPopupContainer, Header } from './Popup.styles';
-import ImageHandler from './ImageHandler'
+import ImageHandler from './ImageHandler';
 
 export interface BasePopupWrapperProps {
   isPopupVisible: boolean;
@@ -20,18 +20,27 @@ interface ComponentsProps {
 
 type Props = BasePopupWrapperProps & ComponentsProps;
 
-const BasePopupWrapper: React.FC<Props> = ({content, ContainerComponent, CloseButtonComponent, isPopupVisible, onBackdropClick, header, message}) => {
-  
-  if(!isPopupVisible) {
-    return null
+const BasePopupWrapper: React.FC<Props> = ({
+  content,
+  ContainerComponent,
+  CloseButtonComponent,
+  isPopupVisible,
+  onBackdropClick,
+  header,
+  message,
+}) => {
+  if (!isPopupVisible) {
+    return null;
   }
 
-    return (<Popup onBackdropClick={onBackdropClick}>
+  return (
+    <Popup onBackdropClick={onBackdropClick}>
       <DesktopPopupContainer>
         <Header>{header}</Header>
         <ImageHandler></ImageHandler>
       </DesktopPopupContainer>
-    </Popup>);
-}
+    </Popup>
+  );
+};
 
-export default BasePopupWrapper
+export default BasePopupWrapper;

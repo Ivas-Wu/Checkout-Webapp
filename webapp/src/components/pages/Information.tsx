@@ -1,11 +1,11 @@
-import '../../App.css'
+import '../../App.css';
 import React, { useState } from 'react';
-import { Button } from '../Button'
+import { Button } from '../Button';
 import BasePopupWrapper from '../Popup/BasedPopupWrapper';
 import Table2 from '../Table2';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
-export interface IInformationPtAmountProps {};
+export interface IInformationPtAmountProps {}
 
 const table2Columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -41,32 +41,32 @@ const table2Rows = [
 ];
 
 const Information: React.FC<IInformationPtAmountProps> = () => {
-
   const [isPopupVisible, setPopupVisible] = useState<boolean>(false);
 
   const togglePopup = () => {
-    setPopupVisible(wasPopupVisible => !wasPopupVisible)
-  }
+    setPopupVisible((wasPopupVisible) => !wasPopupVisible);
+  };
 
   return (
-      <>
-          <div>This is the Information PtAmount</div>
-          <Button
-          buttonStyle='btn--extra'
-          buttonSize='btn--medium'
-          onClick={togglePopup}
-          >
-          Add Value
-          </Button>
-          <BasePopupWrapper 
-          isPopupVisible={isPopupVisible} 
-          onBackdropClick={()=>togglePopup()}
-          header="Upload Image"/>
-          <Table2 rows={table2Rows} cols={table2Columns} />
-          {/* I made 2 params optional for customization so uncomment below if you want to see that  */}
-          {/* <Table2 rows={table2Rows} cols={table2Columns} ptAmountSize={8} checkboxes={false} /> */}
-      </>
-  )
-}
+    <>
+      <div>This is the Information PtAmount</div>
+      <Button
+        buttonStyle="btn--extra"
+        buttonSize="btn--medium"
+        onClick={togglePopup}
+      >
+        Add Value
+      </Button>
+      <BasePopupWrapper
+        isPopupVisible={isPopupVisible}
+        onBackdropClick={() => togglePopup()}
+        header="Upload Image"
+      />
+      <Table2 rows={table2Rows} cols={table2Columns} />
+      {/* I made 2 params optional for customization so uncomment below if you want to see that  */}
+      {/* <Table2 rows={table2Rows} cols={table2Columns} ptAmountSize={8} checkboxes={false} /> */}
+    </>
+  );
+};
 
 export default Information;

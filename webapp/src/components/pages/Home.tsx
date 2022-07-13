@@ -1,13 +1,13 @@
-import '../../App.css'
+import '../../App.css';
 
-export interface IHomePageProps {};
+export interface IHomePageProps {}
 
 const Home: React.FC<IHomePageProps> = () => {
-    return (
-        <>
-            <div>This is the Home Page</div>
-        </>
-    )
-}
+  return (
+    <>
+      <div>This is the Home Page</div>
+    </>
+  );
+};
 
 export default Home;

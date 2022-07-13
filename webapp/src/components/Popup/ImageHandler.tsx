@@ -1,6 +1,6 @@
-import React from "react";
-import ImageUploading, { ImageListType } from "react-images-uploading";
-import "./ImageHandler.css"
+import React from 'react';
+import ImageUploading, { ImageListType } from 'react-images-uploading';
+import './ImageHandler.css';
 
 export interface IImageHandlerProps {}
 
@@ -17,8 +17,8 @@ const ImageHandler: React.FC<IImageHandlerProps> = () => {
   };
 
   const sendToScanner = () => {
-    console.log("TODO send to scanner!");
-  }
+    console.log('TODO send to scanner!');
+  };
 
   return (
     <div className="App">
@@ -34,11 +34,11 @@ const ImageHandler: React.FC<IImageHandlerProps> = () => {
           onImageUpdate,
           onImageRemove,
           isDragging,
-          dragProps
+          dragProps,
         }) => (
           <div className="upload__image-wrapper">
             <button
-              style={isDragging ? { color: "red" } : undefined}
+              style={isDragging ? { color: 'red' } : undefined}
               onClick={onImageUpload}
               {...dragProps}
             >
@@ -59,6 +59,6 @@ const ImageHandler: React.FC<IImageHandlerProps> = () => {
       </ImageUploading>
     </div>
   );
-}
+};
 
-export default ImageHandler
+export default ImageHandler;
