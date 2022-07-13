@@ -3,19 +3,12 @@ const User = db.user;
 const Op = db.Sequelize.Op;
 // create a new user
 exports.create = (req, res) => {
-// validate request
-  if (!req.body.email) {
-    res.status(400).send({
-      message: "must have an email"
-    });
-    return;
-  }
   // create a user
   const user = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    active: req.body.active ? req.body.active : false
+    familySize: req.body.familySize
   };
   // save user to database
   User.create(user)

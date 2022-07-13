@@ -31,14 +31,16 @@ db.sequelize.authenticate().then(() => {
 db.sequelize.sync()
 
 // to force sync during development
-//db.sequelize.sync({ force: true }).then(() => {
-//console.log("Drop and re-sync db.");
-//});
+// db.sequelize.sync({ force: true }).then(() => {
+// console.log("Drop and re-sync db.");
+// });
 
 
 // routes
 const user = require('./app/routes/users')
 app.use('/api/users', user)
+const goal = require('./app/routes/goals')
+app.use('/api/goals', goal)
 
 // listening port
 const PORT = process.env.PORT || 3000;
