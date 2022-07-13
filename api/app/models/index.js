@@ -14,14 +14,18 @@ db.sequelize = sequelize;
 // import models here
 const User = require("./user.model.js")(sequelize, Sequelize);
 const Goal = require("./goal.model.js")(sequelize, Sequelize);
+const Receipt = require("./receipt.model.js")(sequelize, Sequelize);
 
 //handle relationships here
-User.hasMany(Goal)
-Goal.belongsTo(User)
+User.hasMany(Goal);
+Goal.belongsTo(User);
+User.hasMany(Receipt);
+Receipt.belongsTo(User);
 
 // handle setting to db here
-db.user = User
-db.goal = Goal
+db.user = User;
+db.goal = Goal;
+db.receipt = Receipt;
 
 // export
 module.exports = db;

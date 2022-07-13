@@ -41,6 +41,8 @@ const user = require('./app/routes/users')
 app.use('/api/users', user)
 const goal = require('./app/routes/goals')
 app.use('/api/goals', goal)
+const receipt = require('./app/routes/receipts')
+app.use('/api/receipts', receipt)
 
 // listening port
 const PORT = process.env.PORT || 3000;
