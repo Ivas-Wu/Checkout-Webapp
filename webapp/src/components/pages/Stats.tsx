@@ -7,25 +7,35 @@ import "react-widgets/styles.css";
 export interface IStatisticsPageProps {};
 
 const Statistics: React.FC<IStatisticsPageProps> = () => {
+    const [showNone, setNone] = useState(false);
     const [showBar, setBar] = useState(false);
     const [showLine, setLine] = useState(false);
     const [showPi, setPi] = useState(false);
 
     const setGraphs = (graph:charts) => {
         if (graph === charts.BAR) {
-            setBar(prev => !prev);
+            setBar(true);
             setLine(false);
             setPi(false);
+            setNone(false);
         }
         else if (graph === charts.LINE) {
-            setLine(prev => !prev);
+            setLine(true);
             setBar(false);
             setPi(false);
+            setNone(false);
         }
         else if (graph === charts.PI) {
-            setPi(prev => !prev);
+            setPi(true);
             setLine(false);
             setBar(false);
+            setNone(false);
+        }
+        else if (graph === charts.NONE) {
+            setPi(false);
+            setLine(false);
+            setBar(false);
+            setNone(true);
         }
         else {
             setLine(false);
@@ -42,10 +52,11 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
             <button onClick={() => setGraphs(charts.LINE)}>Line</button>
             <button onClick={() => setGraphs(charts.PI)}>Pi</button> */}
             <DropdownList
-            defaultValue="NONE"
+            defaultValue={() => {setGraphs(charts.NONE)}}
             data={Object.values(charts).filter(value => typeof value === 'string')}
             onChange={(nextValue) => {setGraphs(nextValue)}}
             />
+            {showNone && (<div>Some Default Stats page here</div>)}
             {showBar && <Graphs graph={charts.BAR} />}
             {showLine && <Graphs graph={charts.LINE} />}
             {showPi && <Graphs graph={charts.PI} />}
