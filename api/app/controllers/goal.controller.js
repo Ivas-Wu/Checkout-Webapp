@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models").default;
 const Goal = db.goal;
 // create a new goal
 exports.create = (req, res) => {
@@ -80,7 +80,7 @@ exports.update = (req, res) => {
     });
 };
 // delete a goal by id
-exports.delete = (req, res) => {
+exports.deleteOne = (req, res) => {
   const id = req.params.id;
   Goal.destroy({
     where: { id: id }

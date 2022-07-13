@@ -1,23 +1,23 @@
-const express = require("express")
-const router = express.Router()
-const goal = require("../controllers/goal.controller");
+import { Router } from "express";
+const router = Router()
+import { create, findAll, findOne, update, deleteOne } from "../controllers/goal.controller";
 
 // /api/blog: GET, POST
 // /api/blog/:id: GET, PUT, DELETE
 
 // create a goal
-router.post("/", goal.create);
+router.post("/", create);
 
 // get all goals
-router.get("/", goal.findAll);
+router.get("/", findAll);
 
 // get one goal
-router.get("/:id", goal.findOne);
+router.get("/:id", findOne);
 
 // update a goal
-router.put("/:id", goal.update);
+router.put("/:id", update);
 
 // delete a goal
-router.delete("/:id", goal.delete);
+router.delete("/:id", deleteOne);
 
-module.exports = router
+export default router

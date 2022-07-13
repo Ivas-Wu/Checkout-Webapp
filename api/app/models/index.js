@@ -1,9 +1,9 @@
-const dbConfig = require("../config/db.config.js");
+import { DB, USER, PASSWORD, HOST, dialect as _dialect } from "../config/db.config.js";
 
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-  host: dbConfig.HOST,
-  dialect: dbConfig.dialect,
+import Sequelize from "sequelize";
+const sequelize = new Sequelize(DB, USER, PASSWORD, {
+  host: HOST,
+  dialect: _dialect,
 });
 
 const db = {};
@@ -12,8 +12,8 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // import models here
-const User = require("./user.model.js")(sequelize, Sequelize);
-const Goal = require("./goal.model.js")(sequelize, Sequelize);
+const User = require("./user.model.js").default(sequelize, Sequelize);
+const Goal = require("./goal.model.js").default(sequelize, Sequelize);
 
 //handle relationships here
 User.hasMany(Goal)
@@ -24,4 +24,4 @@ db.user = User
 db.goal = Goal
 
 // export
-module.exports = db;
+export default db;

@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models").default;
 const User = db.user;
 const Op = db.Sequelize.Op;
 // create a new user
@@ -81,7 +81,7 @@ exports.update = (req, res) => {
     });
 };
 // delete a user by id
-exports.delete = (req, res) => {
+exports.deleteOne = (req, res) => {
   const id = req.params.id;
   User.destroy({
     where: { id: id }
