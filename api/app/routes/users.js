@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const user = require('../controllers/user.controller');
 
-// /api/blog: GET, POST
-// /api/blog/:id: GET, PUT, DELETE
-// /api/blog/active: GET
+// /api/receipt: GET, POST
+// /api/receipt/:id: GET, PUT, DELETE
+// /api/receipt/active: GET
 
 // create a user
 router.post("/", create);

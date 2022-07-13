@@ -66,7 +66,7 @@ exports.update = (req, res) => {
         });
       } else {
         res.send({
-          message: `can't find goal with id=${id}`,
+          message: `error updating goal with id=${id}`,
         });
       }
     })

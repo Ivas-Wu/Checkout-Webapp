@@ -1,102 +1,107 @@
 const db = require('../models');
-const Receipt = db.receipt;
-// create a new receipt
+const Item = db.item;
+// create a new item
 exports.create = (req, res) => {
-  // create a receipt
-  const receipt = {
-    store: req.body.store,
+  // create an item
+  const item = {
+    productName: req.body.productName,
     category: req.body.category,
-    date: req.body.date,
-    total: req.body.total,
+    price: req.body.price,
+    numberOf: req.body.numberOf,
     userId: req.body.userId,
+    receiptId: req.body.receptId,
   };
-  // save receipt to database
-  Receipt.create(receipt)
+  // save item to database
+  Item.create(item)
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || 'error creating receipt',
+        message: err.message || 'error creating item',
       });
     });
 };
-// get all receipts from the database.
+// get all items from the database.
 exports.findAll = (req, res) => {
   const userId = req.query.userId;
   var condition = userId ? { userId: userId } : null;
-  Receipt.findAll({ where: condition })
+  const receiptId = req.query.receiptId;
+  if (receiptId) {
+    condition.receiptId = receiptId;
+  }
+  Item.findAll({ where: condition })
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || 'error getting all receipts',
+        message: err.message || 'error getting all items',
       });
     });
 };
-// find a receipt using id
+// find an item using id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-  Receipt.findByPk(id)
+  Item.findByPk(id)
     .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `no receipt id=${id} found`,
+          message: `no item id=${id} found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'error getting receipt id=' + id,
+        message: 'error getting item id=' + id,
       });
     });
 };
-// update a receipt by id
+// update an item by id
 exports.update = (req, res) => {
   const id = req.params.id;
-  Receipt.update(req.body, {
+  Item.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: 'receipt updated',
+          message: 'item updated',
         });
       } else {
         res.send({
-          message: `error updating receipt with id=${id}`,
+          message: `error updating item with id=${id}`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'error updating receipt with id=' + id,
+        message: 'error updating item with id=' + id,
       });
     });
 };
-// delete a receipt by id
+// delete an item by id
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Receipt.destroy({
+  Item.destroy({
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: 'receipt deleted',
+          message: 'item deleted',
         });
       } else {
         res.send({
-          message: `no receipt id=${id} found`,
+          message: `no item id=${id} found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'error deleting receipt id=' + id,
+        message: 'error deleting item id=' + id,
       });
     });
 };
