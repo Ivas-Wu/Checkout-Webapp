@@ -1,6 +1,8 @@
 import '../../App.css'
 import Graphs, {charts} from '../Graphs'
 import { useState } from 'react'
+import DropdownList from "react-widgets/DropdownList";
+import "react-widgets/styles.css";
 
 export interface IStatisticsPageProps {};
 
@@ -35,10 +37,15 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
     return (
         <>
             <div>This is the Statistics Page</div>
-            <div>Can try using this https://jquense.github.io/react-widgets/docs/Dropdowns</div>
+            {/* <div>Can try using this https://jquense.github.io/react-widgets/docs/Dropdowns</div>
             <button onClick={() => setGraphs(charts.BAR)}>Bar</button>
             <button onClick={() => setGraphs(charts.LINE)}>Line</button>
-            <button onClick={() => setGraphs(charts.PI)}>Pi</button>
+            <button onClick={() => setGraphs(charts.PI)}>Pi</button> */}
+            <DropdownList
+            defaultValue="NONE"
+            data={Object.values(charts).filter(value => typeof value === 'string')}
+            onChange={(nextValue) => {setGraphs(nextValue)}}
+            />
             {showBar && <Graphs graph={charts.BAR} />}
             {showLine && <Graphs graph={charts.LINE} />}
             {showPi && <Graphs graph={charts.PI} />}

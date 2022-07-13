@@ -2,10 +2,10 @@ import React from "react";
 import { PieChart, Pie, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'; 
 
 export enum charts {
-    NONE,
-    PI,
-    LINE,
-    BAR,
+    NONE = "NONE",
+    PI = "PI",
+    LINE = "LINE",
+    BAR = "BAR",
 }
 
 export interface IGraphsProps {
