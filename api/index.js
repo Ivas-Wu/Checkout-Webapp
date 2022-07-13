@@ -30,7 +30,8 @@ db.sequelize.authenticate().then(() => {
 // sync
 db.sequelize.sync()
 
-// to force sync during development
+// ONLY UNCOMMENT BELOW THE FIRST TIME AFTER YOU CHANGE AN OBJECT MODEL
+// BEWARE IT WILL DROP TABLES
 // db.sequelize.sync({ force: true }).then(() => {
 // console.log("Drop and re-sync db.");
 // });
@@ -43,6 +44,8 @@ const goal = require('./app/routes/goals')
 app.use('/api/goals', goal)
 const receipt = require('./app/routes/receipts')
 app.use('/api/receipts', receipt)
+const item = require('./app/routes/items')
+app.use('/api/items', item)
 
 // listening port
 const PORT = process.env.PORT || 3000;
