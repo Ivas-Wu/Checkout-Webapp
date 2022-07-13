@@ -8,75 +8,72 @@ exports.create = (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    familySize: req.body.familySize
+    familySize: req.body.familySize,
   };
   // save user to database
   User.create(user)
-    .then(data => {
+    .then((data) => {
       res.send(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "error creating user"
+        message: err.message || "error creating user",
       });
     });
-  
 };
 // get all users from the database.
 exports.findAll = (req, res) => {
-	const email = req.query.email;
+  const email = req.query.email;
   var condition = email ? { email: { [Op.iLike]: `%${email}%` } } : null;
   User.findAll({ where: condition })
-    .then(data => {
+    .then((data) => {
       res.send(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "error getting all users"
+        message: err.message || "error getting all users",
       });
     });
 };
 // find a user using id
 exports.findOne = (req, res) => {
-	const id = req.params.id;
+  const id = req.params.id;
   User.findByPk(id)
-    .then(data => {
+    .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `no user id=${id} found`
+          message: `no user id=${id} found`,
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message: "error getting user id=" + id
+        message: "error getting user id=" + id,
       });
     });
 };
 // update a user by id
 exports.update = (req, res) => {
-	const id = req.params.id;
+  const id = req.params.id;
   User.update(req.body, {
-    where: { id: id }
+    where: { id: id },
   })
-    .then(num => {
+    .then((num) => {
       if (num == 1) {
         res.send({
-          message: "user updated"
+          message: "user updated",
         });
       } else {
         res.send({
-          message: `can't find user with id=${id}`
+          message: `can't find user with id=${id}`,
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message: "error updating user with id=" + id
+        message: "error updating user with id=" + id,
       });
     });
 };
@@ -84,35 +81,34 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
   User.destroy({
-    where: { id: id }
+    where: { id: id },
   })
-    .then(num => {
+    .then((num) => {
       if (num == 1) {
         res.send({
-          message: "user deleted"
+          message: "user deleted",
         });
       } else {
         res.send({
-          message: `no user id=${id} found`
+          message: `no user id=${id} found`,
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message: "error deleting user id=" + id
+        message: "error deleting user id=" + id,
       });
     });
 };
 // find all active users
 exports.findAllActive = (req, res) => {
-	User.findAll({ where: { active: true } })
-	.then(data => {
-		res.send(data);
-	})
-	.catch(err => {
-		res.status(500).send({
-			message:
-				err.message || "error getting active users"
-		});
-	});
+  User.findAll({ where: { active: true } })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "error getting active users",
+      });
+    });
 };

@@ -1,5 +1,5 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 const goal = require("../controllers/goal.controller");
 
 // /api/blog: GET, POST
@@ -20,4 +20,4 @@ router.put("/:id", goal.update);
 // delete a goal
 router.delete("/:id", goal.delete);
 
-module.exports = router
+module.exports = router;

@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define("user", {
     firstName: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     lastName: {
       type: Sequelize.STRING,
@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     familySize: {
       type: Sequelize.INTEGER,
-    }
+    },
   });
   return User;
 };

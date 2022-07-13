@@ -1,101 +1,102 @@
 const db = require("../models");
-const Goal = db.goal;
-// create a new goal
+const Receipt = db.receipt;
+// create a new receipt
 exports.create = (req, res) => {
-  // create a goal
-  const goal = {
-    goalName: req.body.goalName,
-    goalDesc: req.body.goalDesc,
-    targetDate: req.body.targetDate,
+  // create a receipt
+  const receipt = {
+    store: req.body.store,
+    category: req.body.category,
+    date: req.body.date,
+    total: req.body.total,
     userId: req.body.userId,
   };
-  // save goal to database
-  Goal.create(goal)
+  // save receipt to database
+  Receipt.create(receipt)
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "error creating goal",
+        message: err.message || "error creating receipt",
       });
     });
 };
-// get all goals from the database.
+// get all receipts from the database.
 exports.findAll = (req, res) => {
   const userId = req.query.userId;
   var condition = userId ? { userId: userId } : null;
-  Goal.findAll({ where: condition })
+  Receipt.findAll({ where: condition })
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "error getting all goals",
+        message: err.message || "error getting all receipts",
       });
     });
 };
-// find a goal using id
+// find a receipt using id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-  Goal.findByPk(id)
+  Receipt.findByPk(id)
     .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `no goal id=${id} found`,
+          message: `no receipt id=${id} found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error getting goal id=" + id,
+        message: "error getting receipt id=" + id,
       });
     });
 };
-// update a goal by id
+// update a receipt by id
 exports.update = (req, res) => {
   const id = req.params.id;
-  Goal.update(req.body, {
+  Receipt.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "goal updated",
+          message: "receipt updated",
         });
       } else {
         res.send({
-          message: `can't find goal with id=${id}`,
+          message: `can't find receipt with id=${id}`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error updating goal with id=" + id,
+        message: "error updating receipt with id=" + id,
       });
     });
 };
-// delete a goal by id
+// delete a receipt by id
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Goal.destroy({
+  Receipt.destroy({
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "goal deleted",
+          message: "receipt deleted",
         });
       } else {
         res.send({
-          message: `no goal id=${id} found`,
+          message: `no receipt id=${id} found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error deleting goal id=" + id,
+        message: "error deleting receipt id=" + id,
       });
     });
 };
