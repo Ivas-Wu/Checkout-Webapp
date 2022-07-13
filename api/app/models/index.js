@@ -12,9 +12,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // import models here
-const User = require("./user.model.js")(sequelize, Sequelize);
-const Goal = require("./goal.model.js")(sequelize, Sequelize);
-const Receipt = require("./receipt.model.js")(sequelize, Sequelize);
+const User = require('./user.model.js')(sequelize, Sequelize);
+const Goal = require('./goal.model.js')(sequelize, Sequelize);
+const Receipt = require('./receipt.model.js')(sequelize, Sequelize);
 
 //handle relationships here
 User.hasMany(Goal);

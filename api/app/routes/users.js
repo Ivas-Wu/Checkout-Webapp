@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const user = require("../controllers/user.controller");
+const user = require('../controllers/user.controller');
 
 // /api/blog: GET, POST
 // /api/blog/:id: GET, PUT, DELETE

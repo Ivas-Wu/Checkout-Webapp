@@ -17,7 +17,7 @@ exports.create = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "error creating user",
+        message: err.message || 'error creating user',
       });
     });
 };
@@ -31,7 +31,7 @@ exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "error getting all users",
+        message: err.message || 'error getting all users',
       });
     });
 };
@@ -50,7 +50,7 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error getting user id=" + id,
+        message: 'error getting user id=' + id,
       });
     });
 };
@@ -63,7 +63,7 @@ exports.update = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "user updated",
+          message: 'user updated',
         });
       } else {
         res.send({
@@ -73,7 +73,7 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error updating user with id=" + id,
+        message: 'error updating user with id=' + id,
       });
     });
 };
@@ -86,7 +86,7 @@ exports.deleteOne = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "user deleted",
+          message: 'user deleted',
         });
       } else {
         res.send({
@@ -96,7 +96,7 @@ exports.deleteOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "error deleting user id=" + id,
+        message: 'error deleting user id=' + id,
       });
     });
 };
@@ -108,7 +108,7 @@ exports.findAllActive = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "error getting active users",
+        message: err.message || 'error getting active users',
       });
     });
 };

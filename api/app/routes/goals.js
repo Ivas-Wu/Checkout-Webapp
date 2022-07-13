@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const goal = require("../controllers/goal.controller");
+const goal = require('../controllers/goal.controller');
 
 // /api/blog: GET, POST
 // /api/blog/:id: GET, PUT, DELETE
