@@ -1,14 +1,18 @@
 import '../../App.css';
+import Background from '../Background'
+import AnimatedList from '../CardListAnimated';
 
 const Home: React.FC = () => {
+  const listData = [
+    ["About Us", "Up", "To", "4", "Lines", "Images/zuko.jpg", "Images/aboutus.jpg"],
+    ["Our Product", "Up", "To", "4", "Lines", "Images/question.jpg", "Images/ourproduct.png"],
+    ["Values", "Up", "To", "4", "Lines", "Images/flex.jpg", "Images/values.jpg"]];
+
   return (
     <>
       <div>
-        <h3>
-          This is the Base Page where you will be sent when you are not logged
-          in{' '}
-        </h3>
-        <h3>Please log in </h3>
+        <Background />
+        <AnimatedList listData={listData}/>
       </div>
     </>
   );
