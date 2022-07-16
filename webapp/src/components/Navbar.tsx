@@ -19,7 +19,7 @@ export const Navbar: React.FC = () => {
       <nav className="navbar">
         {isAuthenticated && !isLoading && (
           <div className="navbar-container">
-            <Link to="/home" className="navbar-logo" onClick={closeMMenu}>
+            <Link to="/" className="navbar-logo" onClick={closeMMenu}>
               Checkout&nbsp; <i className="fa-solid fa-receipt" />
             </Link>
             <div className="menu-icon" onClick={handleClick}>

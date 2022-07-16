@@ -1,14 +1,15 @@
 import '../../App.css';
 import React from 'react';
 import { Goalform } from '../Goalform';
+import { Welcome, Body} from './pages.styled'
 
 export interface IGoalsPageProps {}
 
 const Goals: React.FC<IGoalsPageProps> = () => {
   return (
     <>
-      <div>This is the Goals Page</div>
-      <div>TODO: Delete and modify goals</div>
+      <Welcome>This is the Goals Page</Welcome>
+      <Body>Write something here</Body>
       <Goalform />
     </>
   );

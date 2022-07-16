@@ -1,71 +1,67 @@
-import React from 'react';
-import { useTable, useSortBy, Column } from 'react-table';
-import { Styles } from './Table.styled';
-interface ITableProps {
-  columns: Array<Column<object>>;
-  data: Array<object>;
+import * as React from 'react';
+import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
+import './Table.css'
+
+interface TableReqs {
+  id: GridRowId;
 }
 
-export const Table: React.FC<ITableProps> = ({
-  columns,
-  data,
-}: ITableProps) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
-      },
-      useSortBy
-    );
+// Eventually add a union type instead like User | Receipt | Item | ... when I get around to building backend for those
+// Until then TableReqs will do, it pretty much just forces it to have an id
 
-  const firstPageRows = rows.slice(0, 20);
+export interface TableProps<T extends TableReqs> {
+  cols: GridColDef[];
+  rows: T[];
+  pageSize?: number;
+  checkboxes?: boolean;
+}
+
+export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
+  const [selectedRows, setSelectedRows] = React.useState<TableReqs[]>([]);
+
+  const deleteRows = () => {
+    console.log('Delete: ' + selectedRows);
+  };
+
+  const modifyRow = () => {
+    console.log('Modify: ' + selectedRows);
+  };
 
   return (
-    <Styles>
-      <>
-        <table {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column: any) => (
-                  // Add the sorting props to control sorting. For this example
-                  // we can add them into the header props
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    {column.render('Header')}
-                    {/* Add a sort direction indicator */}
-                    <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? ' 🔽'
-                          : ' 🔼'
-                        : ''}
-                    </span>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {firstPageRows.map((row, i) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <br />
-        <div>Showing the first 20 results of {rows.length} rows</div>
-      </>
-    </Styles>
-  );
-};
+    <div style={{ height: 400, width: '80%' }}>
+      <DataGrid
+        className="table"
+        rows={props.rows}
+        columns={props.cols}
+        pageSize={props.hasOwnProperty('pageSize') ? props.pageSize : 5}
+        checkboxSelection={
+          props.hasOwnProperty('checkboxes') ? props.checkboxes : true
+        }
+        onSelectionModelChange={(ids) => {
+          const selectedIDs = new Set(ids);
+          const selectedRows = props.rows.filter((row) =>
+            selectedIDs.has(row.id)
+          );
 
-export default Table;
+          setSelectedRows(selectedRows);
+        }}
+        sx={{
+          boxShadow: 2,
+          border: 0,
+          borderColor: 'primary.light',
+          '& .MuiDataGrid-cell:hover': {
+            color: 'primary.main',
+          },
+        }}
+      />
+      <Button onClick={deleteRows}>Delete</Button>
+      <Button
+        onClick={modifyRow}
+        disabled={selectedRows.length > 1 ? true : false}
+      >
+        Modify
+      </Button>
+    </div>
+  );
+}
