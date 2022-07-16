@@ -2,8 +2,9 @@ import '../../App.css';
 import React, { useState } from 'react';
 import { Button } from '../Button';
 import BasePopupWrapper from '../Popup/BasedPopupWrapper';
-import Table2 from '../Table2';
+import Table2 from '../Table';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { Welcome, Body} from './pages.styled'
 
 export interface IInformationPtAmountProps {}
 
@@ -49,7 +50,8 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
 
   return (
     <>
-      <div>This is the Information PtAmount</div>
+      <Welcome>This is the Information Page</Welcome>
+      <Body>Write something here</Body>
       <Button
         buttonStyle="btn--extra"
         buttonSize="btn--medium"

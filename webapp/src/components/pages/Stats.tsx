@@ -3,6 +3,7 @@ import Graphs, { charts } from '../Graphs';
 import { useState } from 'react';
 import DropdownList from 'react-widgets/DropdownList';
 import 'react-widgets/styles.css';
+import { Welcome, Body} from './pages.styled'
 
 export interface IStatisticsPageProps {}
 
@@ -42,11 +43,8 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
 
   return (
     <>
-      <div>This is the Statistics Page</div>
-      {/* <div>Can try using this https://jquense.github.io/react-widgets/docs/Dropdowns</div>
-            <button onClick={() => setGraphs(charts.BAR)}>Bar</button>
-            <button onClick={() => setGraphs(charts.LINE)}>Line</button>
-            <button onClick={() => setGraphs(charts.PI)}>Pi</button> */}
+      <Welcome>This is the Statistics Page</Welcome>
+      <Body>Write something here</Body>
       <DropdownList
         defaultValue={() => {
           setGraphs(charts.NONE);
