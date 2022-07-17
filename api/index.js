@@ -12,7 +12,7 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 
 var corsOptions = {
-  origin: 'http://localhost:3000'
+  origin: 'http://localhost:3005'
 }
 // use cors options
 app.use(cors(corsOptions))
