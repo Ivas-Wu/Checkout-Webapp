@@ -39,8 +39,6 @@ def convert_to_json(receipt):
         name, price = match_regex(line)
         if name and price:
             json_receipt[name] = price
-    #
-
     return json_receipt
 
 def match_regex(string):
