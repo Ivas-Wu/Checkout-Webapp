@@ -3,7 +3,7 @@ import Graphs, { charts } from '../Graphs';
 import { useState } from 'react';
 import DropdownList from 'react-widgets/DropdownList';
 import 'react-widgets/styles.css';
-import { Welcome, Body} from './pages.styled'
+import { Welcome, Body, Drop } from './pages.styled';
 
 export interface IStatisticsPageProps {}
 
@@ -45,17 +45,19 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
     <>
       <Welcome>This is the Statistics Page</Welcome>
       <Body>Write something here</Body>
-      <DropdownList
-        defaultValue={() => {
-          setGraphs(charts.NONE);
-        }}
-        data={Object.values(charts).filter(
-          (value) => typeof value === 'string'
-        )}
-        onChange={(nextValue) => {
-          setGraphs(nextValue);
-        }}
-      />
+      <Drop>
+        <DropdownList
+          defaultValue={() => {
+            setGraphs(charts.NONE);
+          }}
+          data={Object.values(charts).filter(
+            (value) => typeof value === 'string'
+          )}
+          onChange={(nextValue) => {
+            setGraphs(nextValue);
+          }}
+        />
+      </Drop>
       {showNone && <div>Some Default Stats page here</div>}
       {showBar && <Graphs graph={charts.BAR} />}
       {showLine && <Graphs graph={charts.LINE} />}

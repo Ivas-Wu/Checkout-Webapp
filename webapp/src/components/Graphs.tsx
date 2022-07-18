@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import {
   PieChart,
   Pie,
@@ -24,58 +26,62 @@ export interface IGraphsProps {
   graph: charts;
 }
 
-const data = [
-  {
-    date: 'July 7',
-    food: 90,
-    entertainment: 40,
-    amt: 130,
-  },
-  {
-    date: 'July 1',
-    food: 30,
-    entertainment: 20,
-    amt: 50,
-  },
-  {
-    date: 'June 25',
-    food: 40,
-    entertainment: 20,
-    amt: 60,
-  },
-  {
-    date: 'June 17',
-    food: 70,
-    entertainment: 50,
-    amt: 120,
-  },
-  {
-    date: 'June 10',
-    food: 45,
-    entertainment: 10,
-    amt: 55,
-  },
-  {
-    date: 'June 2',
-    food: 100,
-    entertainment: 35,
-    amt: 135,
-  },
-  {
-    date: 'May 21',
-    food: 150,
-    entertainment: 50,
-    amt: 200,
-  },
-];
+interface Receipt { //TOMOVE
+  id: number,
+  createdAt: Date,
+  updatedAt: Date,
+  store: string, //enum?
+  category: string, //enum for sure TODO
+  total: number,
+  date: Date,
+}
+
+interface GraphReq {
+  date: Date,
+  amt: number,
+  category: string,
+  food?: number,
+  entertainment?: number,
+}
 
 const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
+  const userId = 1;
+  const [graphData, setDate] = useState<GraphReq[]>([]);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  function convertGoals(data: Receipt[]): GraphReq[] {
+    let returnValue: GraphReq[] = [];
+    data.forEach(function (data) {
+      const newData = {
+        date: data.date,
+        amt: data.total,
+        category: data.category,
+        food: data.total/2,
+        entertainment: data.total/2.5
+      };
+      returnValue.push(newData);
+    });
+    return returnValue;
+  }
+
+  const getData = () => {
+    axios
+      .get(`http://localhost:3000/api/receipts?userId=${userId}`)
+      .then((res) => {
+        let data: GraphReq[] = convertGoals(res.data);
+        setDate(data);
+        console.log(res.data)
+      });
+  };
+
   if (graph === charts.BAR) {
     return (
       <BarChart
         width={500}
         height={300}
-        data={data}
+        data={graphData}
         margin={{
           top: 5,
           right: 30,
@@ -98,7 +104,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
       <LineChart
         width={500}
         height={300}
-        data={data}
+        data={graphData}
         margin={{
           top: 5,
           right: 30,
@@ -111,8 +117,8 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="entertainment" stroke="#8884d8" />
-        <Line type="monotone" dataKey="food" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="food" stroke="#8884d8" />
+        <Line type="monotone" dataKey="entertainment" stroke="#82ca9d" />
         <Line type="monotone" dataKey="amt" stroke="#F7A9A8" />
       </LineChart>
     );

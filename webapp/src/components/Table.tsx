@@ -4,22 +4,24 @@ import Button from '@mui/material/Button';
 import './Table.css';
 import axios from 'axios';
 
-interface Receipts {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  store: string; //enum?
-  category: string; //enum for sure TODO
-  total: number;
+interface Receipts { //TOMOVE
+  id: number,
+  createdAt: Date,
+  updatedAt: Date,
+  store: string, //enum?
+  category: string, //enum for sure TODO
+  total: number,
+  date: Date,
 }
 
 interface TableReqs {
-  id: GridRowId;
-  dateCreated: Date;
-  dateModified: Date;
-  store: string; //enum?
-  category: string; //enum for sure TODO
-  tAmount: number;
+  id: GridRowId,
+  dateCreated: Date,
+  dateModified: Date,
+  store: string, //enum?
+  category: string, //enum for sure TODO
+  tAmount: number,
+  date: Date,
 }
 
 // Eventually add a union type instead like User | Receipt | Item | ... when I get around to building backend for those
@@ -36,6 +38,12 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
   const [tableRows, settableRows] = useState<TableReqs[]>([]);
   const table2Columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
+    {
+      field: 'date',
+      headerName: 'Date',
+      type: 'Date',
+      width: 230,
+    },
     {
       field: 'dateCreated',
       headerName: 'Date Created',
@@ -72,6 +80,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
         store: row.store,
         category: row.category,
         tAmount: row.total,
+        date: row.date,
       };
       returnValue.push(newRow);
     });
@@ -124,7 +133,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
   };
 
   return (
-    <div style={{ height: 400, width: '80%' }}>
+    <div style={{ height: 400, width: '91%' }}>
       <DataGrid
         className="table"
         rows={tableRows}

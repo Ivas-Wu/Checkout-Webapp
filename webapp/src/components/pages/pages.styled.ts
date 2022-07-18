@@ -17,3 +17,7 @@ height: 15rem;
 font-weight: bold;
 font-size: 1.4rem;
 `;
+
+export const Drop = styled.div`
+height: 7rem;
+`

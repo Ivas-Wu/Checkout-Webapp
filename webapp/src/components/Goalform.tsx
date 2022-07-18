@@ -5,7 +5,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-interface Goal {
+interface Goal { //TOMOVE
   id: number,
   goalName: string,
   goalDesc: string,
