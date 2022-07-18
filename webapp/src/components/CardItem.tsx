@@ -1,4 +1,4 @@
-import ReactCardFlip from "react-card-flip";
+// import ReactCardFlip from "react-card-flip";
 import React, { useState } from "react"
 import './CardItem.css'
 
@@ -15,10 +15,11 @@ export const CardItem: React.FC<ICardItemProps> = ({front, back}) => {
     };
 
     return (
-        <ReactCardFlip
-        isFlipped={flipped}
-        flipDirection="horizontal"
-      >
+      //   <ReactCardFlip
+      //   isFlipped={flipped}
+      //   flipDirection="horizontal"
+      // >
+      <>
         <div onClick={handleClick}>
           <img
             className="card-back"
@@ -26,14 +27,15 @@ export const CardItem: React.FC<ICardItemProps> = ({front, back}) => {
             alt="card back"
           />
         </div>
-        <div onClick={handleClick}>
+        {/* <div onClick={handleClick}>
           <img
             className="card-front"
             src={front}
             alt="card face"
           />
-        </div>
-      </ReactCardFlip>
+        </div> */}
+        </>
+      // </ReactCardFlip>
     );
 }
 

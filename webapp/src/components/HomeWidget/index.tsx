@@ -11,10 +11,10 @@ export const IndexPage: React.FC<IIndexPageProps> = (props) => {
   const [sort, setSort] = useState<string>("ascending");
 
   const changeSort = (newSort:string) => {
-    if (newSort == "ascending") {
+    if (newSort === "ascending") {
       setSort("ascending");
     }
-    else if (newSort == "descending") {
+    else if (newSort === "descending") {
       setSort("descending");
     }
     else {
@@ -24,14 +24,14 @@ export const IndexPage: React.FC<IIndexPageProps> = (props) => {
 
   useEffect(() => {
     sortList();
-  }, [sort]);
+  }, [sort, setSort]);
 
   const sortList = () => {
-    if (sort == "ascending") {
+    if (sort === "ascending") {
       props.pages.sort((one, two) => (one[1] > two[1] ? -1 : 1));
 
     }
-    else if (sort == "descending") {
+    else if (sort === "descending") {
       props.pages.sort((one, two) => (one[1] < two[1] ? -1 : 1));
     }
   }
