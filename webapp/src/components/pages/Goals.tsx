@@ -15,13 +15,15 @@ const Goals: React.FC<IGoalsPageProps> = () => {
   const [goals, setGoals] = useState<[Goal]>();
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/goals?userId=1`)
+    let userId = 2
+    axios.get(`http://localhost:3000/api/goals?userId=${userId}`)
     .then(res => {
       const goals = res.data;
       setGoals(goals);
     })
   }, []);
 
+  console.log(goals)
   return (
     <>
       <Welcome>This is the Goals Page</Welcome>
