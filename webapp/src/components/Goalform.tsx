@@ -17,7 +17,6 @@ export interface IGoalFormProps {}
 
 export const Goalform: React.FC<IGoalFormProps> = () => {
   const userId = 2;
-  const tmrw = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
   const [task, setTask] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [deadline, setDeadLine] = useState<Date>(new Date);
@@ -81,7 +80,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         });
       setTask('');
       setDescription('');
-      setDeadLine(tmrw);
+      setDeadLine(new Date());
     }
   };
 

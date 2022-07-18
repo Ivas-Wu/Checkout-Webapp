@@ -1,10 +1,10 @@
 import React from 'react';
 
 export interface ITask {
-  taskName: string,
-  taskDescription: string,
-  deadline?: Date,
-  id?: number
+  taskName: string;
+  taskDescription: string;
+  deadline?: Date;
+  id?: number;
 }
 
 interface IGoalTaskProps {
@@ -23,7 +23,13 @@ export const Goaltask: React.FC<IGoalTaskProps> = ({
       <div className="content">
         <span>{task.taskName}</span>
         <span>{task.taskDescription}</span>
-        <span>{task.deadline ? task.deadline.toUTCString() : "No Deadline"}</span>
+        <span>
+          {task.deadline
+            ? typeof task.deadline === 'string'
+              ? task.deadline
+              : task.deadline.toUTCString()
+            : 'No Deadline'}
+        </span>
       </div>
       <button
         onClick={() => {
