@@ -15,7 +15,7 @@ var SignupScreen = require("./app/screens/SignupScreen");
 export default function App() {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
+			<Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Tab">
 				<Stack.Screen
 					name="Login"
 					component={LoginScreen}

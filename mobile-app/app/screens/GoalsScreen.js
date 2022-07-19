@@ -13,11 +13,10 @@ import {DateTimePicker} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import "../GlobalVars"
 
-const DEVICE_IP = "192.168.0.155"
-var userId = 2
-var editGoalIndex = null    // indicates index of goal when editing goals, if null then it is an add operation
-const GOAL_STORAGE_KEY = "goal_storage_key"
+var editGoalId = null    // indicates id of goal when editing goals, if null then it is an add operation
+const GOAL_STORAGE_KEY = "goal_storage_key" //used for local storage
 
 class Goal {
   constructor(goalName) {
@@ -28,7 +27,7 @@ class Goal {
     this.id = null;
     this.targetDate = null;
     this.updatedAt = null;
-    this.userId = userId;
+    this.userId = USER_ID;
   }
 }
 
@@ -37,14 +36,20 @@ function GoalsScreen() {
         React.useState(false);
     const toggleGoalModal = () =>
         setIsGoalModalVisible(() => !isGoalModalVisible);
-    //const [goalName, setGoalName] = React.useState("New Goal");
     const [goal, setGoal] = React.useState(new Goal("New Goal"))
     const [GoalList, setGoals] = React.useState([]);
+
+    const getGoalByID = (goalId) => {
+      let result = GoalList.find(obj => {
+        return obj.id === goalId
+      })
+      return result
+    }
 
     const handleGetGoals = async () => {
       try {
           const response = await fetch(
-              `http://${DEVICE_IP}:3000/api/goals?userId=${userId}`
+              `http://${DEVICE_IP}:3000/api/goals?userId=${USER_ID}`
           )
           const json = await response.json()
           var goalsList = json
@@ -60,7 +65,7 @@ function GoalsScreen() {
         goalName: goal.goalName,
         goalDesc: goal.goalDesc,
         targetDate: goal.targetDate,
-        userId: userId
+        userId: USER_ID
       })
       console.log("body: ", messageBody)
       try {
@@ -82,22 +87,21 @@ function GoalsScreen() {
     }
 
     const handleUpdateGoal = async () => {
-      //setGoal(GoalList[editGoalIndex])
       var messageBody = JSON.stringify({
-        completed : GoalList[editGoalIndex].completed,
-        createdAt : GoalList[editGoalIndex].createdAt,
+        completed : getGoalByID(editGoalId).completed,
+        createdAt : getGoalByID(editGoalId).createdAt,
         goalDesc : goal.goalDesc,
         goalName : goal.goalName,
-        id : GoalList[editGoalIndex].id,
-        targetDate : GoalList[editGoalIndex].targetDate,
-        updatedAt : GoalList[editGoalIndex].updatedAt,
-        userId : GoalList[editGoalIndex].userId
+        id : getGoalByID(editGoalId).id,
+        targetDate : getGoalByID(editGoalId).targetDate,
+        updatedAt : getGoalByID(editGoalId).updatedAt,
+        userId : getGoalByID(editGoalId).userId
       })
       console.log("body: ", messageBody)
-      console.log(`http://${DEVICE_IP}:3000/api/goals/` + GoalList[editGoalIndex].id)
+      console.log(`http://${DEVICE_IP}:3000/api/goals/` + editGoalId)
       try {
         const response = await fetch(
-            `http://${DEVICE_IP}:3000/api/goals/` + GoalList[editGoalIndex].id,
+            `http://${DEVICE_IP}:3000/api/goals/` + editGoalId,
             {
               method: 'PUT',
               headers: {
@@ -120,40 +124,35 @@ function GoalsScreen() {
 
     const handleCancel = () => {
       setGoal(new Goal("New Goal"))
-      editGoalIndex = null
+      editGoalId = null
       toggleGoalModal()
     }
 
     const handleGoalModalSubmit = () => {
-      // If editGoalIndex is null, do add operation, otherwise do edit operation
-      console.log("editGoalIndex: ", editGoalIndex)
-      if (editGoalIndex === null) {
+      // If editGoalId is null, do add operation, otherwise do edit operation
+      console.log("editGoalId: ", editGoalId)
+      if (editGoalId === null) {
         console.log("add")
         handleAddGoal().then(handleGetGoals())
       } else {
-        console.log("edit: ", editGoalIndex)
+        console.log("edit: ", editGoalId)
         handleUpdateGoal().then(handleGetGoals())
-        editGoalIndex = null
-        /*let GoalListCopy = [...GoalList];
-        GoalListCopy.splice(editGoalIndex, 1, goal)
-        setGoals(GoalListCopy);
-        editGoalIndex = null*/
+        editGoalId = null
       }
       
       toggleGoalModal();
     };
 
-    const handleEditGoal = (index) => {
-      editGoalIndex = index
-      console.log("indexes: ", index, editGoalIndex)
+    const handleEditGoal = (goalId) => {
+      editGoalId = goalId
       toggleGoalModal();
     }
 
-    const handleDeleteGoal = async (index) => {
+    const handleDeleteGoal = async (goalId) => {
 
       try {
         const response = await fetch(
-            `http://${DEVICE_IP}:3000/api/goals/` + GoalList[index].id, {method: 'DELETE'}
+            `http://${DEVICE_IP}:3000/api/goals/` + goalId, {method: 'DELETE'}
         )
         const json = await response.json()
         console.log(json)
@@ -279,7 +278,7 @@ function GoalsScreen() {
         <View>
           {GoalList.map((goal, index) => {
             return (
-              <View key={index} style={styles.goal}>
+              <View key={goal.id} style={styles.goal}>
                 <Text style={{ alignSelf: "flex-start", fontSize: 20 }}>
                   {goal.goalName}
                 </Text>
@@ -288,10 +287,10 @@ function GoalsScreen() {
                 </Text>
                 <View style={{ flexDirection: "row", marginTop: 10}}>
                   <TouchableOpacity style={{ marginHorizontal: 50 }}>
-                    <Text style={{fontWeight:"bold"}} onPress={() => handleEditGoal(index)}>Edit</Text>
+                    <Text style={{fontWeight:"bold"}} onPress={() => handleEditGoal(goal.id)}>Edit</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={{ marginHorizontal: 50 }}>
-                    <Text style={{fontWeight:"bold"}} onPress={() => handleDeleteGoal(index)}>Delete</Text>
+                    <Text style={{fontWeight:"bold"}} onPress={() => handleDeleteGoal(goal.id)}>Delete</Text>
                   </TouchableOpacity>
                 </View>
               </View>

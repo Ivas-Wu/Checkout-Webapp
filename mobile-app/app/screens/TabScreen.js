@@ -7,6 +7,7 @@ var ScannerScreen = require("./ScannerScreen");
 var GoalsScreen = require("./GoalsScreen");
 var StatisticsScreen = require("./StatisticsScreen");
 var SettingsScreen = require("./SettingsScreen");
+var InformationScreen = require("./InformationScreen");
 
 const Tab = createBottomTabNavigator();
 
@@ -22,9 +23,11 @@ function TabScreen() {
 					} else if (route.name === "Goals") {
 						iconName = "list";
 					} else if (route.name === "Statistics") {
-						iconName = "trending-up";
+						iconName = "analytics-outline";
 					} else if (route.name === "Settings") {
 						iconName = "settings-sharp";
+                    } else if (route.name === "Information") {
+						iconName = "document-text";
                     }
 
 					// You can return any component that you like here!
@@ -37,6 +40,7 @@ function TabScreen() {
 			})}
 		>
 			<Tab.Screen name="Scanner" component={ScannerScreen} />
+			<Tab.Screen name="Information" component={InformationScreen} />
 			<Tab.Screen name="Goals" component={GoalsScreen} />
 			<Tab.Screen name="Statistics" component={StatisticsScreen} />
             <Tab.Screen name="Settings" component={SettingsScreen} />
