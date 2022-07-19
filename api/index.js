@@ -46,6 +46,8 @@ const receipt = require('./app/routes/receipts')
 app.use('/api/receipts', receipt)
 const item = require('./app/routes/items')
 app.use('/api/items', item)
+const scanner = require('./app/routes/scanner')
+app.use('/api/scanner', scanner)
 
 // listening port
 const PORT = process.env.PORT || 3000;
