@@ -82,10 +82,11 @@ function GoalsScreen() {
     }
 
     const handleUpdateGoal = async () => {
+      //setGoal(GoalList[editGoalIndex])
       var messageBody = JSON.stringify({
         completed : GoalList[editGoalIndex].completed,
         createdAt : GoalList[editGoalIndex].createdAt,
-        goalDesc : GoalList[editGoalIndex].goalDesc,
+        goalDesc : goal.goalDesc,
         goalName : goal.goalName,
         id : GoalList[editGoalIndex].id,
         targetDate : GoalList[editGoalIndex].targetDate,
@@ -132,6 +133,7 @@ function GoalsScreen() {
       } else {
         console.log("edit: ", editGoalIndex)
         handleUpdateGoal().then(handleGetGoals())
+        editGoalIndex = null
         /*let GoalListCopy = [...GoalList];
         GoalListCopy.splice(editGoalIndex, 1, goal)
         setGoals(GoalListCopy);
@@ -180,7 +182,7 @@ function GoalsScreen() {
     <View style={styles.pageBackground}>
       <Modal visible={isGoalModalVisible} animationType="fade">
         <View style={styles.GoalModal}>
-          <Text style={styles.bigText}>Goal Details</Text>
+          <Text style={styles.bigText}>Goal Name</Text>
           <TextInput
             multiline={true}
             style={styles.textInput}
@@ -190,7 +192,19 @@ function GoalsScreen() {
               tempGoal.goalName = val
               setGoal(tempGoal)
             }}
-        />
+          />
+
+          <Text style={styles.bigText}>Goal Description</Text>
+          <TextInput
+            multiline={true}
+            style={styles.textInput}
+            placeholder="Enter Goal Description"
+            onChangeText={(val) => {
+              var tempGoal = goal
+              tempGoal.goalDesc = val
+              setGoal(tempGoal)
+            }}
+          />
 
         <View>
             <Button title="Show date picker!"/>
@@ -268,6 +282,9 @@ function GoalsScreen() {
               <View key={index} style={styles.goal}>
                 <Text style={{ alignSelf: "flex-start", fontSize: 20 }}>
                   {goal.goalName}
+                </Text>
+                <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
+                  {goal.goalDesc}
                 </Text>
                 <View style={{ flexDirection: "row", marginTop: 10}}>
                   <TouchableOpacity style={{ marginHorizontal: 50 }}>
