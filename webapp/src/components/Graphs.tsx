@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-import {
+import { Category, convertCategory } from './Table'
+import { 
   PieChart,
   Pie,
   BarChart,
@@ -13,7 +13,9 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  Cell,
 } from 'recharts';
+import { dataGenBar } from './GraphData'
 
 export enum charts {
   NONE = 'NONE',
@@ -36,17 +38,15 @@ interface Receipt { //TOMOVE
   date: Date,
 }
 
-interface GraphReq {
+export interface GraphReq {
   date: Date,
   amt: number,
-  category: string,
-  food?: number,
-  entertainment?: number,
+  category: Category,
 }
 
 const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
   const userId = 1;
-  const [graphData, setDate] = useState<GraphReq[]>([]);
+  const [graphData, setData] = useState<GraphReq[]>([]);
   useEffect(() => {
     getData();
   }, []);
@@ -57,9 +57,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
       const newData = {
         date: data.date,
         amt: data.total,
-        category: data.category,
-        food: data.total/2,
-        entertainment: data.total/2.5
+        category: convertCategory(data.category),
       };
       returnValue.push(newData);
     });
@@ -71,17 +69,23 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
       .get(`http://localhost:3000/api/receipts?userId=${userId}`)
       .then((res) => {
         let data: GraphReq[] = convertGoals(res.data);
-        setDate(data);
+        setData(data);
         console.log(res.data)
       });
   };
-
+  let testData = [
+    {
+      date : new Date(),
+      Groceries: 123,
+      Entertainment: 145
+    }
+  ]
   if (graph === charts.BAR) {
     return (
       <BarChart
         width={500}
         height={300}
-        data={graphData}
+        data={dataGenBar(graphData)!}
         margin={{
           top: 5,
           right: 30,
@@ -91,12 +95,16 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
-        <YAxis />
+        <YAxis/>
         <Tooltip />
         <Legend />
-        <Bar dataKey="food" fill="#8884d8" />
-        <Bar dataKey="entertainment" fill="#82ca9d" />
-        <Bar dataKey="amt" fill="#F7A9A8" />
+        <Bar dataKey="Groceries" fill="#8884d8"  legendType='circle'/>
+        <Bar dataKey="Entertainment" fill="#82ca9d"  legendType='circle'/>
+        <Bar dataKey="Medical" fill="#F7A9A8" legendType='circle'/>
+        <Bar dataKey="Transportation" fill="#BF1A2F"  legendType='circle'/>
+        <Bar dataKey="Housing" fill="#0B3954"  legendType='circle'/>
+        <Bar dataKey="Utilities" fill="#F49F0A" legendType='circle'/>
+        <Bar dataKey="Other" fill="#EFCA08" legendType='circle'/>
       </BarChart>
     );
   } else if (graph === charts.LINE) {
@@ -104,7 +112,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
       <LineChart
         width={500}
         height={300}
-        data={graphData}
+        data={dataGenBar(graphData)!}
         margin={{
           top: 5,
           right: 30,
@@ -117,29 +125,48 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="food" stroke="#8884d8" />
-        <Line type="monotone" dataKey="entertainment" stroke="#82ca9d" />
-        <Line type="monotone" dataKey="amt" stroke="#F7A9A8" />
+        <Line dataKey="Groceries" stroke="#8884d8"  legendType='circle'/>
+        <Line dataKey="Entertainment" stroke="#82ca9d"  legendType='circle'/>
+        <Line dataKey="Medical" stroke="#F7A9A8" legendType='circle'/>
+        <Line dataKey="Transportation" stroke="#BF1A2F"  legendType='circle'/>
+        <Line dataKey="Housing" stroke="#0B3954"  legendType='circle'/>
+        <Line dataKey="Utilities" stroke="#F49F0A" legendType='circle'/>
+        <Line dataKey="Other" stroke="#EFCA08" legendType='circle'/>
       </LineChart>
     );
   } else if (graph === charts.PI) {
-    const data01 = [
-      { name: 'Food', value: 400 },
-      { name: 'Entertainment', value: 300 },
-      { name: 'Medical', value: 300 },
-      { name: 'Transportation', value: 200 },
-      { name: 'Housing', value: 278 },
-      { name: 'Utilities', value: 189 },
+    const COLORS = ['#8884d8', '#82ca9d', '#FFBB28', '#FF8042', '#0088EE', '#00D49F', '#FFBB27'];
+
+    const d = [
+      { name: 'Other', value: 0 },
+      { name: 'Groceries', value: 0 },
+      { name: 'Entertainment', value: 0 },
+      { name: 'Medical', value: 0 },
+      { name: 'Transportation', value: 0 },
+      { name: 'Housing', value: 0 },
+      { name: 'Utilities', value: 0 },
     ];
 
-    //TODO parsing data
+    graphData.forEach(function (data) {
+      let flag = false;
+      d.forEach(function (d2) {
+        if (convertCategory(d2.name) === data.category) {
+          d2.value = d2.value + Number(data.amt);
+          flag = true;
+        }
+      })
+      if (!flag) {
+        console.log(typeof data.amt);
+        d[0].value = d[0].value + Number(data.amt);
+      }
+    });
 
     return (
       <PieChart width={1000} height={400}>
         <Pie
           dataKey="value"
           isAnimationActive={false}
-          data={data01}
+          data={d}
           cx={200}
           cy={200}
           outerRadius={80}
@@ -147,6 +174,9 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
           label
         />
         <Tooltip />
+        {d.map((entry, index) => (
+              <Cell key="Groceries" fill={COLORS[index]} />
+            ))}
       </PieChart>
     );
   } else {
