@@ -4,20 +4,15 @@ import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 function StatisticsScreen() {
+  const DEVICE_IP = "192.168.0.155"
+  var userId = 2
   const [text, setText] = React.useState("Sample Text");
   const [text2, setText2] = React.useState("Sample Text");
-  const handleSaveText = async () => {
-      console.log(text)
-      await AsyncStorage.setItem("key1", text)
-  }
 
-  const handleLoadText = async () => {
-    
-    let result = await AsyncStorage.getItem("key1")
-    console.log(result)
-    setText2(result)
-    
-};
+  const handleGetGoals = async () => {
+    var goals = await handleGetGoals()
+    setText(goals)
+  }
 
     return (
       <View style={styles.pageBackground}>
@@ -28,12 +23,8 @@ function StatisticsScreen() {
         />
         <Text>Statistics</Text>
         <Button
-          title="save text"
-          onPress={handleSaveText}
-        />
-        <Button
-          title="load text"
-          onPress={handleLoadText}
+          title="get goals"
+          onPress={handleGetGoals}
         />
         <Text>{text}</Text>
         <Text>{text2}</Text>

@@ -14,12 +14,21 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
+const DEVICE_IP = "192.168.0.155"
+var userId = 2
 var editGoalIndex = null    // indicates index of goal when editing goals, if null then it is an add operation
 const GOAL_STORAGE_KEY = "goal_storage_key"
 
 class Goal {
-  constructor(description) {
-    this.description = description;
+  constructor(goalName) {
+    this.completed = false;
+    this.createdAt = new Date();
+    this.goalDesc = null;
+    this.goalName = goalName;
+    this.id = null;
+    this.targetDate = null;
+    this.updatedAt = null;
+    this.userId = userId;
   }
 }
 
@@ -31,8 +40,82 @@ function GoalsScreen() {
     //const [goalName, setGoalName] = React.useState("New Goal");
     const [goal, setGoal] = React.useState(new Goal("New Goal"))
     const [GoalList, setGoals] = React.useState([]);
-    const [date, setDate] = React.useState(new Date());
-    const [showDate, setShowDate] = React.useState(false);
+
+    const handleGetGoals = async () => {
+      try {
+          const response = await fetch(
+              `http://${DEVICE_IP}:3000/api/goals?userId=${userId}`
+          )
+          const json = await response.json()
+          var goalsList = json
+          //console.log(goalsList)
+          setGoals(goalsList)
+      } catch (error) {
+          console.error(error)
+      }
+    }
+
+    const handleAddGoal = async () => {
+      var messageBody = JSON.stringify({
+        goalName: goal.goalName,
+        goalDesc: goal.goalDesc,
+        targetDate: goal.targetDate,
+        userId: userId
+      })
+      console.log("body: ", messageBody)
+      try {
+        const response = await fetch(
+            `http://${DEVICE_IP}:3000/api/goals`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: messageBody
+            }
+        )
+        const json = await response.json()
+        console.log(json)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    const handleUpdateGoal = async () => {
+      var messageBody = JSON.stringify({
+        completed : GoalList[editGoalIndex].completed,
+        createdAt : GoalList[editGoalIndex].createdAt,
+        goalDesc : GoalList[editGoalIndex].goalDesc,
+        goalName : goal.goalName,
+        id : GoalList[editGoalIndex].id,
+        targetDate : GoalList[editGoalIndex].targetDate,
+        updatedAt : GoalList[editGoalIndex].updatedAt,
+        userId : GoalList[editGoalIndex].userId
+      })
+      console.log("body: ", messageBody)
+      console.log(`http://${DEVICE_IP}:3000/api/goals/` + GoalList[editGoalIndex].id)
+      try {
+        const response = await fetch(
+            `http://${DEVICE_IP}:3000/api/goals/` + GoalList[editGoalIndex].id,
+            {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: messageBody
+            }
+        )
+        const text = await response.text()
+        console.log(text)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    React.useEffect(() => {
+      console.log("effect")
+      handleGetGoals()
+    }, [])
 
     const handleCancel = () => {
       setGoal(new Goal("New Goal"))
@@ -45,13 +128,14 @@ function GoalsScreen() {
       console.log("editGoalIndex: ", editGoalIndex)
       if (editGoalIndex === null) {
         console.log("add")
-        setGoals([...GoalList, goal]);
+        handleAddGoal().then(handleGetGoals())
       } else {
         console.log("edit: ", editGoalIndex)
-        let GoalListCopy = [...GoalList];
+        handleUpdateGoal().then(handleGetGoals())
+        /*let GoalListCopy = [...GoalList];
         GoalListCopy.splice(editGoalIndex, 1, goal)
         setGoals(GoalListCopy);
-        editGoalIndex = null
+        editGoalIndex = null*/
       }
       
       toggleGoalModal();
@@ -63,12 +147,20 @@ function GoalsScreen() {
       toggleGoalModal();
     }
 
-    const handleDeleteGoal = (index) => {
-        let GoalListCopy = [...GoalList];
-        GoalListCopy.splice(index, 1);
-        setGoals(GoalListCopy);
-    };
+    const handleDeleteGoal = async (index) => {
 
+      try {
+        const response = await fetch(
+            `http://${DEVICE_IP}:3000/api/goals/` + GoalList[index].id, {method: 'DELETE'}
+        )
+        const json = await response.json()
+        console.log(json)
+        handleGetGoals()
+      } catch (error) {
+          console.error(error)
+      }
+    };
+/*
     const handleSaveGoals = async () => {
       await AsyncStorage.setItem(GOAL_STORAGE_KEY,JSON.stringify(GoalList))
     }
@@ -83,7 +175,7 @@ function GoalsScreen() {
         setGoals(JSON.parse(result))
       }
     };
-
+*/
   return (
     <View style={styles.pageBackground}>
       <Modal visible={isGoalModalVisible} animationType="fade">
@@ -94,7 +186,9 @@ function GoalsScreen() {
             style={styles.textInput}
             placeholder="Enter Goal Name"
             onChangeText={(val) => {
-              setGoal(new Goal(val))
+              var tempGoal = goal
+              tempGoal.goalName = val
+              setGoal(tempGoal)
             }}
         />
 
@@ -127,19 +221,19 @@ function GoalsScreen() {
         </View>
       </Modal>
 
-      <TouchableOpacity
-        onPress={handleSaveGoals}
+      {<TouchableOpacity
+        onPress={handleGetGoals}
         style={styles.newGoalButton}
       >
         <View style={{ flex: 1 }}>
-          <Ionicons name={"cloud-upload-outline"} size={26} color={"black"} />
+          <Ionicons name={"refresh"} size={26} color={"black"} />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.bigText}>Upload Goals</Text>
+          <Text style={styles.bigText}>Refresh</Text>
         </View>
         <View style={{ flex: 1 }}/>
       </TouchableOpacity>
-
+/* 
       <TouchableOpacity
         onPress={handleLoadGoals}
         style={styles.newGoalButton}
@@ -152,7 +246,7 @@ function GoalsScreen() {
         </View>
         <View style={{ flex: 1 }}/>
         
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         onPress={toggleGoalModal}
@@ -173,7 +267,7 @@ function GoalsScreen() {
             return (
               <View key={index} style={styles.goal}>
                 <Text style={{ alignSelf: "flex-start", fontSize: 20 }}>
-                  {goal.description}
+                  {goal.goalName}
                 </Text>
                 <View style={{ flexDirection: "row", marginTop: 10}}>
                   <TouchableOpacity style={{ marginHorizontal: 50 }}>
