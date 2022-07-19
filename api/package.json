@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "pip3 install -r ./requirements.txt && node index.js",
     "dev": "nodemon server/index.js",
     "fmt": "npx prettier --write app/"
   },
