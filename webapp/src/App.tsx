@@ -17,7 +17,10 @@ function App() {
       <Routes>
         <Route path="/" element={<BasePage />} />
         <Route path="/home" element={<ProtectedRoute component={Home} />} />
-        <Route path="/information" element={<ProtectedRoute component={Information} />} />
+        <Route
+          path="/information"
+          element={<ProtectedRoute component={Information} />}
+        />
         <Route path="/stats" element={<ProtectedRoute component={Stats} />} />
         <Route path="/goals" element={<ProtectedRoute component={Goals} />} />
         <Route path="*" element={<NotFound />} />
