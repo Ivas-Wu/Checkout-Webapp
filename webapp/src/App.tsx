@@ -7,6 +7,8 @@ import Information from './components/pages/Information';
 import Stats from './components/pages/Stats';
 import Goals from './components/pages/Goals';
 import BasePage from './components/pages/BasePage';
+import { ProtectedRoute } from './auth/ProtectedRoute';
+import NotFound from './components/pages/NotFound';
 
 function App() {
   return (
@@ -14,10 +16,11 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<BasePage />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/information" element={<Information />} />
-        <Route path="/stats" element={<Stats />} />
-        <Route path="/goals" element={<Goals />} />
+        <Route path="/home" element={<ProtectedRoute component={Home} />} />
+        <Route path="/information" element={<ProtectedRoute component={Information} />} />
+        <Route path="/stats" element={<ProtectedRoute component={Stats} />} />
+        <Route path="/goals" element={<ProtectedRoute component={Goals} />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
