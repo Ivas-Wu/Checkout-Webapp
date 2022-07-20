@@ -11,6 +11,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     total: {
       type: Sequelize.DECIMAL(19, 4),
+      allowNull: false,
     },
   });
   return Receipt;
