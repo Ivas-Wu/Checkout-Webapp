@@ -4,7 +4,7 @@ import { Button } from '../Button';
 import BasePopupWrapper from '../Popup/BasedPopupWrapper';
 import Table2 from '../Table';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { Welcome, Body} from './pages.styled'
+import { Welcome, Body } from './pages.styled';
 
 export interface IInformationPtAmountProps {}
 

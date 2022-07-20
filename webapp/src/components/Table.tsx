@@ -21,7 +21,8 @@ export enum Category { // TOMOVE, also used in Graphs.tsx for when you move
   OTHER = 'Other',
 }
 
-export function convertCategory(value: string): Category { // TOMOVE as well
+export function convertCategory(value: string): Category {
+  // TOMOVE as well
   if (value.toUpperCase() === 'GROCERIES' || value.toUpperCase() === 'FOOD') {
     return Category.GROCERIES;
   } else if (

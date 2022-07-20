@@ -35,23 +35,22 @@ export function dataGenBar(data: GraphReq[]): dataReq[] {
       } else {
         newData[index].Other = newData[index].Other! + Number(value.amt);
       }
-    }
-    else {
-        if (value.category === Category.GROCERIES) {
-            newData.push({date: value.date, Groceries: value.amt})
-          } else if (value.category === Category.ENTERTAINMENT) {
-            newData.push({date: value.date, Entertainment: value.amt})
-          } else if (value.category === Category.MEDICAL) {
-            newData.push({date: value.date, Medical: value.amt})
-          } else if (value.category === Category.TRANSPORTATION) {
-            newData.push({date: value.date, Transportation: value.amt})
-          } else if (value.category === Category.HOUSING) {
-            newData.push({date: value.date, Housing: value.amt})
-          } else if (value.category === Category.UTILITIES) {
-            newData.push({date: value.date, Utilities: value.amt})
-          } else {
-            newData.push({date: value.date, Other: value.amt})
-          }
+    } else {
+      if (value.category === Category.GROCERIES) {
+        newData.push({ date: value.date, Groceries: value.amt });
+      } else if (value.category === Category.ENTERTAINMENT) {
+        newData.push({ date: value.date, Entertainment: value.amt });
+      } else if (value.category === Category.MEDICAL) {
+        newData.push({ date: value.date, Medical: value.amt });
+      } else if (value.category === Category.TRANSPORTATION) {
+        newData.push({ date: value.date, Transportation: value.amt });
+      } else if (value.category === Category.HOUSING) {
+        newData.push({ date: value.date, Housing: value.amt });
+      } else if (value.category === Category.UTILITIES) {
+        newData.push({ date: value.date, Utilities: value.amt });
+      } else {
+        newData.push({ date: value.date, Other: value.amt });
+      }
     }
   });
   return newData;

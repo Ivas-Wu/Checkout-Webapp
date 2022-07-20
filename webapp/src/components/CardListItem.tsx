@@ -1,19 +1,18 @@
-import { Flipped } from "react-flip-toolkit";
+import { Flipped } from 'react-flip-toolkit';
 
 export const listData = Array.from(Array(7).keys());
 interface IListItemProps {
-  index : string,
-  onClick(index:string): void;
-  listData: string[],
+  index: string;
+  onClick(index: string): void;
+  listData: string[];
 }
 
-const createCardFlipId = (index:string) =>
-  `listItem-${index}`;
+const createCardFlipId = (index: string) => `listItem-${index}`;
 
-const shouldFlip = (index:string) => (prev:string, current:string) =>
+const shouldFlip = (index: string) => (prev: string, current: string) =>
   index === prev || index === current;
 
-export const ListItem = ({ index, onClick, listData }:IListItemProps) => {
+export const ListItem = ({ index, onClick, listData }: IListItemProps) => {
   return (
     <Flipped
       flipId={createCardFlipId(index)}
@@ -24,7 +23,7 @@ export const ListItem = ({ index, onClick, listData }:IListItemProps) => {
         <Flipped inverseFlipId={createCardFlipId(index)}>
           <div className="listItemContent">
             <div className="description">
-              {listData.slice(0, 1).map(i => (
+              {listData.slice(0, 1).map((i) => (
                 <Flipped
                   flipId={`description-${index}-${i}`}
                   stagger="card-content"
@@ -43,18 +42,22 @@ export const ListItem = ({ index, onClick, listData }:IListItemProps) => {
 };
 
 interface IExpandedListItemProps {
-  index : string,
-  onClick(index:string): void;
-  listData : string[],
+  index: string;
+  onClick(index: string): void;
+  listData: string[];
 }
-export const ExpandedListItem = ({ index, onClick, listData }:IExpandedListItemProps) => {
+export const ExpandedListItem = ({
+  index,
+  onClick,
+  listData,
+}: IExpandedListItemProps) => {
   return (
     <Flipped
       flipId={createCardFlipId(index)}
       stagger="card"
-      onStart={el => {
+      onStart={(el) => {
         setTimeout(() => {
-          el.classList.add("animated-in");
+          el.classList.add('animated-in');
         }, 400);
       }}
     >
@@ -69,7 +72,7 @@ export const ExpandedListItem = ({ index, onClick, listData }:IExpandedListItemP
               <div className="avatar avatarExpanded" />
             </Flipped>
             <div className="description">
-              {listData.slice(0,1).map(i => (
+              {listData.slice(0, 1).map((i) => (
                 <Flipped
                   flipId={`description-${index}-${i}`}
                   stagger="card-content"
@@ -80,7 +83,7 @@ export const ExpandedListItem = ({ index, onClick, listData }:IExpandedListItemP
               ))}
             </div>
             <div className="additional-content">
-              {listData.slice(1, 5).map(i => (
+              {listData.slice(1, 5).map((i) => (
                 <div>{i}</div>
               ))}
             </div>

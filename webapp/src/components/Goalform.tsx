@@ -3,14 +3,15 @@ import React, { useState, ChangeEvent, useEffect } from 'react';
 import './Goalform.css';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 
-interface Goal { //TOMOVE
-  id: number,
-  goalName: string,
-  goalDesc: string,
-  targetDate: Date,
-  completed: boolean,
+interface Goal {
+  //TOMOVE
+  id: number;
+  goalName: string;
+  goalDesc: string;
+  targetDate: Date;
+  completed: boolean;
 }
 
 export interface IGoalFormProps {}
@@ -19,7 +20,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
   const userId = 2;
   const [task, setTask] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [deadline, setDeadLine] = useState<Date>(new Date);
+  const [deadline, setDeadLine] = useState<Date>(new Date());
   const [goalList, setGoalList] = useState<ITask[]>([]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -27,12 +28,12 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
       setTask(event.target.value);
     } else if (event.target.name === 'description') {
       setDescription(event.target.value);
-    } 
+    }
   };
 
-  const selectDateHandler = (d:Date) => {
-    setDeadLine(d)
-  }
+  const selectDateHandler = (d: Date) => {
+    setDeadLine(d);
+  };
 
   useEffect(() => {
     getData();
