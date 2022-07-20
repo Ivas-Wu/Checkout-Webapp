@@ -12,6 +12,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as React from "react";
 import "../GlobalVars"
+import { SortByProperty } from "../functions/SortByProperty";
 
 class Receipt {
     constructor() {
@@ -33,6 +34,7 @@ function InformationScreen() {
     const toggleModal = () => setIsModalVisible(() => !isModalVisible);
     const [receipt, setReceipt] = React.useState(new Receipt())
     const [receiptList, setReceiptList] = React.useState([]);
+    const [sortProperty, setSortProperty] = React.useState("date")
 
     const getReceiptById = (receiptId) => {
         let result = receiptList.find(obj => {
@@ -48,7 +50,9 @@ function InformationScreen() {
             )
             const json = await response.json()
             var receiptList = json
-            setReceiptList(receiptList)
+            var sortedList = SortByProperty(receiptList, sortProperty)
+            setReceiptList(sortedList)
+            //setReceiptList(receiptList)
         } catch (error) {
             console.error(error)
         }
@@ -108,10 +112,15 @@ function InformationScreen() {
         toggleModal();
     };
 
+    const handleSortReceipts = (property) => {
+        //setSortProperty(property)
+        handleGetReceipts()
+    }
+
     React.useEffect(() => {
         console.log("receipt effect")
         handleGetReceipts()
-    }, [])
+    }, [sortProperty])
 
     return (
         <View style={styles.pageBackground}>
@@ -181,10 +190,36 @@ function InformationScreen() {
                 </View>
             </Modal>
 
-            <TouchableOpacity style={styles.wideButton} onPress={handleGetReceipts}>
-                <Text style={styles.bigText}>Refresh</Text>
+            <TouchableOpacity
+                onPress={handleGetReceipts}
+                style={styles.wideButton}>
+                <View style={{ flex: 1 }}>
+                    <Ionicons name={"refresh"} size={26} color={"black"} />
+                </View>
+                <View style={{ flex: 1 }}>
+                    <Text style={styles.bigText}>Refresh</Text>
+                </View>
+                <View style={{ flex: 1 }}/>
             </TouchableOpacity>
-            
+
+            <View style={{ flexDirection: "row", marginTop: 10, justifyContent: "center", alignItems: "center", width:"93%"}}>
+                <View style={{flex: 2}}>
+                    <Text style={styles.bigText}>Sort By: </Text>
+                </View>
+                <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("store")}>
+                    <Text>Store</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("total")}>
+                    <Text>Amount</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("category")}>
+                    <Text>Category</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("date")}>
+                    <Text>Date</Text>
+                </TouchableOpacity>
+            </View>
+
             <ScrollView style={styles.scroll}>
                 <View>
                 {receiptList.map((receipt, index) => {
@@ -290,6 +325,15 @@ const styles = StyleSheet.create({
       backgroundColor: "lightblue",
       margin: 5,
       borderRadius: 10,
+    },
+    sortButton: {
+        flex: 2,
+        height: 40,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "lightblue",
+        margin: 2,
+        borderRadius: 10,
     },
     textInput: {
       borderColor: "gray",
