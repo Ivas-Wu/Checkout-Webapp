@@ -1,24 +1,24 @@
 export type User = {
-  id: Number;
-  firstName?: String;
-  lastName?: String;
-  email: String;
-  familySize?: Number;
+  id: number;
+  firstName?: string;
+  lastName?: string;
+  email: string;
+  familySize?: number;
   active: Boolean;
 };
 
 export type UserCreateReq = {
-  firstName?: String;
-  lastName?: String;
-  email: String;
-  familySize?: Number;
+  firstName?: string;
+  lastName?: string;
+  email: string;
+  familySize?: number;
   active?: Boolean;
 };
 
 export type UserUpdateReq = {
-  firstName?: String;
-  lastName?: String;
-  email?: String;
-  familySize?: Number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  familySize?: number;
   active?: Boolean;
 };

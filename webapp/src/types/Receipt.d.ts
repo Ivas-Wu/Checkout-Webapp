@@ -1,24 +1,26 @@
 export type Receipt = {
-  id: Number;
-  userId: Number;
-  store?: String;
-  total: Number;
-  category?: String;
+  id: number;
+  userId: number;
+  store?: string;
+  total: number;
+  category?: string;
   date?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type ReceiptCreateReq = {
-  userId: Number;
-  store?: String;
+  userId: number;
+  store?: string;
   total: Number;
-  category?: String;
+  category?: string;
   date?: Date;
 };
 
 export type ReceiptUpdateReq = {
-  userId?: Number;
-  store?: String;
-  total?: Number;
-  category?: String;
+  userId?: number;
+  store?: string;
+  total?: number;
+  category?: string;
   date?: Date;
 };

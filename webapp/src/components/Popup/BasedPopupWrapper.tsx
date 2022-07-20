@@ -7,8 +7,6 @@ export interface BasePopupWrapperProps {
   isPopupVisible: boolean;
   onBackdropClick: () => void;
   header: string;
-  message?: string;
-  content?: ReactNode;
 }
 
 interface ComponentsProps {
@@ -21,13 +19,9 @@ interface ComponentsProps {
 type Props = BasePopupWrapperProps & ComponentsProps;
 
 const BasePopupWrapper: React.FC<Props> = ({
-  content,
-  ContainerComponent,
-  CloseButtonComponent,
   isPopupVisible,
   onBackdropClick,
   header,
-  message,
 }) => {
   if (!isPopupVisible) {
     return null;

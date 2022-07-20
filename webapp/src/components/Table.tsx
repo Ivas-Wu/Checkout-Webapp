@@ -8,72 +8,23 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 import './Table.css';
 import axios from 'axios';
+import { Receipt, ReceiptUpdateReq } from '../types/Receipt';
+import { Category, convertCategory } from '../types/Category';
+import TableModify from './TableModify'
 
-export enum Category { // TOMOVE, also used in Graphs.tsx for when you move
-  GROCERIES = 'Groceries',
-  ENTERTAINMENT = 'Entertainment',
-  MEDICAL = 'Medical',
-  TRANSPORTATION = 'Transportation',
-  HOUSING = 'Housing',
-  UTILITIES = 'Utilities',
-  OTHER = 'Other',
-}
-
-export function convertCategory(value: string): Category {
-  // TOMOVE as well
-  if (value.toUpperCase() === 'GROCERIES' || value.toUpperCase() === 'FOOD') {
-    return Category.GROCERIES;
-  } else if (
-    value.toUpperCase() === 'ENTERTAINMENT' ||
-    value.toUpperCase() === 'FUN'
-  ) {
-    return Category.ENTERTAINMENT;
-  } else if (
-    value.toUpperCase() === 'MEDICAL' ||
-    value.toUpperCase() === 'HEALTH'
-  ) {
-    return Category.MEDICAL;
-  } else if (
-    value.toUpperCase() === 'TRANSPORTATION' ||
-    value.toUpperCase() === 'CAR'
-  ) {
-    return Category.TRANSPORTATION;
-  } else if (
-    value.toUpperCase() === 'HOUSING' ||
-    value.toUpperCase() === 'LIVING'
-  ) {
-    return Category.HOUSING;
-  } else if (value.toUpperCase() === 'UTILITIES') {
-    return Category.UTILITIES;
-  }
-  return Category.OTHER;
-}
-
-interface Receipts {
-  //TOMOVE
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  store: string; //enum?
-  category: string;
-  total: number;
-  date: Date;
-}
-
-interface TableReqs {
+export interface TableReqs {
   id: GridRowId;
-  dateCreated: Date;
-  dateModified: Date;
-  store: string; //enum?
+  store: string;
   category: Category;
   tAmount: number;
   date: Date;
+  dateCreated: Date;
+  dateModified: Date;
 }
-
-// Eventually add a union type instead like User | Receipt | Item | ... when I get around to building backend for those
-// Until then TableReqs will do, it pretty much just forces it to have an id
 
 export interface TableProps<T extends TableReqs> {
   pageSize?: number;
@@ -84,22 +35,38 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
   let userId = 1;
   const [selectedRows, setSelectedRows] = useState<TableReqs[]>([]);
   const [tableRows, settableRows] = useState<TableReqs[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [rowId, setRowId] = useState<GridRowId>();
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
   useEffect(() => {
     getData();
   }, []);
 
-  function convertGoals(data: Receipts[]): TableReqs[] {
+  function convertGoals(data: Receipt[]): TableReqs[] {
     let returnValue: TableReqs[] = [];
     data.forEach(function (row) {
       const newRow = {
         id: row.id,
         dateCreated: row.createdAt,
         dateModified: row.updatedAt,
-        store: row.store,
-        category: convertCategory(row.category),
+        store: row.store ? row.store : '',
+        category: row.category ? convertCategory(row.category) : Category.OTHER,
         tAmount: row.total,
-        date: row.date,
+        date: row.date ? row.date : row.createdAt,
       };
       returnValue.push(newRow);
     });
@@ -146,27 +113,17 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
     }
   };
 
-  const modifyRow = (id?: GridRowId) => {
-    let index = -1;
-    if (id) {
-      index = tableRows.findIndex((element) => element.id === id);
-    } else {
-      index = tableRows.findIndex(
-        (element) => element.id === selectedRows[0].id
-      );
-    }
-    if (index === -1) {
+  const modifyRow = (data: ReceiptUpdateReq) => {
+    if (tableRows.findIndex((element) => element.id === rowId) === -1) {
       console.log('How did you get here, no task found!');
     } else {
+      //Maybe symbol to show loading and lock user out of other actions?
       axios
-        .put(`http://localhost:3000/api/receipts/` + tableRows[index].id, {
-          // store: "",
-          category: 'Modified-Category',
-          total: 1234,
-        })
+        .put(`http://localhost:3000/api/receipts/` + rowId, data)
         .then((res) => {
           console.log(res.data);
           getData();
+          handleClose();
         });
     }
   };
@@ -221,14 +178,15 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
             icon={<EditIcon />}
             label="Edit Entry"
             onClick={() => {
-              modifyRow(params.id);
+              setRowId(params.id);
+              handleOpen();
             }}
             showInMenu
           />,
         ],
       },
     ],
-    [deleteRows, modifyRow]
+    [deleteRows, modifyRow, handleOpen]
   );
 
   return (
@@ -258,6 +216,16 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
           },
         }}
       />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <TableModify receiptUpdateInfo={modifyRow} data={tableRows.find((element) => element.id === rowId)}></TableModify>
+        </Box>
+      </Modal>
       <Button
         onClick={() => {
           deleteRows();

@@ -4,15 +4,7 @@ import './Goalform.css';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
-interface Goal {
-  //TOMOVE
-  id: number;
-  goalName: string;
-  goalDesc: string;
-  targetDate: Date;
-  completed: boolean;
-}
+import { Goal } from '../types/Goal'
 
 export interface IGoalFormProps {}
 
@@ -44,7 +36,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
     data.forEach(function (goal) {
       const newTask = {
         taskName: goal.goalName,
-        taskDescription: goal.goalDesc,
+        taskDescription: goal.goalDesc ? goal.goalDesc : "",
         deadline: goal.targetDate,
         id: goal.id,
       };

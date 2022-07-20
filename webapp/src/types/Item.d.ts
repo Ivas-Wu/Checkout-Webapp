@@ -1,27 +1,27 @@
 export type Item = {
-  id: Number;
-  userId: Number;
-  receiptId: Number;
-  productName: String;
-  category?: String;
-  numberOf?: Number;
-  price: Number;
+  id: number;
+  userId: number;
+  receiptId: number;
+  productName: string;
+  category?: string;
+  numberOf?: number;
+  price: number;
 };
 
 export type ItemCreateReq = {
-  userId: Number;
-  receiptId: Number;
-  productName: String;
-  category?: String;
-  numberOf?: Number;
-  price: Number;
+  userId: number;
+  receiptId: number;
+  productName: string;
+  category?: string;
+  numberOf?: number;
+  price: number;
 };
 
 export type ItemUpdateReq = {
-  userId?: Number;
-  receiptId?: Number;
-  productName?: String;
-  category?: String;
-  numberOf?: Number;
-  price?: Number;
+  userId?: number;
+  receiptId?: number;
+  productName?: string;
+  category?: string;
+  numberOf?: number;
+  price?: number;
 };

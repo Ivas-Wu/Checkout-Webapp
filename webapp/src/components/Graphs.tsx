@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Category, convertCategory } from './Table';
+import { Category, convertCategory } from '../types/Category';
+import { Receipt } from '../types/Receipt'
 import {
   PieChart,
   Pie,
@@ -28,17 +29,6 @@ export interface IGraphsProps {
   graph: charts;
 }
 
-interface Receipt {
-  //TOMOVE
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  store: string; //enum?
-  category: string; //enum for sure TODO
-  total: number;
-  date: Date;
-}
-
 export interface GraphReq {
   date: Date;
   amt: number;
@@ -56,9 +46,9 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
     let returnValue: GraphReq[] = [];
     data.forEach(function (data) {
       const newData = {
-        date: data.date,
+        date: data.date ? data.date : data.createdAt,
         amt: data.total,
-        category: convertCategory(data.category),
+        category: data.category ? convertCategory(data.category) : Category.OTHER,
       };
       returnValue.push(newData);
     });
@@ -74,13 +64,6 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
         console.log(res.data);
       });
   };
-  let testData = [
-    {
-      date: new Date(),
-      Groceries: 123,
-      Entertainment: 145,
-    },
-  ];
   if (graph === charts.BAR) {
     return (
       <BarChart

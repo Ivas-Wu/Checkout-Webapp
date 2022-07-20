@@ -1,5 +1,5 @@
 import { GraphReq } from './Graphs';
-import { Category } from './Table';
+import { Category } from '../types/Category';
 
 interface dataReq {
   date: Date;
@@ -11,7 +11,7 @@ interface dataReq {
   Utilities?: number;
   Other?: number;
 }
-export function dataGenBar(data: GraphReq[]): dataReq[] {
+export function dataGenBar(data: GraphReq[]): dataReq[] { // Only uses recipt totals rn, should be updated for items
   const newData: dataReq[] = [];
   data.forEach(function (value) {
     let index = newData.findIndex((element) => element.date === value.date);

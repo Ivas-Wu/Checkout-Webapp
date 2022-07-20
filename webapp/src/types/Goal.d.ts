@@ -1,23 +1,23 @@
 export type Goal = {
-  id: Number;
-  userId: Number;
-  goalName: String;
-  goalDesc?: String;
+  id: number;
+  userId: number;
+  goalName: string;
+  goalDesc?: string;
   targetDate?: Date;
   completed: Boolean;
 };
 
 export type GoalCreateReq = {
-  userId: Number;
-  goalName: String;
-  goalDesc?: String;
+  userId: number;
+  goalName: string;
+  goalDesc?: string;
   targetDate?: Date;
   completed?: Boolean;
 };
 
 export type GoalUpdateReq = {
-  goalName?: String;
-  goalDesc?: String;
+  goalName?: string;
+  goalDesc?: string;
   targetDate?: Date;
   completed?: Boolean;
 };
