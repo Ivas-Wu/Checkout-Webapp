@@ -19,7 +19,6 @@ exports.scan = (req, res) => {
     console.log(`Python API function ended with code: ${code}`);
     const json = JSON.parse(scanData);
     //create receipt
-    console.log('Creating receipt with scanner info');
     const storename = json.Store;
     const category = 'mock';
     const total = json.Total;
@@ -49,7 +48,6 @@ exports.scan = (req, res) => {
       items: itemList,
     };
     res.write(JSON.stringify(returnJSON));
-    console.log('Receipt and items created');
     res.end();
     // const request = {
     //   body : receipt
