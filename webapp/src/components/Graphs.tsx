@@ -36,7 +36,7 @@ export interface GraphReq {
 }
 
 const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
-  const userId = 1;
+  const userId = localStorage.getItem('user-id');
   const [graphData, setData] = useState<GraphReq[]>([]);
   useEffect(() => {
     getData();

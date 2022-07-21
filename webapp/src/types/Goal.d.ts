@@ -4,7 +4,7 @@ export type Goal = {
   goalName: string;
   goalDesc?: string;
   targetDate?: Date;
-  completed: Boolean;
+  completed: boolean;
 };
 
 export type GoalCreateReq = {
@@ -12,12 +12,12 @@ export type GoalCreateReq = {
   goalName: string;
   goalDesc?: string;
   targetDate?: Date;
-  completed?: Boolean;
+  completed?: boolean;
 };
 
 export type GoalUpdateReq = {
   goalName?: string;
   goalDesc?: string;
   targetDate?: Date;
-  completed?: Boolean;
+  completed?: boolean;
 };

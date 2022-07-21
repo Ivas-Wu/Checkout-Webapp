@@ -4,7 +4,7 @@ export type User = {
   lastName?: string;
   email: string;
   familySize?: number;
-  active: Boolean;
+  active: boolean;
 };
 
 export type UserCreateReq = {
@@ -12,7 +12,7 @@ export type UserCreateReq = {
   lastName?: string;
   email: string;
   familySize?: number;
-  active?: Boolean;
+  active?: boolean;
 };
 
 export type UserUpdateReq = {
@@ -20,5 +20,5 @@ export type UserUpdateReq = {
   lastName?: string;
   email?: string;
   familySize?: number;
-  active?: Boolean;
+  active?: boolean;
 };

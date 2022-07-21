@@ -18,22 +18,22 @@ export function dataGenBar(data: GraphReq[]): dataReq[] { // Only uses recipt to
     if (index !== -1) {
       if (value.category === Category.GROCERIES) {
         newData[index].Groceries =
-          newData[index].Groceries! + Number(value.amt);
+        Number(newData[index].Groceries!) + Number(value.amt);
       } else if (value.category === Category.ENTERTAINMENT) {
         newData[index].Entertainment =
-          newData[index].Entertainment! + Number(value.amt);
+        Number(newData[index].Entertainment!) + Number(value.amt);
       } else if (value.category === Category.MEDICAL) {
-        newData[index].Medical = newData[index].Medical! + Number(value.amt);
+        newData[index].Medical = Number(newData[index].Medical!) + Number(value.amt);
       } else if (value.category === Category.TRANSPORTATION) {
         newData[index].Transportation =
-          newData[index].Transportation! + Number(value.amt);
+        Number(newData[index].Transportation!) + Number(value.amt);
       } else if (value.category === Category.HOUSING) {
-        newData[index].Housing = newData[index].Housing! + Number(value.amt);
+        newData[index].Housing = Number(newData[index].Housing!) + Number(value.amt);
       } else if (value.category === Category.UTILITIES) {
         newData[index].Utilities =
-          newData[index].Utilities! + Number(value.amt);
+        Number(newData[index].Utilities!) + Number(value.amt);
       } else {
-        newData[index].Other = newData[index].Other! + Number(value.amt);
+        newData[index].Other = Number(newData[index].Other!) + Number(value.amt);
       }
     } else {
       if (value.category === Category.GROCERIES) {

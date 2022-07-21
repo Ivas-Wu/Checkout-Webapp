@@ -32,7 +32,7 @@ export interface TableProps<T extends TableReqs> {
 }
 
 export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
-  let userId = 1;
+  const userId = localStorage.getItem('user-id');
   const [selectedRows, setSelectedRows] = useState<TableReqs[]>([]);
   const [tableRows, settableRows] = useState<TableReqs[]>([]);
   const [open, setOpen] = useState<boolean>(false);
@@ -56,7 +56,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
     getData();
   }, []);
 
-  function convertGoals(data: Receipt[]): TableReqs[] {
+  function convertReceipt(data: Receipt[]): TableReqs[] {
     let returnValue: TableReqs[] = [];
     data.forEach(function (row) {
       const newRow = {
@@ -77,7 +77,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
     axios
       .get(`http://localhost:3000/api/receipts?userId=${userId}`)
       .then((res) => {
-        let rows: TableReqs[] = convertGoals(res.data);
+        let rows: TableReqs[] = convertReceipt(res.data);
         settableRows(rows);
       });
   };
@@ -186,7 +186,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
         ],
       },
     ],
-    [deleteRows, modifyRow, handleOpen]
+    [deleteRows, handleOpen]
   );
 
   return (
