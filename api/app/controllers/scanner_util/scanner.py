@@ -71,7 +71,7 @@ def remove_keywords(string):
 
 def main():
     api_key = 'K83047060888957'
-    file_path = './app/controllers/scanner_util/sample_data/1010-receipt.jpg'
+    file_path = './app/controllers/scanner_util/sample_data/1013-receipt.jpg'
     return_file = ocr_receipt(filename=file_path, api_key=api_key, overlay=False)
     print(return_file)
     

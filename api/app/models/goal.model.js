@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.TEXT,
     },
     targetDate: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
     completed: {
       type: Sequelize.BOOLEAN,

@@ -48,6 +48,8 @@ const item = require('./app/routes/items')
 app.use('/api/items', item)
 const scanner = require('./app/routes/scanner')
 app.use('/api/scanner', scanner)
+const recommender = require('./app/routes/recommender')
+app.use('/api/recommender', recommender)
 
 // listening port
 const PORT = process.env.PORT || 3000;

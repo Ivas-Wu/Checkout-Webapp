@@ -25,7 +25,7 @@ exports.create = (req, res) => {
 // get all items from the database.
 exports.findAll = (req, res) => {
   const userId = req.query.userId;
-  var condition = userId ? { userId: userId } : null;
+  var condition = userId ? { userId: userId } : {};
   const receiptId = req.query.receiptId;
   if (receiptId) {
     condition.receiptId = receiptId;
