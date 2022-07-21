@@ -14,6 +14,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import "../GlobalVars"
+import { SortByProperty } from "../functions/SortByProperty";
 
 var editGoalId = null    // indicates id of goal when editing goals, if null then it is an add operation
 const GOAL_STORAGE_KEY = "goal_storage_key" //used for local storage
@@ -38,6 +39,7 @@ function GoalsScreen() {
         setIsGoalModalVisible(() => !isGoalModalVisible);
     const [goal, setGoal] = React.useState(new Goal("New Goal"))
     const [GoalList, setGoals] = React.useState([]);
+    const [sortProperty, setSortProperty] = React.useState("createdAt")
 
     const getGoalByID = (goalId) => {
       let result = GoalList.find(obj => {
@@ -53,8 +55,8 @@ function GoalsScreen() {
           )
           const json = await response.json()
           var goalsList = json
-          //console.log(goalsList)
-          setGoals(goalsList)
+          var sortedList = SortByProperty(goalsList, sortProperty)
+          setGoals(sortedList)
       } catch (error) {
           console.error(error)
       }
@@ -87,6 +89,9 @@ function GoalsScreen() {
     }
 
     const handleUpdateGoal = async () => {
+      var updatedGoal = getGoalByID(editGoalId)
+      updatedGoal.goalDesc = goal.goalDesc
+      updatedGoal.goalName = goal.goalName
       var messageBody = JSON.stringify({
         completed : getGoalByID(editGoalId).completed,
         createdAt : getGoalByID(editGoalId).createdAt,
@@ -107,7 +112,7 @@ function GoalsScreen() {
               headers: {
                 'Content-Type': 'application/json'
               },
-              body: messageBody
+              body: JSON.stringify(updatedGoal)
             }
         )
         const text = await response.text()
@@ -120,7 +125,7 @@ function GoalsScreen() {
     React.useEffect(() => {
       console.log("effect")
       handleGetGoals()
-    }, [])
+    }, [sortProperty])
 
     const handleCancel = () => {
       setGoal(new Goal("New Goal"))
@@ -274,6 +279,24 @@ function GoalsScreen() {
         <View style={{ flex: 1 }}/>
       </TouchableOpacity>
 
+      <View style={{ flexDirection: "row", marginTop: 10, justifyContent: "center", alignItems: "center", width:"93%"}}>
+        <View style={{flex: 2}}>
+            <Text style={styles.bigText}>Sort By: </Text>
+        </View>
+        <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("goalName")}>
+            <Text>Name</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("goalDesc")}>
+            <Text>Description</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("createdAt")}>
+            <Text>Creation Date</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("targetDate")}>
+            <Text>Target Date</Text>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView style={styles.goalScroll}>
         <View>
           {GoalList.map((goal, index) => {
@@ -380,6 +403,15 @@ const styles = StyleSheet.create({
     margin: 10,
     borderWidth: 1,
   },
+  sortButton: {
+    flex: 2,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "lightblue",
+    margin: 2,
+    borderRadius: 10,
+},
 });
 
 module.exports = GoalsScreen;
