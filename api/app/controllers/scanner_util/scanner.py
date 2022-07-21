@@ -43,7 +43,7 @@ def convert_to_json(receipt):
     return json_receipt
 
 def match_regex(string):
-    name_matches = re.search("([A-Za-z_\s]*)", string)
+    name_matches = re.search("([A-Za-z_\s()]*)", string)
     price_matches = re.search("([0-9]+\.[0-9]{2})", string)
     if name_matches and price_matches:
         return process_string(name_matches.group(0)), price_matches.group(0)
