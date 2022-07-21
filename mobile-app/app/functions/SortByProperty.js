@@ -8,10 +8,10 @@ function compare (a, b) {
     }
 
     if (a[sort_property] < b[sort_property]) {
-        //console.log(a[sort_property], ' < ',  b[sort_property])
+        console.log(a[sort_property], ' < ',  b[sort_property])
         return 1
     } else if (a[sort_property] > b[sort_property]) {
-        //console.log(a[sort_property], ' > ',  b[sort_property])
+        console.log(a[sort_property], ' > ',  b[sort_property])
         return -1
     } else {
         return 0

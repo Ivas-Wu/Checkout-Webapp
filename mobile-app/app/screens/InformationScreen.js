@@ -112,11 +112,6 @@ function InformationScreen() {
         toggleModal();
     };
 
-    const handleSortReceipts = (property) => {
-        //setSortProperty(property)
-        handleGetReceipts()
-    }
-
     React.useEffect(() => {
         console.log("receipt effect")
         handleGetReceipts()
