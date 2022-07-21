@@ -43,7 +43,7 @@ def convert_to_json(receipt):
     return json_receipt
 
 def match_regex(string):
-    name_matches = re.search("([A-Za-z_\s()]*)", string)
+    name_matches = re.search("([A-Za-z0-9_\s()]*)", string)
     price_matches = re.search("([0-9]+\.[0-9]{2})", string)
     if name_matches and price_matches:
         return process_string(name_matches.group(0)), price_matches.group(0)
@@ -51,13 +51,27 @@ def match_regex(string):
         return "" , ""
 
 def process_string(string):
-    return_string = string.strip('\n')
+    return_string = string.rstrip('0123456789')
+    return_string = return_string.strip('\n')
     return_string = return_string.strip('\t')
+    return_string = remove_keywords(return_string)
+    return return_string
+
+def remove_keywords(string):
+    return_string = string
+    if len(string) <= 3:
+        return_string = ""
+    if bool(re.search('(?i)(subt)', string)):
+        return_string = ""
+    if bool(re.search('(?i)(total)', string)):
+        return_string = "Total"
+    if bool(re.search('(?i)(tip)', string)):
+        return_string = ""
     return return_string
 
 def main():
     api_key = 'K83047060888957'
-    file_path = './app/controllers/scanner_util/sample_data/1012-receipt.jpg'
+    file_path = './app/controllers/scanner_util/sample_data/1010-receipt.jpg'
     return_file = ocr_receipt(filename=file_path, api_key=api_key, overlay=False)
     print(return_file)
     
