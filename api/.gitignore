@@ -17,7 +17,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
-
+/app/controllers/scanner_util/uploads/current_receipt.jpg
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
