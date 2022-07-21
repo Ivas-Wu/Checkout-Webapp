@@ -35,10 +35,29 @@ exports.scan = (req, res) => {
         total: total,
         userId: userId,
       };
-      const items = {
+      //create items
+      var itemList = []
+      for (var key of Object.keys(json)) {
+        if (json[key] == json.Store || key == "Total") {
+          continue;
+        } else {
+          const item = {
+            productName: key,
+            category: "mock",
+            price: json[key],
+            userId: userId,
+            receiptId: "1234",
+          };
+          itemList.push(item)
+        }
         
       }
-      res.write(JSON.stringify(receipt));
+      var returnJSON = {
+        receipt: receipt,
+        items: itemList
+      }
+      res.write(JSON.stringify(returnJSON))
+      console.log("Receipt and items created")
       res.end();
       // const request = {
       //   body : receipt
