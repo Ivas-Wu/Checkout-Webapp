@@ -2,7 +2,7 @@ import requests
 import json
 import re
 
-PLACE_NAME = 'Place Name'
+PLACE_NAME = 'Store'
 
 def ocr_receipt(filename, api_key, overlay=False, tabulate=True, language='eng'):
     """ OCR.space API request with local file.
@@ -39,6 +39,7 @@ def convert_to_json(receipt):
         name, price = match_regex(line)
         if name and price:
             json_receipt[name] = price
+    json_receipt = json.dumps(json_receipt)
     return json_receipt
 
 def match_regex(string):
@@ -56,11 +57,10 @@ def process_string(string):
 
 def main():
     api_key = 'K83047060888957'
-    file_path = './app/controllers/scanner_util/sample_data/1013-receipt.jpg'
+    file_path = './app/controllers/scanner_util/sample_data/1012-receipt.jpg'
     return_file = ocr_receipt(filename=file_path, api_key=api_key, overlay=False)
     print(return_file)
     
 
 if __name__ == "__main__":
-    print("hello")
     main()
