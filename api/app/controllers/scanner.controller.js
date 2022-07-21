@@ -26,12 +26,10 @@ exports.scan = (req, res) => {
       console.log('Creating receipt with scanner info')
       const storename = json.Store;
       const category = "mock";
-      const date = "2022-07-13T00:00:00.000Z";
       const total = json.Total;
       const receipt = {
         store: storename,
         category: category,
-        date: date,
         total: total,
         userId: userId,
       };
@@ -46,7 +44,6 @@ exports.scan = (req, res) => {
             category: "mock",
             price: json[key],
             userId: userId,
-            receiptId: "1234",
           };
           itemList.push(item)
         }
