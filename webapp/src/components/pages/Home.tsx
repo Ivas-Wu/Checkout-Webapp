@@ -1,10 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import '../../App.css';
 import IndexPage from '../HomeWidget/index';
-import { Welcome, Body } from './pages.styled';
+import { Welcome } from './pages.styled';
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import ReceiptUpload from '../ReceiptUpload';
 
 export interface IHomePageProps {}
 
@@ -38,8 +37,6 @@ const Home: React.FC<IHomePageProps> = () => {
   return (
     <>
       <Welcome>Welcome back, {user?.name} </Welcome>
-      <ReceiptUpload />
-      <Body>Something here?</Body>
       <IndexPage pages={pages} />
       <div>&nbsp;</div>
     </>

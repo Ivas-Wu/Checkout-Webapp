@@ -190,7 +190,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
   );
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 400, width: '75%', margin: 'auto'}}>
       <DataGrid
         className="table"
         rows={tableRows}

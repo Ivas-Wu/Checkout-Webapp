@@ -14,6 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import Button from '@mui/material/Button';
+import {Button as Button2} from './Button'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import GoalModals from './GoalModals';
@@ -206,7 +207,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
   return (
     <div className="App">
       <div className="header">
-        <button onClick={handleOpenCreate}>Add Goal</button>
+        <Button2 buttonStyle="btn--extra" buttonSize="btn--medium" onClick={handleOpenCreate}>Add Goal</Button2>
         {/* <label>
           <Switch onChange={() => {setChecked(!checked)}} checked={checked} />
         </label> */}
@@ -221,7 +222,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
           </Box>
         </Modal>
       </div>
-      <div style={{ height: 400, width: '100%' }}>
+      <div style={{ height: 400, width: '50%', margin: 'auto' }}>
         <DataGrid
           className="table"
           rows={goalList}

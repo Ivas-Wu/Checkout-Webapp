@@ -18,7 +18,7 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
   return (
     <>
       <Welcome>This is the Information Page</Welcome>
-      <Body>Write something here</Body>
+      <Body>Here you can see your Receipts!</Body>
       <Button
         buttonStyle="btn--extra"
         buttonSize="btn--medium"
