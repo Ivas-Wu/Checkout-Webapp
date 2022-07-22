@@ -16,5 +16,6 @@ var upload = multer( { storage: storage } );
 
 // call scanner API
 router.post('/', upload.single('file'), scanner.scan);
+router.get('/', scanner.scan);
 
 module.exports = router;

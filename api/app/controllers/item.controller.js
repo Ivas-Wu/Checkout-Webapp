@@ -9,7 +9,7 @@ exports.create = (req, res) => {
     price: req.body.price,
     numberOf: req.body.numberOf,
     userId: req.body.userId,
-    receiptId: req.body.receptId,
+    receiptId: req.body.receiptId,
   };
   // save item to database
   Item.create(item)
