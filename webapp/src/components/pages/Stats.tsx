@@ -60,8 +60,8 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
         />
       </Drop>
       {showNone && (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{marginRight: '15px'}}>Proto-type Recomender</div>
+        <div>
+          <div style={{marginBottom: '15px', display: 'flex', justifyContent: 'center'}}>Proto-type Recomender</div>
           <Recomender></Recomender>
         </div>
       )}

@@ -1,5 +1,4 @@
 .recomendations-wrapper {
-    height : 300px;
-    display: 'flex';
-    flex-direction: 'column';
+    display: flex;
+    justify-content: center;
 }
