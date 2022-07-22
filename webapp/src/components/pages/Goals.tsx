@@ -9,6 +9,7 @@ const Goals: React.FC<IGoalsPageProps> = () => {
   return (
     <>
       <Welcome>This is the Goals Page</Welcome>
+      <Body>Create and manage your goals!</Body>
       <Goalform />
     </>
   );

@@ -3,11 +3,10 @@ import React, { useState } from 'react';
 import './CardItem.css';
 
 interface ICardItemProps {
-  front: string;
-  back: string;
+  image: string;
 }
 
-export const CardItem: React.FC<ICardItemProps> = ({ front, back }) => {
+export const CardItem: React.FC<ICardItemProps> = ({ image }) => {
   const [flipped, setFlipped] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -15,23 +14,11 @@ export const CardItem: React.FC<ICardItemProps> = ({ front, back }) => {
   };
 
   return (
-    //   <ReactCardFlip
-    //   isFlipped={flipped}
-    //   flipDirection="horizontal"
-    // >
     <>
       <div onClick={handleClick}>
-        <img className="card-back" src={back} alt="card back" />
+        <img className="card-back" src={image} alt="card back" />
       </div>
-      {/* <div onClick={handleClick}>
-          <img
-            className="card-front"
-            src={front}
-            alt="card face"
-          />
-        </div> */}
     </>
-    // </ReactCardFlip>
   );
 };
 

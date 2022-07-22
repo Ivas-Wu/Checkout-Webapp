@@ -2,9 +2,13 @@ import React from 'react';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 import './ImageHandler.css';
 
-export interface IImageHandlerProps {}
+export interface IImageHandlerProps {
+  scanAndEdit: () => void;
+}
 
-const ImageHandler: React.FC<IImageHandlerProps> = () => {
+const ImageHandler: React.FC<IImageHandlerProps> = ({
+  scanAndEdit,
+}) => {
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
 
@@ -17,7 +21,8 @@ const ImageHandler: React.FC<IImageHandlerProps> = () => {
   };
 
   const sendToScanner = () => {
-    console.log('TODO send to scanner!');
+    console.log('TODO send to scanner!'); //Currently just using hardcoded recipts
+    scanAndEdit();
   };
 
   return (

@@ -6,20 +6,18 @@ const Home: React.FC = () => {
   const listData = [
     [
       'About Us',
-      'Up',
-      'To',
-      '4',
-      'Lines',
-      'Images/zuko.jpg',
+      'Something about Cole',
+      'Something about Daniel',
+      'Something about Alex',
+      'Something about Ivas',
       'Images/aboutus.jpg',
     ],
     [
       'Our Product',
-      'Up',
-      'To',
-      '4',
-      'Lines',
-      'Images/question.jpg',
+      'Checkout',
+      'What it does',
+      'Who its for',
+      'Why it does',
       'Images/ourproduct.png',
     ],
     [
@@ -28,7 +26,6 @@ const Home: React.FC = () => {
       'To',
       '4',
       'Lines',
-      'Images/flex.jpg',
       'Images/values.jpg',
     ],
   ];

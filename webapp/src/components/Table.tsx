@@ -29,6 +29,7 @@ export interface TableReqs {
 export interface TableProps<T extends TableReqs> {
   pageSize?: number;
   checkboxes?: boolean;
+  rerender?: boolean;
 }
 
 export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
@@ -55,6 +56,10 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [props.rerender]);
 
   function convertReceipt(data: Receipt[]): TableReqs[] {
     let returnValue: TableReqs[] = [];

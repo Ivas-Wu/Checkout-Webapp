@@ -44,7 +44,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
   return (
     <>
       <Welcome>This is the Statistics Page</Welcome>
-      <Body>Write something here</Body>
+      <Body>Here you can view graphs with your statistics!</Body>
       <Drop>
         <DropdownList
           defaultValue={() => {

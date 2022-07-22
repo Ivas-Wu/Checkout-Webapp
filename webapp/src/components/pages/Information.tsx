@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Button } from '../Button';
 import BasePopupWrapper from '../Popup/BasedPopupWrapper';
 import Table2 from '../Table';
-import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Welcome, Body } from './pages.styled';
 
 export interface IInformationPtAmountProps {}
@@ -31,7 +30,7 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
         onBackdropClick={() => togglePopup()}
         header="Upload Image"
       />
-      <Table2 />
+      <Table2 rerender={isPopupVisible}/>
     </>
   );
 };

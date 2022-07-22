@@ -34,8 +34,7 @@ export const AnimatedList: React.FC<IAnimatedListProps> = ({ listData }) => {
                 index={index}
                 state={state}
                 onClick={onClick}
-                front={index.at(5)!}
-                back={index.at(6)!}
+                image={index.at(5)!}
               />
             );
           })}

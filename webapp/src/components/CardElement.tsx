@@ -6,8 +6,7 @@ interface ICardElementProps {
   key: number;
   state?: string;
   onClick: (index: string) => void;
-  front: string;
-  back: string;
+  image: string;
 }
 
 export const CardElement: React.FC<ICardElementProps> = ({
@@ -15,12 +14,11 @@ export const CardElement: React.FC<ICardElementProps> = ({
   key,
   state,
   onClick,
-  front,
-  back,
+  image,
 }) => {
   return (
     <>
-      <CardItem front={front} back={back}></CardItem>
+      <CardItem image={image}></CardItem>
       <li key={key}>
         {index.toString() === state ? (
           <ExpandedListItem index={state} onClick={onClick} listData={index} />

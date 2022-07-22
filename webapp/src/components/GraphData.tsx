@@ -11,47 +11,47 @@ interface dataReq {
   Utilities?: number;
   Other?: number;
 }
-export function dataGenBar(data: GraphReq[]): dataReq[] { // Only uses recipt totals rn, should be updated for items
+export function dataGenBar(data: GraphReq[]): dataReq[] {
+  // Only uses recipt totals rn, should be updated for items
   const newData: dataReq[] = [];
   data.forEach(function (value) {
     let index = newData.findIndex((element) => element.date === value.date);
-    if (index !== -1) {
-      if (value.category === Category.GROCERIES) {
-        newData[index].Groceries =
+    if (index === -1) {
+      newData.push({
+        date: value.date,
+        Groceries: 0,
+        Entertainment: 0,
+        Medical: 0,
+        Transportation: 0,
+        Housing: 0,
+        Utilities: 0,
+        Other: 0,
+      });
+      index = newData.length-1;
+    }
+    if (value.category === Category.GROCERIES) {
+      newData[index].Groceries =
         Number(newData[index].Groceries!) + Number(value.amt);
-      } else if (value.category === Category.ENTERTAINMENT) {
-        newData[index].Entertainment =
+    } else if (value.category === Category.ENTERTAINMENT) {
+      newData[index].Entertainment =
         Number(newData[index].Entertainment!) + Number(value.amt);
-      } else if (value.category === Category.MEDICAL) {
-        newData[index].Medical = Number(newData[index].Medical!) + Number(value.amt);
-      } else if (value.category === Category.TRANSPORTATION) {
-        newData[index].Transportation =
+    } else if (value.category === Category.MEDICAL) {
+      newData[index].Medical =
+        Number(newData[index].Medical!) + Number(value.amt);
+    } else if (value.category === Category.TRANSPORTATION) {
+      newData[index].Transportation =
         Number(newData[index].Transportation!) + Number(value.amt);
-      } else if (value.category === Category.HOUSING) {
-        newData[index].Housing = Number(newData[index].Housing!) + Number(value.amt);
-      } else if (value.category === Category.UTILITIES) {
-        newData[index].Utilities =
+    } else if (value.category === Category.HOUSING) {
+      newData[index].Housing =
+        Number(newData[index].Housing!) + Number(value.amt);
+    } else if (value.category === Category.UTILITIES) {
+      newData[index].Utilities =
         Number(newData[index].Utilities!) + Number(value.amt);
-      } else {
-        newData[index].Other = Number(newData[index].Other!) + Number(value.amt);
-      }
     } else {
-      if (value.category === Category.GROCERIES) {
-        newData.push({ date: value.date, Groceries: value.amt });
-      } else if (value.category === Category.ENTERTAINMENT) {
-        newData.push({ date: value.date, Entertainment: value.amt });
-      } else if (value.category === Category.MEDICAL) {
-        newData.push({ date: value.date, Medical: value.amt });
-      } else if (value.category === Category.TRANSPORTATION) {
-        newData.push({ date: value.date, Transportation: value.amt });
-      } else if (value.category === Category.HOUSING) {
-        newData.push({ date: value.date, Housing: value.amt });
-      } else if (value.category === Category.UTILITIES) {
-        newData.push({ date: value.date, Utilities: value.amt });
-      } else {
-        newData.push({ date: value.date, Other: value.amt });
-      }
+      newData[index].Other =
+        Number(newData[index].Other!) + Number(value.amt);
     }
   });
+  console.log(newData);
   return newData;
 }
