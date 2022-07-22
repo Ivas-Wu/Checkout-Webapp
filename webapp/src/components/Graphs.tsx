@@ -119,15 +119,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
       </LineChart>
     );
   } else if (graph === charts.PI) {
-    const COLORS = [
-      '#8884d8',
-      '#82ca9d',
-      '#FFBB28',
-      '#FF8042',
-      '#0088EE',
-      '#00D49F',
-      '#FFBB27',
-    ];
+    const COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#4169E1", "#FF0000"];
 
     const d = [
       { name: 'Other', value: 0 },
@@ -164,7 +156,14 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
           outerRadius={80}
           fill="#8884d8"
           label
-        />
+        >
+          {d.map((entry, index) => (
+            <Cell
+               key={`cell-${index}`}
+               fill={COLORS[index]}
+            />
+         ))}
+        </Pie>
         <Tooltip />
         {d.map((entry, index) => (
           <Cell key="Groceries" fill={COLORS[index]} />
