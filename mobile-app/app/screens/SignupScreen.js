@@ -34,6 +34,7 @@ function SignupScreen({navigation}) {
 			<TextInput
 				multiline={true}
 				style={styles.textInput}
+				secureTextEntry={true}
 				placeholder="Password"
 				onChangeText={(val) => setPassword(val)}
           	/>

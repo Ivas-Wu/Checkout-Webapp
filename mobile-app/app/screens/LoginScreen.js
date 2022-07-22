@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as AuthSession from "expo-auth-session";
 import Auth0 from 'react-native-auth0';
 //https://github.com/GuyAvraham/expo-auth0-example-2020/blob/master/Utils/Auth.ts
+//https://itnext.io/user-authentication-with-expo-cli-6ac853c272d4
 function LoginScreen({navigation}) {
 
 	const [userName, setUserName] = React.useState("");
@@ -93,16 +94,18 @@ function LoginScreen({navigation}) {
 			<TextInput
 				multiline={true}
 				style={styles.textInput}
-				placeholder="User Name"
+				//placeholder="User Name"
+				defaultValue="testuser@gmail.com"
 				onChangeText={(val) => setUserName(val)}
           	/>
 			<TextInput
-				multiline={true}
+				secureTextEntry={true}
 				style={styles.textInput}
 				placeholder="Password"
+				defaultValue="Password"
 				onChangeText={(val) => setPassword(val)}
           	/>
-			<TouchableOpacity style={styles.button} onPress={login}>
+			<TouchableOpacity style={styles.button} onPress={handleLogIn}>
 				<Text style={{fontWeight: "bold", fontSize: 15}}>Log In</Text>
 			</TouchableOpacity>
 			<TouchableOpacity style={styles.button} onPress={handleSignup}>
