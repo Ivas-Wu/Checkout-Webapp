@@ -27,7 +27,7 @@ export function dataGenBar(data: GraphReq[]): dataReq[] {
         Utilities: 0,
         Other: 0,
       });
-      index = newData.length-1;
+      index = newData.length - 1;
     }
     if (value.category === Category.GROCERIES) {
       newData[index].Groceries =
@@ -48,8 +48,7 @@ export function dataGenBar(data: GraphReq[]): dataReq[] {
       newData[index].Utilities =
         Number(newData[index].Utilities!) + Number(value.amt);
     } else {
-      newData[index].Other =
-        Number(newData[index].Other!) + Number(value.amt);
+      newData[index].Other = Number(newData[index].Other!) + Number(value.amt);
     }
   });
   console.log(newData);

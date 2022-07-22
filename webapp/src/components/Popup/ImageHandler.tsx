@@ -6,9 +6,7 @@ export interface IImageHandlerProps {
   scanAndEdit: () => void;
 }
 
-const ImageHandler: React.FC<IImageHandlerProps> = ({
-  scanAndEdit,
-}) => {
+const ImageHandler: React.FC<IImageHandlerProps> = ({ scanAndEdit }) => {
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
 

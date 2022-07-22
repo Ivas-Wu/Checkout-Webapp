@@ -11,21 +11,19 @@ const Home: React.FC<IHomePageProps> = () => {
   const { user } = useAuth0();
 
   useEffect(() => {
-
     const userId = localStorage.getItem('user-id');
 
-    if(!userId){
+    if (!userId) {
       const fetchUserDb = async () => {
         axios
-        .get(`http://localhost:3000/api/users?email=${user?.email}`)
-        .then((res) => {
-          console.log(res)
-          localStorage.setItem('user-id', res.data[0].id.toString())
-        });
+          .get(`http://localhost:3000/api/users?email=${user?.email}`)
+          .then((res) => {
+            console.log(res);
+            localStorage.setItem('user-id', res.data[0].id.toString());
+          });
       };
-  
-      fetchUserDb()
-        .catch(console.error);
+
+      fetchUserDb().catch(console.error);
     }
   }, [user?.email]);
 

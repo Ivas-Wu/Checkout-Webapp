@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import Button from '@mui/material/Button';
-import {Button as Button2} from './Button'
+import { Button as Button2 } from './Button';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import GoalModals from './GoalModals';
@@ -85,10 +85,10 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
 
   const addTask = (data: GoalCreateReq): void => {
     axios.post(`http://localhost:3000/api/goals/`, data).then((res) => {
-        console.log(res.data);
-        getData();
-        handleCloseCreate();
-      });
+      console.log(res.data);
+      getData();
+      handleCloseCreate();
+    });
   };
 
   const modifyTask = (data: GoalUpdateReq): void => {
@@ -207,7 +207,13 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
   return (
     <div className="App">
       <div className="header">
-        <Button2 buttonStyle="btn--extra" buttonSize="btn--medium" onClick={handleOpenCreate}>Add Goal</Button2>
+        <Button2
+          buttonStyle="btn--extra"
+          buttonSize="btn--medium"
+          onClick={handleOpenCreate}
+        >
+          Add Goal
+        </Button2>
         {/* <label>
           <Switch onChange={() => {setChecked(!checked)}} checked={checked} />
         </label> */}

@@ -13,10 +13,10 @@ interface ITableModifyProps {
 }
 
 export const TableModify: React.FC<ITableModifyProps> = ({
-    create,
-    goalsCreateInfo,
-    goalsUpdateInfo,
-    data,
+  create,
+  goalsCreateInfo,
+  goalsUpdateInfo,
+  data,
 }: ITableModifyProps) => {
   const [userId, setUserId] = useState<number | undefined>(undefined);
   const [goalName, setGoalName] = useState<string | undefined>(undefined);
@@ -39,20 +39,19 @@ export const TableModify: React.FC<ITableModifyProps> = ({
 
   useEffect(() => {
     if (create) {
-        setUserId(Number((localStorage.getItem('user-id'))!));
-        setTargetDate(new Date());
-    }
-    else {
-        setGoalName(data?.taskName);
-        setGoalDesc(data?.taskDescription);
-        setTargetDate(new Date(data?.deadline!));
+      setUserId(Number(localStorage.getItem('user-id')!));
+      setTargetDate(new Date());
+    } else {
+      setGoalName(data?.taskName);
+      setGoalDesc(data?.taskDescription);
+      setTargetDate(new Date(data?.deadline!));
     }
   }, []);
 
   const onSubmitCreate = () => {
     let dataReturn: GoalCreateReq = {
-      userId: userId? userId : Number((localStorage.getItem('user-id'))!),
-      goalName: goalName ? goalName : "Goal Name was lost in transaction",
+      userId: userId ? userId : Number(localStorage.getItem('user-id')!),
+      goalName: goalName ? goalName : 'Goal Name was lost in transaction',
       goalDesc: goalDesc,
       targetDate: targetDate,
       completed: false,
@@ -62,10 +61,10 @@ export const TableModify: React.FC<ITableModifyProps> = ({
 
   const onSubmitUpdate = () => {
     let dataReturn: GoalUpdateReq = {
-        goalName: goalName,
-        goalDesc: goalDesc,
-        targetDate: targetDate,
-        completed: false,
+      goalName: goalName,
+      goalDesc: goalDesc,
+      targetDate: targetDate,
+      completed: false,
     };
     goalsUpdateInfo!(dataReturn);
   };
@@ -74,14 +73,14 @@ export const TableModify: React.FC<ITableModifyProps> = ({
     <>
       <input
         type="text"
-        placeholder={create ? "Goal Name..." : "New Goal Name..."}
+        placeholder={create ? 'Goal Name...' : 'New Goal Name...'}
         name="goalName"
         value={goalName}
         onChange={handleChange}
       />
       <input
         type="text"
-        placeholder={create ? "Goal Description..." : "New Goal Description..."}
+        placeholder={create ? 'Goal Description...' : 'New Goal Description...'}
         name="goalDesc"
         value={goalDesc}
         onChange={handleChange}
@@ -93,7 +92,9 @@ export const TableModify: React.FC<ITableModifyProps> = ({
         minDate={new Date()}
         todayButton={'Today'}
       />
-      <button onClick={create ? onSubmitCreate : onSubmitUpdate}>{create ? "Create" : "Modify"}</button>
+      <button onClick={create ? onSubmitCreate : onSubmitUpdate}>
+        {create ? 'Create' : 'Modify'}
+      </button>
     </>
   );
 };

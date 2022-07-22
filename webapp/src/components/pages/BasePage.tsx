@@ -20,14 +20,7 @@ const Home: React.FC = () => {
       'Why it does',
       'Images/ourproduct.png',
     ],
-    [
-      'Values',
-      'Up',
-      'To',
-      '4',
-      'Lines',
-      'Images/values.jpg',
-    ],
+    ['Values', 'Up', 'To', '4', 'Lines', 'Images/values.jpg'],
   ];
 
   return (

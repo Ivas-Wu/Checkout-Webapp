@@ -14,7 +14,7 @@ import './Table.css';
 import axios from 'axios';
 import { Receipt, ReceiptUpdateReq } from '../types/Receipt';
 import { Category, convertCategory } from '../types/Category';
-import TableModify from './TableModify'
+import TableModify from './TableModify';
 
 export interface TableReqs {
   id: GridRowId;
@@ -195,7 +195,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
   );
 
   return (
-    <div style={{ height: 400, width: '75%', margin: 'auto'}}>
+    <div style={{ height: 400, width: '75%', margin: 'auto' }}>
       <DataGrid
         className="table"
         rows={tableRows}
@@ -228,7 +228,10 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <TableModify receiptUpdateInfo={modifyRow} data={tableRows.find((element) => element.id === rowId)}></TableModify>
+          <TableModify
+            receiptUpdateInfo={modifyRow}
+            data={tableRows.find((element) => element.id === rowId)}
+          ></TableModify>
         </Box>
       </Modal>
       <Button

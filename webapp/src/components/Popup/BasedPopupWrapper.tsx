@@ -24,7 +24,6 @@ const BasePopupWrapper: React.FC<Props> = ({
   onBackdropClick,
   header,
 }) => {
-
   if (!isPopupVisible) {
     return null;
   }
