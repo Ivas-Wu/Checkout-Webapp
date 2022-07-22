@@ -15,6 +15,8 @@ function ScannerScreen() {
                 `http://${DEVICE_IP}:3000/api/scanner?userId=${USER_ID}`
             )
             const json = await response.json()
+            //const text = await response.text()
+            //console.log("text: ", text)
             setScanData(json)
             console.log(json)
         } catch (error) {
@@ -69,7 +71,7 @@ function ScannerScreen() {
 
         var itemList = scanData["items"]
         for (const item of itemList) {
-            itemBody = item
+            var itemBody = item
             itemBody["receiptId"] = receiptId
             console.log("itembody: ",itemBody)
 
