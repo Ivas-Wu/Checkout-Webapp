@@ -140,7 +140,20 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
         field: 'date',
         headerName: 'Date',
         type: 'dateTime',
-        width: 230,
+        width: 205,
+      },
+      { field: 'store', headerName: 'Store', width: 200 },
+      {
+        field: 'category',
+        headerName: 'Category',
+        type: 'singleSelect',
+        width: 150,
+      },
+      {
+        field: 'tAmount',
+        headerName: 'Total Amount',
+        type: 'number',
+        width: 130,
       },
       {
         field: 'dateCreated',
@@ -153,19 +166,6 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
         headerName: 'Date Modified',
         type: 'dateTime',
         width: 230,
-      },
-      { field: 'store', headerName: 'Store', width: 100 },
-      {
-        field: 'category',
-        headerName: 'Category',
-        type: 'singleSelect',
-        width: 100,
-      },
-      {
-        field: 'tAmount',
-        headerName: 'Total Amount',
-        type: 'number',
-        width: 130,
       },
       {
         field: 'actions',
