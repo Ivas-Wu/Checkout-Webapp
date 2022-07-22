@@ -122,13 +122,13 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
     );
   } else if (graph === charts.PI) {
     const COLORS = [
+      '#EFCA08',
       '#8884d8',
       '#82ca9d',
-      '#FFBB28',
-      '#FF8042',
-      '#AF19FF',
-      '#4169E1',
-      '#FF0000',
+      '#F7A9A8',
+      '#BF1A2F',
+      '#0B3954',
+      '#F49F0A',
     ];
 
     const d = [
@@ -172,9 +172,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
           ))}
         </Pie>
         <Tooltip />
-        {d.map((entry, index) => (
-          <Cell key="Groceries" fill={COLORS[index]} />
-        ))}
+        <Legend />
       </PieChart>
     );
   } else {
