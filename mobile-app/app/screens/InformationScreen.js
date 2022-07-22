@@ -12,20 +12,8 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as React from "react";
 import "../GlobalVars"
+import { Receipt } from "../GlobalVars";
 import { SortByProperty } from "../functions/SortByProperty";
-
-class Receipt {
-    constructor() {
-        this.id = null;
-        this.store = null;
-        this.category = null;
-        this.date = null;
-        this.total = null;
-        this.createdAt = new Date();
-        this.updatedAt = null;
-        this.userId = USER_ID;
-    }
-}
 
 var receiptId = null;
 function InformationScreen() {
