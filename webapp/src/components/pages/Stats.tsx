@@ -61,13 +61,13 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
       </Drop>
       {showNone && (
         <div>
-          <div>Proto-type Recomender</div>
+          <div style={{marginBottom: '15px', display: 'flex', justifyContent: 'center'}}>Proto-type Recomender</div>
           <Recomender></Recomender>
         </div>
       )}
-      {showBar && <Graphs graph={charts.BAR} />}
-      {showLine && <Graphs graph={charts.LINE} />}
-      {showPi && <Graphs graph={charts.PI} />}
+      {showBar && <div style={{ display: 'flex', justifyContent: 'center' }}> <Graphs graph={charts.BAR} /> </div>}
+      {showLine && <div style={{ display: 'flex', justifyContent: 'center' }}> <Graphs graph={charts.LINE} /> </div>}
+      {showPi && <div style={{ display: 'flex', justifyContent: 'center' }}> <Graphs graph={charts.PI} /> </div>}
     </>
   );
 };

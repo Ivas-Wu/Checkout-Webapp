@@ -24,6 +24,7 @@ const Recomender: React.FC<IRecomenderProps> = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setAverage(response.data.average);
+      console.log('total' + response.data.average)
     } catch (error) {
       console.log(error);
     }
@@ -40,6 +41,7 @@ const Recomender: React.FC<IRecomenderProps> = () => {
         url: url,
         headers: { 'Content-Type': 'multipart/form-data' },
       });
+      console.log('weekly' + response.data.average)
       setAverageWeekly(response.data.average);
     } catch (error) {
       console.log(error);
@@ -60,6 +62,7 @@ const Recomender: React.FC<IRecomenderProps> = () => {
         url: url,
         headers: { 'Content-Type': 'multipart/form-data' },
       });
+      console.log('monthly' + response.data.average)
       setAverageMonthly(response.data.average);
     } catch (error) {
       console.log(error);
@@ -72,9 +75,9 @@ const Recomender: React.FC<IRecomenderProps> = () => {
     let value: string = '';
     if (num % 2 === 0) {
       if (num % 5 === 0) {
-        getMonthlyAverage(7, 'Groceries');
-        getAverage('Groceries');
-        value = ' on groceries';
+        getMonthlyAverage(7, 'entertainment');
+        getAverage('entertainment');
+        value = ' on entertainment';
       } else {
         getMonthlyAverage(7);
         getAverage();
@@ -82,13 +85,11 @@ const Recomender: React.FC<IRecomenderProps> = () => {
       rec += Number(averageMonthly).toFixed(2);
       rec += ` this month${value}, compared to your overall average of `;
       rec += Number(average).toFixed(2);
-      rec +=
-        averageMonthly > average ? '... Unlucky.' : '! You are doing great!';
     } else {
       if (num % 5 === 0) {
-        getWeeklyAverage('Groceries');
-        getAverage('Groceries');
-        value = ' on groceries';
+        getWeeklyAverage('entertainment');
+        getAverage('entertainment');
+        value = ' on entertainment';
       } else {
         getWeeklyAverage();
         getAverage();
@@ -96,8 +97,6 @@ const Recomender: React.FC<IRecomenderProps> = () => {
       rec += Number(averageWeekly).toFixed(2);
       rec += ` this week${value}, compared to your overall average of `;
       rec += Number(average).toFixed(2);
-      rec +=
-        averageWeekly > average ? '... Unlucky.' : '! You are doing great!';
     }
 
     setRecomendation(rec);
@@ -106,8 +105,8 @@ const Recomender: React.FC<IRecomenderProps> = () => {
 
   return (
     <div className="recomendations-wrapper">
-      <button onClick={generateRecomendation}>Get a Recomendation!</button>
-      {recomendationIs && <div>{recomendation}</div>}
+      <div style={{marginRight: '15px'}}><button onClick={generateRecomendation}>Get a Recomendation!</button></div>
+      <div>{recomendationIs && <div>{recomendation}</div>}</div>
     </div>
   );
 };

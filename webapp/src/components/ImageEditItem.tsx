@@ -22,7 +22,7 @@ export const ImageEditReceipt: React.FC<IImageEditReceiptProps> = ({
     if (event.target.name === 'name') {
       setName(event.target.value);
     } else if (event.target.name === 'price') {
-      setPrice(Number(event.target.value.replace(/\D/g, '')));
+      setPrice(Number(event.target.value.replace(/[^0-9.]/g, '')));
     }
   };
 

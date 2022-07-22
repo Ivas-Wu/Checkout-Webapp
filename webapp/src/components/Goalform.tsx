@@ -153,14 +153,14 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
 
   const columns = React.useMemo<GridColumns<ITask>>(
     () => [
-      { field: 'id', headerName: 'ID', type: 'number', width: 70 },
+      { field: 'id', headerName: 'ID', type: 'number', width: 20 },
       { field: 'taskName', headerName: 'Task', width: 200 },
-      { field: 'taskDescription', headerName: 'Description', width: 350 },
+      { field: 'taskDescription', headerName: 'Description', width: 325 },
       {
         field: 'deadline',
         headerName: 'Goal Date',
         type: 'dateTime',
-        width: 230,
+        width: 100,
       },
       {
         field: 'completed',

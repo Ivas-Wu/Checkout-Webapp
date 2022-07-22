@@ -19,7 +19,7 @@ import {
 import { dataGenBar } from './GraphData';
 
 export enum charts {
-  NONE = 'NONE',
+  NONE = 'RECCOMENDATION',
   PI = 'PI',
   LINE = 'LINE',
   BAR = 'BAR',
