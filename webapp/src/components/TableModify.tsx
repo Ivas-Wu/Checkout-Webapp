@@ -26,11 +26,11 @@ export const TableModify: React.FC<ITableModifyProps> = ({
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (event.target.name === 'useId') {
-      setUserId(Number(event.target.value.replace(/\D/g, '')));
+      setUserId(Number(event.target.value.replace(/[^0-9.]/g, '')));
     } else if (event.target.name === 'store') {
       setStore(event.target.value);
     } else if (event.target.name === 'total') {
-      setTotal(Number(event.target.value.replace(/\D/g, '')));
+      setTotal(Number(event.target.value.replace(/[^0-9.]/g, '')));
     }
   };
 

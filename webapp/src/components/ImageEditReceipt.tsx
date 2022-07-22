@@ -20,7 +20,7 @@ export const ImageEditReceipt: React.FC<IImageEditReceiptProps> = ({
     if (event.target.name === 'store') {
       setStore(event.target.value);
     } else if (event.target.name === 'total') {
-      setTotal(Number(event.target.value.replace(/\D/g, '')));
+      setTotal(Number(event.target.value.replace(/[^0-9.]/g, '')));
     }
   };
 
