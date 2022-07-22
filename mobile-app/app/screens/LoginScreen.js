@@ -88,21 +88,20 @@ function LoginScreen({navigation}) {
 			<View style={{marginBottom: 40}}>
 				<Text style={styles.titleText}>
 					Checkout
-					{AuthSession.getRedirectUrl()}
 				</Text>
 			</View>
 			<TextInput
 				multiline={true}
 				style={styles.textInput}
 				//placeholder="User Name"
-				defaultValue="testuser@gmail.com"
+				defaultValue="demo1@example.com"
 				onChangeText={(val) => setUserName(val)}
           	/>
 			<TextInput
 				secureTextEntry={true}
 				style={styles.textInput}
 				placeholder="Password"
-				defaultValue="Password"
+				defaultValue="Password123!"
 				onChangeText={(val) => setPassword(val)}
           	/>
 			<TouchableOpacity style={styles.button} onPress={handleLogIn}>

@@ -98,7 +98,7 @@ function GoalsScreen() {
         goalDesc : goal.goalDesc,
         goalName : goal.goalName,
         id : getGoalByID(editGoalId).id,
-        targetDate : getGoalByID(editGoalId).targetDate,
+        targetDate : goal.targetDate,
         updatedAt : getGoalByID(editGoalId).updatedAt,
         userId : getGoalByID(editGoalId).userId
       })
@@ -125,7 +125,7 @@ function GoalsScreen() {
     React.useEffect(() => {
       console.log("effect")
       handleGetGoals()
-    }, [sortProperty])
+    }, [sortProperty, isGoalModalVisible])
 
     const handleCancel = () => {
       setGoal(new Goal("New Goal"))
@@ -186,7 +186,17 @@ function GoalsScreen() {
     <View style={styles.pageBackground}>
       <Modal visible={isGoalModalVisible} animationType="fade">
         <View style={styles.GoalModal}>
-          <Text style={styles.bigText}>Goal Name</Text>
+
+          <KeyboardAvoidingView
+            behaviour="position"
+            style={{
+              height: "50%",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={styles.bigText}>Goal Name</Text>
           <TextInput
             multiline={true}
             style={styles.textInput}
@@ -210,19 +220,17 @@ function GoalsScreen() {
             }}
           />
 
-        <View>
-            <Button title="Show date picker!"/>
-        </View>
-
-          <KeyboardAvoidingView
-            behaviour="position"
-            style={{
-              height: "50%",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
+          <Text style={styles.bigText}>Target Date</Text>
+          <TextInput
+            multiline={true}
+            style={styles.textInput}
+            placeholder="Enter Target Date"
+            onChangeText={(val) => {
+              var tempGoal = goal
+              tempGoal.targetDate = val
+              setGoal(tempGoal)
             }}
-          >
+          />
             <TouchableOpacity
               onPress={handleCancel}
               style={styles.modalButton}
@@ -308,6 +316,12 @@ function GoalsScreen() {
                 <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
                   {goal.goalDesc}
                 </Text>
+                <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
+                  Created On: {goal.createdAt}
+                </Text>
+                {/* <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
+                  Target Date: {goal.targetDate}
+                </Text> */}
                 <View style={{ flexDirection: "row", marginTop: 10}}>
                   <TouchableOpacity style={{ marginHorizontal: 50 }}>
                     <Text style={{fontWeight:"bold"}} onPress={() => handleEditGoal(goal.id)}>Edit</Text>
