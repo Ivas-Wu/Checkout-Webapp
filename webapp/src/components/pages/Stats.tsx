@@ -4,6 +4,7 @@ import { useState } from 'react';
 import DropdownList from 'react-widgets/DropdownList';
 import 'react-widgets/styles.css';
 import { Welcome, Body, Drop } from './pages.styled';
+import Recomender from '../Recomender';
 
 export interface IStatisticsPageProps {}
 
@@ -58,7 +59,12 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
           }}
         />
       </Drop>
-      {showNone && <div>Some Default Stats page here</div>}
+      {showNone && (
+        <div>
+          <div>Proto-type Recomender</div>
+          <Recomender></Recomender>
+        </div>
+      )}
       {showBar && <Graphs graph={charts.BAR} />}
       {showLine && <Graphs graph={charts.LINE} />}
       {showPi && <Graphs graph={charts.PI} />}
