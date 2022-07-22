@@ -27,12 +27,16 @@ export const ImageEditReceipt: React.FC<IImageEditReceiptProps> = ({
   };
 
   useEffect(() => {
-    let newData: dataI = { productName: name, category: category, price: price };
+    let newData: dataI = {
+      productName: name,
+      category: category,
+      price: price,
+    };
     editData(newData);
   }, [name, price, category]);
 
   useEffect(() => {
-    console.log(data)
+    console.log(data);
     setName(data.productName);
     setCategory(data.category);
     setPrice(data.price);

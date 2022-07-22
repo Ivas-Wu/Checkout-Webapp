@@ -5,7 +5,7 @@ import 'react-widgets/styles.css';
 import { Category } from '../types/Category';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { TableReqs } from './Table'
+import { TableReqs } from './Table';
 
 interface ITableModifyProps {
   receiptUpdateInfo: (data: ReceiptUpdateReq) => void;
@@ -13,12 +13,15 @@ interface ITableModifyProps {
 }
 
 export const TableModify: React.FC<ITableModifyProps> = ({
-  receiptUpdateInfo, data
+  receiptUpdateInfo,
+  data,
 }: ITableModifyProps) => {
   const [userId, setUserId] = useState<number | undefined>(undefined);
   const [store, setStore] = useState<string | undefined>(data?.store);
   const [total, setTotal] = useState<number | undefined>(data?.tAmount);
-  const [category, setCategory] = useState<Category | undefined>(data?.category);
+  const [category, setCategory] = useState<Category | undefined>(
+    data?.category
+  );
   const [date, setDate] = useState<Date | undefined>(new Date(data?.date!));
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {

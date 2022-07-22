@@ -30,7 +30,7 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
         onBackdropClick={() => togglePopup()}
         header="Upload Image"
       />
-      <Table2 rerender={isPopupVisible}/>
+      <Table2 rerender={isPopupVisible} />
     </>
   );
 };

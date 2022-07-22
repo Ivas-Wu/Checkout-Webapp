@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Category, convertCategory } from '../types/Category';
-import { Receipt } from '../types/Receipt'
+import { Receipt } from '../types/Receipt';
 import {
   PieChart,
   Pie,
@@ -48,7 +48,9 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
       const newData = {
         date: data.date ? data.date : data.createdAt,
         amt: data.total,
-        category: data.category ? convertCategory(data.category) : Category.OTHER,
+        category: data.category
+          ? convertCategory(data.category)
+          : Category.OTHER,
       };
       returnValue.push(newData);
     });
@@ -119,7 +121,15 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
       </LineChart>
     );
   } else if (graph === charts.PI) {
-    const COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#4169E1", "#FF0000"];
+    const COLORS = [
+      '#EFCA08',
+      '#8884d8',
+      '#82ca9d',
+      '#F7A9A8',
+      '#BF1A2F',
+      '#0B3954',
+      '#F49F0A',
+    ];
 
     const d = [
       { name: 'Other', value: 0 },
@@ -158,16 +168,11 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
           label
         >
           {d.map((entry, index) => (
-            <Cell
-               key={`cell-${index}`}
-               fill={COLORS[index]}
-            />
-         ))}
+            <Cell key={`cell-${index}`} fill={COLORS[index]} />
+          ))}
         </Pie>
         <Tooltip />
-        {d.map((entry, index) => (
-          <Cell key="Groceries" fill={COLORS[index]} />
-        ))}
+        <Legend />
       </PieChart>
     );
   } else {

@@ -8,7 +8,10 @@ const LogoutButton = () => {
   return (
     <Button
       buttonStyle="btn--outline"
-      onClick={() => {localStorage.removeItem('user-id'); logout({ returnTo: window.location.origin })}}
+      onClick={() => {
+        localStorage.removeItem('user-id');
+        logout({ returnTo: window.location.origin });
+      }}
     >
       Log Out
     </Button>
