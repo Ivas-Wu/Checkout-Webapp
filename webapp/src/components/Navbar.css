@@ -156,3 +156,12 @@
     transition: 250ms;
   }
 }
+
+.signup-button-border {
+  padding-left: 900px;
+  padding-right: 20px;
+}
+
+.login-button-border {
+  padding-right: 50px;
+}

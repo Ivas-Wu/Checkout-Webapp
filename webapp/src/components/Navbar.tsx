@@ -2,8 +2,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginButton from './auth/LoginButton';
-import LogoutButton from './auth/LogoutButton';
 import SignUpButton from './auth/SignUpButton';
+import Menu from './AccountMenu';
 import './Navbar.css';
 
 export const Navbar: React.FC = () => {
@@ -51,7 +51,7 @@ export const Navbar: React.FC = () => {
                 </Link>
               </li>
             </ul>
-            <LogoutButton />
+            <Menu name="Test 1"/>
           </div>
         )}
         {!isAuthenticated && !isLoading && (
@@ -64,10 +64,10 @@ export const Navbar: React.FC = () => {
                 <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
               </div>
             </div>
-            <div style={{ paddingLeft: '900px', paddingRight: '20px' }}>
+            <div className='signup-button-border'>
               <SignUpButton />
             </div>
-            <div style={{ paddingRight: '50px' }}>
+            <div className='login-button-border'>
               <LoginButton />
             </div>
           </div>

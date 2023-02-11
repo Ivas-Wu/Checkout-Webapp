@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { dataI } from './ImageEditData';
-import { Category } from '../types/Category';
-import DropdownList from 'react-widgets/DropdownList';
+import { Category, convertCategory } from '../types/Category';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 
 interface IImageEditReceiptProps {
   data: dataI;
@@ -44,29 +45,48 @@ export const ImageEditReceipt: React.FC<IImageEditReceiptProps> = ({
 
   return (
     <>
-      <input
-        type="text"
-        placeholder="New Product Name..."
+      <TextField
+        required
+        id="Product"
+        label="Required"
+        defaultValue="New Product Name..."
+        variant="standard"
         name="name"
         value={name}
         onChange={handleChange}
+        helperText="Please enter a product name"
+        style = {{position:'relative'}}
       />
-      <input
-        type="text"
-        placeholder="New Total..."
+      <TextField
+        id="Product"
+        label="Total"
+        type="number"
+        defaultValue="New Total..."
+        InputLabelProps={{
+          shrink: true,
+        }}
         name="price"
         value={price}
         onChange={handleChange}
+        helperText="Please enter a total amount"
+        style = {{position:'relative'}}
       />
-      <DropdownList
-        data={Object.values(Category).filter(
-          (value) => typeof value === 'string'
-        )}
-        value={category}
-        onChange={(nextValue) => {
-          setCategory(nextValue);
-        }}
-      />
+      <TextField
+          id="select-category"
+          select
+          label="Select"
+          defaultValue={category}
+          helperText="Please choose a category"
+        >
+          {Object.values(Category).map((option) => (
+            <MenuItem key={option} value={option} 
+            onClick={(nextValue) => {
+              setCategory(nextValue.currentTarget.dataset.value ? convertCategory(nextValue.currentTarget.dataset.value) : Category.OTHER);
+            }}>
+              {option}
+            </MenuItem>
+          ))}
+      </TextField>
     </>
   );
 };

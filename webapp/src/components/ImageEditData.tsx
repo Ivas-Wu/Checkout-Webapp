@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import DropdownList from 'react-widgets/DropdownList';
 import 'react-widgets/styles.css';
 import { Category, convertCategory } from '../types/Category';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -10,6 +9,10 @@ import ImageEditReceipt from './ImageEditReceipt';
 import ImageEditItem from './ImageEditItem';
 import { ReceiptCreateReq } from '../types/Receipt';
 import { ItemCreateReq } from '../types/Item';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 
 interface IImageEditDataProps {
   dataFromUpload?: Scanner;
@@ -157,6 +160,7 @@ export const ImageEditData: React.FC<IImageEditDataProps> = ({
   };
 
   const editItems = (value: dataI) => {
+    console.log('{}', data);
     let dataR: dataR = data?.receipt
       ? data?.receipt
       : {
@@ -201,8 +205,8 @@ export const ImageEditData: React.FC<IImageEditDataProps> = ({
       {pageOne && (
         <>
           <div className="review-list">
-            Please review your data.
-            <div>Receipt:</div>
+            <Typography>Please review your data.</Typography>
+            <Typography>Receipt:</Typography>
             <ul>
               <li>
                 {'Category: '}
@@ -231,24 +235,50 @@ export const ImageEditData: React.FC<IImageEditDataProps> = ({
       {!pageOne && (
         <>
           <div className="review-list">
-            <div>Edit Receipt</div>
-            <ImageEditReceipt
-              data={data?.receipt!}
-              editData={editReceipt}
-            ></ImageEditReceipt>
-            <div>Edit Items</div>
-            <DropdownList
-              // defaultValue={category}
-              data={data?.items!.map((item) => item.productName)}
-              onChange={(nextValue) => setCurrentItem(nextValue)}
-            />
-            {currentItemTyped && (
-              <ImageEditItem
-                data={currentItemTyped}
-                editData={editItems}
-                rerender={test}
-              ></ImageEditItem>
-            )}
+            <Box
+              component="form"
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <div>Edit Receipt</div>
+              <ImageEditReceipt
+                data={data?.receipt!}
+                editData={editReceipt}
+              ></ImageEditReceipt>
+              <div>Edit Items</div>
+              <TextField
+                id="select-item"
+                select
+                label="Select"
+                // onChange={(nextValue) => setCurrentItem(nextValue)}
+                helperText="Please choose an item"
+              >
+                {data?.items!.map((option) => (
+                  <MenuItem 
+                    key={option.productName}
+                    value={option.productName}
+                    onClick={(nextValue) => setCurrentItem(nextValue.currentTarget.dataset.value ? nextValue.currentTarget.dataset.value : '')}
+                    >
+                    {option.productName}
+                  </MenuItem>
+                ))}
+              </TextField>
+              {/* <DropdownList
+                // defaultValue={category}
+                data={data?.items!.map((item) => item.productName)}
+                onChange={(nextValue) => setCurrentItem(nextValue)}
+              /> */}
+              {currentItemTyped && (
+                <ImageEditItem
+                  data={currentItemTyped}
+                  editData={editItems}
+                  rerender={test}
+                ></ImageEditItem>
+              )}
+            </Box>
           </div>
           <button onClick={onSubmit}>Submit Data</button>
         </>

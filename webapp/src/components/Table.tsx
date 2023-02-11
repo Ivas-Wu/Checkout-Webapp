@@ -40,6 +40,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
   const [rowId, setRowId] = useState<GridRowId>();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const width_table = 95;
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -135,44 +136,45 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
 
   const columns = React.useMemo<GridColumns<TableReqs>>(
     () => [
-      { field: 'id', headerName: 'ID', type: 'number', width: 70 },
+      { field: 'id', headerName: 'ID', type: 'number', width: window.innerWidth*width_table*0.0005 },
       {
         field: 'date',
         headerName: 'Date',
         type: 'dateTime',
-        width: 205,
+        width: window.innerWidth*width_table*0.001,
       },
-      { field: 'store', headerName: 'Store', width: 200 },
+      { field: 'store', headerName: 'Store', width: window.innerWidth*width_table*0.0015 },
       {
         field: 'category',
         headerName: 'Category',
         type: 'singleSelect',
-        width: 150,
+        width: window.innerWidth*width_table*0.001,
       },
       {
         field: 'tAmount',
         headerName: 'Total Amount',
         type: 'number',
-        width: 130,
+        width: window.innerWidth*width_table*0.001,
       },
       {
         field: 'dateCreated',
         headerName: 'Date Created',
         type: 'dateTime',
-        width: 230,
+        width: window.innerWidth*width_table*0.002,
       },
       {
         field: 'dateModified',
         headerName: 'Date Modified',
         type: 'dateTime',
-        width: 230,
+        width: window.innerWidth*width_table*0.002,
       },
       {
         field: 'actions',
         type: 'actions',
-        width: 80,
+        width: window.innerWidth*width_table*0.001,
         getActions: (params) => [
           <GridActionsCellItem
+            key = "deleteItem" 
             icon={<DeleteIcon />}
             label="Delete"
             onClick={() => {
@@ -180,6 +182,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
             }}
           />,
           <GridActionsCellItem
+            key = "editItem" 
             icon={<EditIcon />}
             label="Edit Entry"
             onClick={() => {
@@ -195,7 +198,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
   );
 
   return (
-    <div style={{ height: 400, width: '75%', margin: 'auto' }}>
+    <div className="table_border" style={{width:`${width_table}%`}}>
       <DataGrid
         className="table"
         rows={tableRows}
@@ -219,6 +222,16 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
           '& .MuiDataGrid-cell:hover': {
             color: 'primary.main',
           },
+          '& .MuiCheckbox-root svg': {
+            width: 16,
+            height: 16,
+            backgroundColor: "transparent",
+            border: `1px solid #d9d9d9`,
+            borderRadius: 2
+          },
+          '& .MuiDataGrid-columnHeader, .MuiDataGrid-columnHeaderCheckbox': {
+            width: 16,
+          },
         }}
       />
       <Modal
@@ -238,7 +251,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
         onClick={() => {
           deleteRows();
         }}
-        disabled={selectedRows.length < 2 ? true : false}
+        disabled={selectedRows.length < 1 ? true : false}
       >
         Delete All Selected
       </Button>

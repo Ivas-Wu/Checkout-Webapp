@@ -37,11 +37,15 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
   const [openCreate, setOpenCreate] = useState<boolean>(false);
   const [rowId, setRowId] = useState<GridRowId>();
   const [openModify, setOpenModify] = useState<boolean>(false);
-  const [checked, setChecked] = useState<boolean>(false);
-  const handleOpenCreate = () => setOpenCreate(true);
-  const handleCloseCreate = () => setOpenCreate(false);
-  const handleOpenModify = () => setOpenModify(true);
-  const handleCloseModify = () => setOpenModify(false);
+  const width_table = 95;
+
+  const toggleCreate = () => {
+    setOpenCreate((wasCreateVisible) => !wasCreateVisible);
+  };
+
+  const toggleModify = () => {
+    setOpenModify((wasModifyVisible) => !wasModifyVisible);
+  };
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -52,7 +56,9 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    pt: 2,
+    px: 4,
+    pb: 3,
   };
 
   useEffect(() => {
@@ -87,7 +93,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
     axios.post(`http://localhost:3000/api/goals/`, data).then((res) => {
       console.log(res.data);
       getData();
-      handleCloseCreate();
+      toggleCreate();
     });
   };
 
@@ -101,7 +107,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         .then((res) => {
           console.log(res.data);
           getData();
-          handleCloseModify();
+          toggleModify();
         });
     }
   };
@@ -116,7 +122,6 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         .then((res) => {
           console.log(res.data);
           getData();
-          handleCloseModify();
         });
     }
   };
@@ -153,25 +158,25 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
 
   const columns = React.useMemo<GridColumns<ITask>>(
     () => [
-      { field: 'id', headerName: 'ID', type: 'number', width: 20 },
-      { field: 'taskName', headerName: 'Task', width: 200 },
-      { field: 'taskDescription', headerName: 'Description', width: 325 },
+      { field: 'id', headerName: 'ID', type: 'number', width: window.innerWidth*width_table*0.0005 },
+      { field: 'taskName', headerName: 'Task', width: window.innerWidth*width_table*0.002 },
+      { field: 'taskDescription', headerName: 'Description', width: window.innerWidth*width_table*0.0047 },
       {
         field: 'deadline',
         headerName: 'Goal Date',
         type: 'dateTime',
-        width: 100,
+        width: window.innerWidth*width_table*0.001,
       },
       {
         field: 'completed',
         headerName: 'Completed',
         type: 'boolean',
-        width: 100,
+        width: window.innerWidth*width_table*0.0007,
       },
       {
         field: 'actions',
         type: 'actions',
-        width: 80,
+        width: window.innerWidth*width_table*0.0005,
         getActions: (params) => [
           <GridActionsCellItem
             icon={<CheckIcon />}
@@ -186,7 +191,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
             label="Edit Goal"
             onClick={() => {
               setRowId(params.id);
-              handleOpenModify();
+              toggleModify();
             }}
             showInMenu
           />,
@@ -201,7 +206,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         ],
       },
     ],
-    [completeTask, handleOpenModify, handleOpenCreate, deleteTask]
+    [completeTask, toggleModify, toggleCreate, deleteTask]
   );
 
   return (
@@ -210,7 +215,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         <Button2
           buttonStyle="btn--extra"
           buttonSize="btn--medium"
-          onClick={handleOpenCreate}
+          onClick={toggleCreate}
         >
           Add Goal
         </Button2>
@@ -219,7 +224,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         </label> */}
         <Modal
           open={openCreate}
-          onClose={handleCloseModify}
+          onClose={toggleCreate}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -228,7 +233,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
           </Box>
         </Modal>
       </div>
-      <div style={{ height: 400, width: '50%', margin: 'auto' }}>
+      <div className="table_border" style={{width:`${width_table}%`}}>
         <DataGrid
           className="table"
           rows={goalList}
@@ -254,7 +259,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         />
         <Modal
           open={openModify}
-          onClose={handleCloseModify}
+          onClose={toggleModify}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
