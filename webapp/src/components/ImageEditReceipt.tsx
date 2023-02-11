@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { dataR } from './ImageEditData';
-import { Category } from '../types/Category';
-import DropdownList from 'react-widgets/DropdownList';
+import { Category, convertCategory } from '../types/Category';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 
 interface IImageEditReceiptProps {
   data: dataR;
@@ -20,7 +21,7 @@ export const ImageEditReceipt: React.FC<IImageEditReceiptProps> = ({
     if (event.target.name === 'store') {
       setStore(event.target.value);
     } else if (event.target.name === 'total') {
-      setTotal(Number(event.target.value.replace(/[^0-9.]/g, '')));
+      setTotal(Math.round(Number(event.target.value) * 100) / 100);
     }
   };
 
@@ -31,29 +32,49 @@ export const ImageEditReceipt: React.FC<IImageEditReceiptProps> = ({
 
   return (
     <>
-      <input
-        type="text"
-        placeholder="New Store..."
+      <TextField
+        required
+        id="Store"
+        label="Required"
+        defaultValue="New Store..."
+        variant="standard"
         name="store"
         value={store}
         onChange={handleChange}
+        helperText="Please enter a store name"
+        style = {{position:'relative'}}
       />
-      <input
-        type="text"
+      <TextField
+        id="standard-number"
+        label="Total"
+        type="number"
         placeholder="New Total..."
+        InputLabelProps={{
+          shrink: true,
+        }}
         name="total"
         value={total}
         onChange={handleChange}
+        helperText="Please enter a total amount"
       />
-      <DropdownList
-        defaultValue={category}
-        data={Object.values(Category).filter(
-          (value) => typeof value === 'string'
-        )}
-        onChange={(nextValue) => {
-          setCategory(nextValue);
-        }}
-      />
+      <TextField
+          id="select-category"
+          select
+          label="Select"
+          defaultValue={category}
+          helperText="Please choose a category"
+        >
+          {Object.values(Category).map((option) => (
+            <MenuItem 
+            key={option} 
+            value={option}
+            onClick={(nextValue) => {
+              setCategory(nextValue.currentTarget.dataset.value ? convertCategory(nextValue.currentTarget.dataset.value) : Category.OTHER);
+            }}>
+              {option}
+            </MenuItem>
+          ))}
+      </TextField>
     </>
   );
 };

@@ -6,6 +6,7 @@ import Home from './components/pages/Home';
 import Information from './components/pages/Information';
 import Stats from './components/pages/Stats';
 import Goals from './components/pages/Goals';
+import Settings from './components/pages/Settings';
 import BasePage from './components/pages/BasePage';
 import { ProtectedRoute } from './auth/ProtectedRoute';
 import NotFound from './components/pages/NotFound';
@@ -23,6 +24,7 @@ function App() {
         />
         <Route path="/stats" element={<ProtectedRoute component={Stats} />} />
         <Route path="/goals" element={<ProtectedRoute component={Goals} />} />
+        <Route path="/settings" element={<ProtectedRoute component={Settings} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
