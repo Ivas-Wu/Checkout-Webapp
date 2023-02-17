@@ -15,6 +15,7 @@ import {
   Tooltip,
   Legend,
   Cell,
+  ResponsiveContainer
 } from 'recharts';
 import { dataGenBar } from './GraphData';
 
@@ -27,6 +28,8 @@ export enum charts {
 
 export interface IGraphsProps {
   graph: charts;
+  width?: number;
+  height?: number;
 }
 
 export interface GraphReq {
@@ -35,9 +38,11 @@ export interface GraphReq {
   category: Category;
 }
 
-const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
+const Graphs: React.FC<IGraphsProps> = ({ graph, width, height }) => {
   const userId = localStorage.getItem('user-id');
   const [graphData, setData] = useState<GraphReq[]>([]);
+  const containerWidth = width? width : window.innerWidth*0.5;
+  const containerHeight = height? height : window.innerWidth*0.5;
   useEffect(() => {
     getData();
   }, []);
@@ -66,59 +71,60 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
         console.log(res.data);
       });
   };
+
   if (graph === charts.BAR) {
     return (
-      <BarChart
-        width={500}
-        height={300}
-        data={dataGenBar(graphData)!}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="Groceries" fill="#8884d8" legendType="circle" />
-        <Bar dataKey="Entertainment" fill="#82ca9d" legendType="circle" />
-        <Bar dataKey="Medical" fill="#F7A9A8" legendType="circle" />
-        <Bar dataKey="Transportation" fill="#BF1A2F" legendType="circle" />
-        <Bar dataKey="Housing" fill="#0B3954" legendType="circle" />
-        <Bar dataKey="Utilities" fill="#F49F0A" legendType="circle" />
-        <Bar dataKey="Other" fill="#EFCA08" legendType="circle" />
-      </BarChart>
+      <ResponsiveContainer width={containerWidth} height={containerHeight}>
+        <BarChart
+          data={dataGenBar(graphData)!}
+          margin={{
+            top: containerHeight*.1,
+            right: containerWidth*0.1,
+            left: containerWidth*0.05,
+            bottom: containerHeight*.01,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="Groceries" fill="#8884d8" legendType="circle" />
+          <Bar dataKey="Entertainment" fill="#82ca9d" legendType="circle" />
+          <Bar dataKey="Medical" fill="#F7A9A8" legendType="circle" />
+          <Bar dataKey="Transportation" fill="#BF1A2F" legendType="circle" />
+          <Bar dataKey="Housing" fill="#0B3954" legendType="circle" />
+          <Bar dataKey="Utilities" fill="#F49F0A" legendType="circle" />
+          <Bar dataKey="Other" fill="#EFCA08" legendType="circle" />
+        </BarChart>
+      </ResponsiveContainer>
     );
   } else if (graph === charts.LINE) {
     return (
-      <LineChart
-        width={500}
-        height={300}
-        data={dataGenBar(graphData)!}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line dataKey="Groceries" stroke="#8884d8" legendType="circle" />
-        <Line dataKey="Entertainment" stroke="#82ca9d" legendType="circle" />
-        <Line dataKey="Medical" stroke="#F7A9A8" legendType="circle" />
-        <Line dataKey="Transportation" stroke="#BF1A2F" legendType="circle" />
-        <Line dataKey="Housing" stroke="#0B3954" legendType="circle" />
-        <Line dataKey="Utilities" stroke="#F49F0A" legendType="circle" />
-        <Line dataKey="Other" stroke="#EFCA08" legendType="circle" />
-      </LineChart>
+      <ResponsiveContainer width={containerWidth} height={containerHeight}>
+        <LineChart
+          data={dataGenBar(graphData)!}
+          margin={{
+            top: containerHeight*.1,
+            right: containerWidth*0.1,
+            left: containerWidth*0.05,
+            bottom: containerHeight*.01,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line dataKey="Groceries" stroke="#8884d8" legendType="circle" />
+          <Line dataKey="Entertainment" stroke="#82ca9d" legendType="circle" />
+          <Line dataKey="Medical" stroke="#F7A9A8" legendType="circle" />
+          <Line dataKey="Transportation" stroke="#BF1A2F" legendType="circle" />
+          <Line dataKey="Housing" stroke="#0B3954" legendType="circle" />
+          <Line dataKey="Utilities" stroke="#F49F0A" legendType="circle" />
+          <Line dataKey="Other" stroke="#EFCA08" legendType="circle" />
+        </LineChart>
+      </ResponsiveContainer>
     );
   } else if (graph === charts.PI) {
     const COLORS = [
@@ -156,24 +162,27 @@ const Graphs: React.FC<IGraphsProps> = ({ graph }) => {
     });
 
     return (
-      <PieChart width={1000} height={400}>
-        <Pie
-          dataKey="value"
-          isAnimationActive={false}
-          data={d}
-          cx={200}
-          cy={200}
-          outerRadius={80}
-          fill="#8884d8"
-          label
-        >
-          {d.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </PieChart>
+      <ResponsiveContainer width={containerWidth} height={containerHeight}>
+        <PieChart>
+          <Pie
+            dataKey="value"
+            isAnimationActive={false}
+            data={d}
+            cx={'40%'}
+            cy={'50%'}
+            outerRadius={'60%'}
+            innerRadius={'30%'}
+            fill="#8884d8"
+            label
+          >
+            {d.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend layout={"vertical"} verticalAlign={"middle"} align={"right"}/>
+        </PieChart>
+      </ResponsiveContainer>
     );
   } else {
     return (
