@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import mainStyles from "../Styles";
 
 var ScannerScreen = require("./ScannerScreen");
 var GoalsScreen = require("./GoalsScreen");
@@ -35,8 +36,11 @@ function TabScreen() {
 						<Ionicons name={iconName} size={size} color={color} />
 					);
 				},
-				tabBarActiveTintColor: "steelblue",
-				tabBarInactiveTintColor: "lightslategray",
+				tabBarActiveTintColor: "#FFFFFF",
+				tabBarInactiveTintColor: "#EDFFE7",
+				tabBarActiveBackgroundColor: "#249000",
+				tabBarInactiveBackgroundColor: "#28A200",
+				headerStyle: {backgroundColor: '#E4FFDD'}, 
 			})}
 		>
 			<Tab.Screen name="Scanner" component={ScannerScreen} />

@@ -4,6 +4,7 @@ import * as React from "react";
 import * as ImagePicker from 'expo-image-picker';
 import "../GlobalVars"
 import {Receipt, Item} from "../GlobalVars";
+import mainStyles from "../Styles";
 
 function ScannerScreen() {
     const [photoPath, setPhotoPath] = React.useState("a")
@@ -111,7 +112,7 @@ function ScannerScreen() {
     };
 
     return (
-        <View style={styles.pageBackground}>
+        <View style={mainStyles.pageBackground}>
             <TouchableOpacity style={styles.button} onPress={pickImage}>
                 <Text>Upload Image From Device</Text>
             </TouchableOpacity>
@@ -167,15 +168,9 @@ function ScannerScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#abf",
-        alignItems: "center",
-        justifyContent: "center",
-    },
     button: {
         alignItems: "center",
-        backgroundColor: "lightblue",
+        backgroundColor: "#E6FFDE",
         padding: 10,
         borderRadius: 10,
         margin: 5
@@ -184,6 +179,7 @@ const styles = StyleSheet.create({
         flex: 1, 
         justifyContent: "center", 
         alignItems: "center",
+        backgroundColor: "#FFFFFF"
     },
     item: {
         flex: 1,
