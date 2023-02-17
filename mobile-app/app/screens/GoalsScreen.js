@@ -9,12 +9,13 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import {DateTimePicker} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import DateTimePicker from '@react-native-community/datetimepicker';
 import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import "../GlobalVars"
 import { SortByProperty } from "../functions/SortByProperty";
+import {mainStyles, colorMap} from "../Styles";
 
 var editGoalId = null    // indicates id of goal when editing goals, if null then it is an add operation
 const GOAL_STORAGE_KEY = "goal_storage_key" //used for local storage
@@ -40,6 +41,8 @@ function GoalsScreen() {
     const [goal, setGoal] = React.useState(new Goal("New Goal"))
     const [GoalList, setGoals] = React.useState([]);
     const [sortProperty, setSortProperty] = React.useState("createdAt")
+    const [isDatePickerVisible, setIsDatePickerVisible] =
+        React.useState(false);
 
     const getGoalByID = (goalId) => {
       let result = GoalList.find(obj => {
@@ -50,13 +53,14 @@ function GoalsScreen() {
 
     const handleGetGoals = async () => {
       try {
-          const response = await fetch(
-              `http://${DEVICE_IP}:3000/api/goals?userId=${USER_ID}`
-          )
-          const json = await response.json()
-          var goalsList = json
-          var sortedList = SortByProperty(goalsList, sortProperty)
-          setGoals(sortedList)
+          console.log(`http://${DEVICE_IP}:3000/api/goals?userId=${USER_ID}`)
+          fetch(`http://${DEVICE_IP}:3000/api/goals?userId=${USER_ID}`)
+          .then(response => response.json())
+          .then(goalsJSON => {
+            console.log(goalsJSON)
+            var sortedList = SortByProperty(goalsList, sortProperty)
+            setGoals(sortedList)
+          })
       } catch (error) {
           console.error(error)
       }
@@ -166,6 +170,7 @@ function GoalsScreen() {
           console.error(error)
       }
     };
+
 /*
     const handleSaveGoals = async () => {
       await AsyncStorage.setItem(GOAL_STORAGE_KEY,JSON.stringify(GoalList))
@@ -182,11 +187,11 @@ function GoalsScreen() {
       }
     };
 */
+
   return (
     <View style={styles.pageBackground}>
       <Modal visible={isGoalModalVisible} animationType="fade">
         <View style={styles.GoalModal}>
-
           <KeyboardAvoidingView
             behaviour="position"
             style={{
@@ -196,41 +201,54 @@ function GoalsScreen() {
               alignItems: "center",
             }}
           >
-            <Text style={styles.bigText}>Goal Name</Text>
-          <TextInput
-            multiline={true}
-            style={styles.textInput}
-            placeholder="Enter Goal Name"
-            onChangeText={(val) => {
-              var tempGoal = goal
-              tempGoal.goalName = val
-              setGoal(tempGoal)
-            }}
-          />
+            <View style={{width:"100%", alignItems:"center"}}>
+              <Text style={styles.formFieldText}>Goal Name</Text>
+              <TextInput
+                multiline={true}
+                style={styles.textInput}
+                placeholder="Enter Goal Name"
+                onChangeText={(val) => {
+                  setGoal({...goal, goalName: val})
+                  console.log("Goal name: ", goal.goalName)
+                }}
+              />
+                <Text style={styles.formFieldText}>Goal Description</Text>
+              <TextInput
+                multiline={true}
+                style={styles.textInput}
+                placeholder="Enter Goal Description"
+                onChangeText={(val) => {
+                  setGoal({...goal, goalDesc: val})
+                  console.log("Goal description: ", goal.goalDesc)
+                }}
+              />
 
-          <Text style={styles.bigText}>Goal Description</Text>
-          <TextInput
-            multiline={true}
-            style={styles.textInput}
-            placeholder="Enter Goal Description"
-            onChangeText={(val) => {
-              var tempGoal = goal
-              tempGoal.goalDesc = val
-              setGoal(tempGoal)
-            }}
-          />
+              <TouchableOpacity onPress={() => setIsDatePickerVisible(true)}
+                style={styles.dateButton}>
+                <Text style={styles.bigText}>
+                  {goal.targetDate === null
+                  ? "Choose a Date"
+                  : goal.targetDate.toString()}
+                </Text>
+              </TouchableOpacity>
 
-          <Text style={styles.bigText}>Target Date</Text>
-          <TextInput
-            multiline={true}
-            style={styles.textInput}
-            placeholder="Enter Target Date"
-            onChangeText={(val) => {
-              var tempGoal = goal
-              tempGoal.targetDate = val
-              setGoal(tempGoal)
-            }}
-          />
+              {isDatePickerVisible && <DateTimePicker
+                style={{width: '80%', height: 50}}
+                mode="date"
+                value={new Date()}
+                is24Hour={true}
+                display="default"
+                onChange={(event, date) => {
+                  if (event.type == "set") {
+                    setGoal({...goal, targetDate:date})
+                    console.log("Goal target date: ", goal.targetDate)
+                  }
+                  setIsDatePickerVisible(false);
+                }}
+              />}
+              
+
+            </View>
             <TouchableOpacity
               onPress={handleCancel}
               style={styles.modalButton}
@@ -259,7 +277,7 @@ function GoalsScreen() {
         </View>
         <View style={{ flex: 1 }}/>
       </TouchableOpacity>
-/* 
+      /* 
       <TouchableOpacity
         onPress={handleLoadGoals}
         style={styles.newGoalButton}
@@ -287,7 +305,7 @@ function GoalsScreen() {
         <View style={{ flex: 1 }}/>
       </TouchableOpacity>
 
-      <View style={{ flexDirection: "row", marginTop: 10, justifyContent: "center", alignItems: "center", width:"93%"}}>
+      <View style={{ flexDirection: "row", marginTop: 10, justifyContent: "center", alignItems: "center", width:"95%"}}>
         <View style={{flex: 2}}>
             <Text style={styles.bigText}>Sort By: </Text>
         </View>
@@ -340,18 +358,6 @@ function GoalsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#abf",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "lightblue",
-    padding: 10,
-    borderRadius: 10,
-  },
   goal: {
     flex: 1,
     backgroundColor: "lightblue",
@@ -378,11 +384,21 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 5,
     justifyContent: "center",
-    backgroundColor: "lightblue",
+    backgroundColor: "#A0FF88",
   },
   smallButton: {
     flexDirection: "row",
     width: "47%",
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 20,
+    justifyContent: "center",
+    backgroundColor: "lightblue",
+  },
+  dateButton: {
+    flexDirection: "row",
+    width: "50%",
+    height: "20%",
     padding: 10,
     borderRadius: 10,
     marginTop: 20,
@@ -394,11 +410,20 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto",
     fontWeight: "bold",
     textAlign: 'center',
+    color: "black",
+  },
+  formFieldText: {
+    fontSize: 20,
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    textAlign: 'left',
+    color: "black",
   },
   GoalModal: {
     flex: 1,
+    width: "100%",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   modalButton: {
     width: "80%",
@@ -411,11 +436,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderColor: "gray",
-    width: "80%",
     height: 50,
     padding: 8,
     margin: 10,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderRadius: 10,
+    width: "90%",
+    marginBottom: 30,
   },
   sortButton: {
     flex: 2,
