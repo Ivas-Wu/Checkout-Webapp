@@ -33,11 +33,16 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
     pb: 3,
   };
 
+  const outer_style = {
+    position: 'relative',
+    bgcolor: '#F1FCFF',
+    display: 'flex',
+  };
+
   return (
     <>
       <Welcome>This is the Information Page</Welcome>
-      <Body>Here you can see your Receipts!</Body>
-      <div className="header">
+      <div className="header" style={{background:'#F1FCFF'}}>
         <Button
           buttonStyle="btn--extra"
           buttonSize="btn--medium"
@@ -56,12 +61,10 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
             <ReceiptUpload />
           </Box>
       </Modal>
-      {/* <BasePopupWrapper
-        isPopupVisible={isPopupVisible}
-        onBackdropClick={() => togglePopup()}
-        header="Upload Image"
-      /> */}
-      <Table2 rerender={isPopupVisible} />
+      <Box sx={{ ...outer_style }}>
+        <Table2 rerender={isPopupVisible} />
+      </Box>
+      <Body>Here you can see your Receipts!</Body>
     </>
   );
 };

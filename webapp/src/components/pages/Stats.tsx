@@ -18,7 +18,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
     position: 'relative',
     left: '5%',
     width: '55%',
-    bgcolor: 'bacground.paper',
+    bgcolor: 'background.paper',
     // border: '2px solid #000',
     // boxShadow: 24,
     marginRight: '3%',
@@ -58,7 +58,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
       <Welcome>This is the Statistics Page</Welcome>
       <div
         style={{
-          background: '#F5FFF3',
+          background: '#F1FCFF',
           display: 'flex',
           flexDirection: 'row',
           overflow: 'hidden',
@@ -90,7 +90,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
             </Box>
           </CardContent>
         </Card>
-        <div style={{ background: '#F5FFF3', position: 'relative' }}>
+        <div style={{ background: '#F1FCFF', position: 'relative' }}>
           <Card sx={{ ...budget_style }}>
             <CardHeader
               title="We can all budge it"

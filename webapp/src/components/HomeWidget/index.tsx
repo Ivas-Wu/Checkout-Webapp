@@ -33,7 +33,7 @@ export const IndexPage: React.FC<IIndexPageProps> = (props) => {
   };
 
   return (
-    <div style={{background:"#F5FFF3"}}>
+    <div style={{background:"#F1FCFF"}}>
       <Contents>
         <Controls>
           <div>

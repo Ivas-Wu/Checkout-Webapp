@@ -36,7 +36,7 @@ const Home: React.FC<IHomePageProps> = () => {
     <>
       <Welcome>Welcome back, {user?.name} </Welcome>
       <IndexPage pages={pages} />
-      <div style={{background:"#F5FFF3"}}>&nbsp;</div>
+      <div style={{background:"#F1FCFF"}}>&nbsp;</div>
     </>
   );
 };

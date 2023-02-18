@@ -7,7 +7,7 @@ export const Welcome = styled.div`
   height: 5rem;
   font-weight: bold;
   font-size: 1.4rem;
-  background: #F5FFF3;
+  background: #F1FCFF;
 `;
 
 export const Body = styled.div`
@@ -17,7 +17,7 @@ export const Body = styled.div`
   height: 15rem;
   font-weight: bold;
   font-size: 1.4rem;
-  background: #F5FFF3;
+  background: #F1FCFF;
 `;
 
 export const Drop = styled.div`
