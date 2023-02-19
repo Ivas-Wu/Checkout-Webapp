@@ -198,7 +198,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
   );
 
   return (
-    <div className="table_border" style={{width:`${width_table}%`, display:'inline-block', background:'#fff'}}>
+    <div className="table_border">
       <DataGrid
         className="table"
         rows={tableRows}

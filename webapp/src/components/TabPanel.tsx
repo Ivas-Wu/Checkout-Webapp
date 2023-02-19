@@ -50,9 +50,14 @@ export default function BasicTabs(props: PanelProps) {
     setValue(newValue);
   };
 
+  const outer_style = {
+    position: 'relative',
+    bgcolor: '#F1FCFF',
+  };
+
   // TODO make it dynamic the number of tabs 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{...outer_style}}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label={labels[0]} {...a11yProps(0)} /> 

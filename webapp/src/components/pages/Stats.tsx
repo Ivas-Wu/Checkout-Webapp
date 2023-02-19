@@ -1,13 +1,14 @@
 import '../../App.css';
 import Graphs, { charts } from '../Graphs';
 import 'react-widgets/styles.css';
-import { Welcome, Body } from './pages.styled';
+import { Welcome, EndCard } from './pages.styled';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import Button from '../Button';
 
 export interface IStatisticsPageProps {}
 
@@ -39,7 +40,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
   const budget_style = {
     position: 'relative',
     left: '5%',
-    height: '25%',
+    height: '33%',
     width: '75%',
     bgcolor: 'bacground.paper',
     marginBottom: '5%',
@@ -48,9 +49,13 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
   const budget_style2 = {
     position: 'relative',
     left: '5%',
-    height: '75%',
+    height: '67%',
     width: '75%',
     bgcolor: 'bacground.paper',
+  };
+
+  const submit = () => {
+    console.log("TODO")
   };
 
   return (
@@ -102,7 +107,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
               </Typography>
             </CardContent>
           </Card>
-          <Card sx={{ ...budget_style2 }}>
+          <Card sx={{ ...budget_style }}>
             <CardHeader
               title="Personal Budgeting"
               subheader="Let's (bud)get this bread"
@@ -134,12 +139,30 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
                     variant="standard"
                   />
                 </div>
+                <Button
+                    buttonStyle="btn--extra"
+                    buttonSize="btn--small"
+                    onClick={submit}
+                  >
+                    Submit
+                </Button>
               </Box>
             </CardContent>
           </Card>
+          <Card sx={{ ...budget_style }}>
+            <CardHeader
+                title="Personal Ads ;)"
+                subheader="100% of clients would recommend"
+              />
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  Enjoy the content? You can put your own ads here! Contact us to find out more!
+                </Typography>
+              </CardContent>
+            </Card>
         </div>
       </div>
-      <Body>Here you can view graphs with your statistics!</Body>
+      <EndCard>Here you can view graphs with your statistics!</EndCard>
     </>
   );
 };

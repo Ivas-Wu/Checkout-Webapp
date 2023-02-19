@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './Goalform.css';
 import axios from 'axios';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Goal, GoalCreateReq, GoalUpdateReq } from '../types/Goal';
+import { Reminder, ReminderCreateReq, ReminderUpdateReq } from '../types/Reminder';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -11,27 +10,35 @@ import {
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import CheckIcon from '@mui/icons-material/Check';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import Button from '@mui/material/Button';
 import { Button as Button2 } from './Button';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import GoalModals from './GoalModals';
+// import ReminderModals from './ReminderModals';
 
-export interface IGoalFormProps {}
+export interface IReminderFormProps {}
 
-export interface ITask {
+interface IReminderTask {
   taskName: string;
   taskDescription: string;
-  deadline?: Date;
+  date?: Date;
   id: number;
-  completed: boolean;
+  urgent: boolean;
+  remindme?: number;
 }
 
-export const Goalform: React.FC<IGoalFormProps> = () => {
+export const Reminderform: React.FC<IReminderFormProps> = () => {
   const userId = localStorage.getItem('user-id');
-  const [goalList, setGoalList] = useState<ITask[]>([]);
-  const [selectedRows, setSelectedRows] = useState<ITask[]>([]);
+  const [reminderList, setReminderList] = useState<IReminderTask[]>([{
+    taskName: "Test",
+    taskDescription: "HardCoded to Test before API is made",
+    date: undefined,
+    id: 1,
+    urgent: true,
+    remindme: 1,
+  }]);
+  const [selectedRows, setSelectedRows] = useState<IReminderTask[]>([]);
   const [openCreate, setOpenCreate] = useState<boolean>(false);
   const [rowId, setRowId] = useState<GridRowId>();
   const [openModify, setOpenModify] = useState<boolean>(false);
@@ -63,15 +70,16 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
     getData();
   }, []);
 
-  function convertGoals(data: Goal[]): ITask[] {
-    let returnValue: ITask[] = [];
-    data.forEach(function (goal) {
+  function convertReminders(data: Reminder[]): IReminderTask[] {
+    let returnValue: IReminderTask[] = [];
+    data.forEach(function (reminder) {
       const newTask = {
-        taskName: goal.goalName,
-        taskDescription: goal.goalDesc ? goal.goalDesc : '',
-        deadline: goal.targetDate,
-        id: goal.id,
-        completed: goal.completed,
+        taskName: reminder.reminderName,
+        taskDescription: reminder.reminderDesc ? reminder.reminderDesc : '',
+        date: reminder.date,
+        id: reminder.id,
+        urgent: reminder.urgent,
+        remindme: reminder.remindme,
       };
       returnValue.push(newTask);
     });
@@ -80,28 +88,28 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
 
   const getData = () => {
     axios
-      .get(`http://localhost:3000/api/goals?userId=${userId}`)
+      .get(`http://localhost:3000/api/reminders?userId=${userId}`)
       .then((res) => {
-        let goals: ITask[] = convertGoals(res.data);
-        setGoalList(goals);
+        let reminders: IReminderTask[] = convertReminders(res.data);
+        setReminderList(reminders);
       });
   };
 
-  const addTask = (data: GoalCreateReq): void => {
-    axios.post(`http://localhost:3000/api/goals/`, data).then((res) => {
+  const addTask = (data: ReminderCreateReq): void => {
+    axios.post(`http://localhost:3000/api/reminders/`, data).then((res) => {
       console.log(res.data);
       getData();
       toggleCreate();
     });
   };
 
-  const modifyTask = (data: GoalUpdateReq): void => {
-    if (goalList.findIndex((element) => element.id === rowId) === -1) {
+  const modifyTask = (data: ReminderUpdateReq): void => {
+    if (reminderList.findIndex((element) => element.id === rowId) === -1) {
       console.log('How did you get here, no task found!');
     } else {
       //Maybe symbol to show loading and lock user out of other actions?
       axios
-        .put(`http://localhost:3000/api/goals/` + rowId, data)
+        .put(`http://localhost:3000/api/reminders/` + rowId, data)
         .then((res) => {
           console.log(res.data);
           getData();
@@ -111,12 +119,12 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
   };
 
   const completeTask = (id: GridRowId) => {
-    if (goalList.findIndex((element) => element.id === id) === -1) {
+    if (reminderList.findIndex((element) => element.id === id) === -1) {
       console.log('How did you get here, no task found!');
     } else {
       //Maybe symbol to show loading and lock user out of other actions?
       axios
-        .put(`http://localhost:3000/api/goals/` + id, { completed: true })
+        .put(`http://localhost:3000/api/reminders/` + id, { completed: true })
         .then((res) => {
           console.log(res.data);
           getData();
@@ -126,17 +134,17 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
   const deleteTask = (id?: GridRowId) => {
     let index = -1;
     if (id) {
-      index = goalList.findIndex((element) => element.id === id);
+      index = reminderList.findIndex((element) => element.id === id);
       if (index === -1) {
         console.log('How did you get here, no task found!');
       } else {
-        axios.delete(`http://localhost:3000/api/goals/` + id).then((res) => {
+        axios.delete(`http://localhost:3000/api/reminders/` + id).then((res) => {
           console.log(res.data);
           getData();
         });
       }
     } else {
-      index = goalList.findIndex(
+      index = reminderList.findIndex(
         (element) => element.id === selectedRows[0].id
       );
       if (index === -1) {
@@ -144,7 +152,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
       } else {
         selectedRows.forEach(function (data) {
           axios
-            .delete(`http://localhost:3000/api/goals/` + data.id)
+            .delete(`http://localhost:3000/api/reminders/` + data.id)
             .then((res) => {
               console.log(res.data);
               getData();
@@ -154,21 +162,27 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
     }
   };
 
-  const columns = React.useMemo<GridColumns<ITask>>(
+  const columns = React.useMemo<GridColumns<IReminderTask>>(
     () => [
       { field: 'id', headerName: 'ID', type: 'number', width: window.innerWidth*width_table*0.0005 },
       { field: 'taskName', headerName: 'Task', width: window.innerWidth*width_table*0.002 },
-      { field: 'taskDescription', headerName: 'Description', width: window.innerWidth*width_table*0.0043 },
+      { field: 'taskDescription', headerName: 'Description', width: window.innerWidth*width_table*0.0037 },
       {
-        field: 'deadline',
-        headerName: 'Goal Date',
+        field: 'date',
+        headerName: 'Reminder Date',
         type: 'dateTime',
         width: window.innerWidth*width_table*0.001,
       },
       {
-        field: 'completed',
-        headerName: 'Completed',
+        field: 'urgent',
+        headerName: 'Urgent',
         type: 'boolean',
+        width: window.innerWidth*width_table*0.0007,
+      },
+      {
+        field: 'remindme',
+        headerName: 'Remind Me',
+        type: 'number',
         width: window.innerWidth*width_table*0.0007,
       },
       {
@@ -177,9 +191,9 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         width: window.innerWidth*width_table*0.0005,
         getActions: (params) => [
           <GridActionsCellItem
-            key="complete"
-            icon={<CheckIcon />}
-            label="Complete Goal"
+            key="urgent"
+            icon={<PriorityHighIcon />}
+            label="Change to Urgent"
             onClick={() => {
               completeTask(params.id);
             }}
@@ -188,7 +202,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
           <GridActionsCellItem
             key="edit"
             icon={<EditIcon />}
-            label="Edit Goal"
+            label="Edit Reminder"
             onClick={() => {
               setRowId(params.id);
               toggleModify();
@@ -198,7 +212,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
           <GridActionsCellItem
             key="delete"
             icon={<DeleteIcon />}
-            label="Delete Goal"
+            label="Delete Reminder"
             onClick={() => {
               deleteTask(params.id);
             }}
@@ -218,7 +232,7 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
           buttonSize="btn--medium"
           onClick={toggleCreate}
         >
-          Add Goal
+          Add Reminder
         </Button2>
         <Modal
           open={openCreate}
@@ -227,20 +241,20 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <GoalModals create={true} goalsCreateInfo={addTask}></GoalModals>
+            {/* <ReminderModals create={true} remindersCreateInfo={addTask}></ReminderModals> */}
           </Box>
         </Modal>
       </div>
       <div className="table_border" style={{width:`${width_table}%`}}>
         <DataGrid
           className="table"
-          rows={goalList}
+          rows={reminderList}
           columns={columns}
           pageSize={5}
           checkboxSelection={true}
           onSelectionModelChange={(ids) => {
             const selectedIDs = new Set(ids);
-            const selectedRows = goalList.filter((row) =>
+            const selectedRows = reminderList.filter((row) =>
               selectedIDs.has(row.id)
             );
 
@@ -262,11 +276,11 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <GoalModals
+            {/* <ReminderModals
               create={false}
-              goalsUpdateInfo={modifyTask}
-              data={goalList.find((element) => element.id === rowId)}
-            ></GoalModals>
+              remindersUpdateInfo={modifyTask}
+              data={reminderList.find((element) => element.id === rowId)}
+            ></ReminderModals> */}
           </Box>
         </Modal>
         <Button
@@ -282,4 +296,4 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
   );
 };
 
-export default Goalform;
+export default Reminderform;

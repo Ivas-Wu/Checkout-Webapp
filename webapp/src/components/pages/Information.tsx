@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '../Button';
 import BasePopupWrapper from '../Popup/BasedPopupWrapper';
 import Table2 from '../Table';
-import { Welcome, Body } from './pages.styled';
+import { Welcome, EndCard } from './pages.styled';
 import Modal from '@mui/material/Modal';
 import ReceiptUpload from '../ReceiptUpload';
 import Box from '@mui/material/Box';
@@ -64,7 +64,7 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
       <Box sx={{ ...outer_style }}>
         <Table2 rerender={isPopupVisible} />
       </Box>
-      <Body>Here you can see your Receipts!</Body>
+      <EndCard>Here you can see your Receipts!</EndCard>
     </>
   );
 };

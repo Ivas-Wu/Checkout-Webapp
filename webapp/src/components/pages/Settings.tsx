@@ -1,6 +1,6 @@
 import '../../App.css';
 import React from 'react';
-import { Welcome, Body } from './pages.styled';
+import { Welcome } from './pages.styled';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
