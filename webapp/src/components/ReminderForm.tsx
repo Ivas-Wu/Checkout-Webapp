@@ -166,7 +166,7 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
     () => [
       { field: 'id', headerName: 'ID', type: 'number', width: window.innerWidth*width_table*0.0005 },
       { field: 'taskName', headerName: 'Task', width: window.innerWidth*width_table*0.002 },
-      { field: 'taskDescription', headerName: 'Description', width: window.innerWidth*width_table*0.0037 },
+      { field: 'taskDescription', headerName: 'Description', width: window.innerWidth*width_table*0.00355 },
       {
         field: 'date',
         headerName: 'Reminder Date',
@@ -183,7 +183,7 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
         field: 'remindme',
         headerName: 'Remind Me',
         type: 'number',
-        width: window.innerWidth*width_table*0.0007,
+        width: window.innerWidth*width_table*0.00085,
       },
       {
         field: 'actions',

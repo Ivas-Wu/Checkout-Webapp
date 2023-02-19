@@ -99,7 +99,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
           <Card sx={{ ...budget_style }}>
             <CardHeader
               title="We can all budge it"
-              subheader="Let's (bud)get this bread"
+              subheader="Let's (bud)get this bread 🍞"
             />
             <CardContent>
               <Typography variant="body2" color="text.secondary">
@@ -110,7 +110,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
           <Card sx={{ ...budget_style }}>
             <CardHeader
               title="Personal Budgeting"
-              subheader="Let's (bud)get this bread"
+              subheader="Let's (bud)get this bread 🍞"
             />
             <CardContent>
               <Box
