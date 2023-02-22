@@ -9,7 +9,7 @@ interface ICardProps {
 
 export const Card: React.FC<ICardProps> = (props) => {
   return (
-    <li className="cards__item">
+    <li className="cards__item" style={{background:"#FFF"}}>
       <Link className="cards__item__link" to={props.path}>
         <figure className="cards__item__pic-wrap">
           <img className="cards__item__img" alt="Page Image" src={props.src} />

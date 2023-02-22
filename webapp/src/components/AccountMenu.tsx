@@ -50,16 +50,10 @@ export default function AccountMenu(props: MenuProps) {
   function stringAvatar(name: string) {
     if (name.split(' ').length > 1) {
       return {
-        sx: {
-          bgcolor: stringToColor(name), // Failed color thing TODO
-        },
         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
       };
     }
     return {
-      sx: {
-        bgcolor: stringToColor(name), // Failed color thing TODO
-      },
       children: `${name[0]}`,
     };
   }
@@ -78,7 +72,7 @@ export default function AccountMenu(props: MenuProps) {
           >
             <Avatar
               {...stringAvatar(props.name)}
-              sx={{ width: 52, height: 52 }}
+              sx={{ width: 52, height: 52, bgcolor: stringToColor(props.name) }}
             />
           </IconButton>
         </Tooltip>

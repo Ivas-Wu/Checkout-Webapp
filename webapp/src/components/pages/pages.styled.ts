@@ -7,15 +7,16 @@ export const Welcome = styled.div`
   height: 5rem;
   font-weight: bold;
   font-size: 1.4rem;
+  background: #F1FCFF;
 `;
 
-export const Body = styled.div`
+export const EndCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 15rem;
-  font-weight: bold;
-  font-size: 1.4rem;
+  height: 5rem;
+  font-size: 1rem;
+  background: #F1FCFF;
 `;
 
 export const Drop = styled.div`
