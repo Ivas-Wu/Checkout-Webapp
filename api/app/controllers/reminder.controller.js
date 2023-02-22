@@ -101,3 +101,35 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+exports.findAlerts = (req, res) => {
+  const userId = req.query.userId;
+  if (!userId) {
+    res.status(500).send({
+      message: 'userId required to find alerts',
+    });
+    return
+  }
+  Reminder.findAll({ where: { userId: userId, alertMe: true }})
+  .then((data) => {
+    let out = [];
+    data.forEach(reminder_raw => {
+      let reminder = reminder_raw.dataValues
+      // adjust for alert offset
+      due = new Date(reminder.date);
+      due.setDate(due.getDate() - reminder.alertAt);
+      // get todays date, it compares hours so set hours to match (00:00:00)
+      today = new Date();
+      today.setUTCHours(0,0,0,0);
+      if (today.getTime() == due.getTime()) {
+        out.push(reminder_raw)
+      }
+    })
+    res.send(out);
+  })
+  .catch((err) => {
+    res.status(500).send({
+      message: err.message || 'error finding alerts',
+    });
+  });
+}
