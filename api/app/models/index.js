@@ -17,6 +17,7 @@ const Goal = require('./goal.model.js')(sequelize, Sequelize);
 const Receipt = require('./receipt.model.js')(sequelize, Sequelize);
 const Item = require('./item.model.js')(sequelize, Sequelize);
 const Reminder = require('./reminder.model.js')(sequelize, Sequelize);
+const Target = require('./target.model.js')(sequelize, Sequelize);
 
 // handle relationships here
 
@@ -27,6 +28,10 @@ Reminder.belongsTo(User);
 // goal relationships
 User.hasMany(Goal);
 Goal.belongsTo(User);
+
+// target relationships
+User.hasMany(Target);
+Target.belongsTo(User);
 
 // receipt relationships
 User.hasMany(Receipt);
@@ -44,6 +49,7 @@ db.goal = Goal;
 db.reminder = Reminder
 db.receipt = Receipt;
 db.item = Item;
+db.target = Target;
 
 // export
 module.exports = db;

@@ -50,6 +50,8 @@ const reminder = require('./app/routes/reminders')
 app.use('/api/reminders', reminder)
 const scanner = require('./app/routes/scanner')
 app.use('/api/scanner', scanner)
+const target = require('./app/routes/targets')
+app.use('/api/targets', target)
 
 // listening port
 const PORT = process.env.PORT || 3000;
