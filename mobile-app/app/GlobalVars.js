@@ -1,4 +1,5 @@
-global.DEVICE_IP = "192.168.0.155"
+//global.DEVICE_IP = "192.168.0.155"
+global.DEVICE_IP = "192.168.1.147"
 global.USER_ID = 4
 
 export class Receipt {

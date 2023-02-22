@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 const colorMap = {
-    darkGreen: "#249000",
-	lightGreen: "#28A200",
+    // Just for reference, haven't figured out how to pass these to stylesheet
+    lightblue: "#73D1FF",
+	darkblue: "#73C0FF",
 }
 
 const mainStyles = StyleSheet.create({
@@ -9,7 +10,14 @@ const mainStyles = StyleSheet.create({
         flex: 1, 
         justifyContent: "center", 
         alignItems: "center",
-        backgroundColor: "#FFFFFF"
+        backgroundColor: "#E7F8FF"
+    },
+    bigText: {
+        fontSize: 20,
+        fontFamily: "Roboto",
+        fontWeight: "bold",
+        textAlign: 'center',
+        color: '#FFFFFF'
     },
 });
 

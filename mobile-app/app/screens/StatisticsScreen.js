@@ -35,28 +35,28 @@ function StatisticsScreen() {
   }
 
   const handleGetAverages = async (timeframe, month=null) => {
-    var category_string = ``
-    if (category != "all") {
-      category_string = `&category=${category}`
-    }
+    // var category_string = ``
+    // if (category != "all") {
+    //   category_string = `&category=${category}`
+    // }
 
-    var url = `http://${DEVICE_IP}:3000/api/recommender/average?userId=${USER_ID}${category_string}`
-    console.log(url)
-    var temp = await handleGet(url)
-    //if (isNaN(temp["average"]))  temp["average"] = 0
-    setAllUsersAvg(temp["average"])
-    var url = `http://${DEVICE_IP}:3000/api/recommender/weeklyAverage?userId=${USER_ID}${category_string}`
-    console.log(url)
+    // var url = `http://${DEVICE_IP}:3000/api/recommender/average?userId=${USER_ID}${category_string}`
+    // console.log(url)
+    // var temp = await handleGet(url)
+    // //if (isNaN(temp["average"]))  temp["average"] = 0
+    // setAllUsersAvg(temp["average"])
+    // var url = `http://${DEVICE_IP}:3000/api/recommender/weeklyAverage?userId=${USER_ID}${category_string}`
+    // console.log(url)
     
-    var temp = await handleGet(url)
-    //if (isNaN(temp["average"]))  temp["average"] = 0
-    setWeeklyAvg(temp["average"])
+    // var temp = await handleGet(url)
+    // //if (isNaN(temp["average"]))  temp["average"] = 0
+    // setWeeklyAvg(temp["average"])
 
-    var url = `http://${DEVICE_IP}:3000/api/recommender/monthlyAverage?userId=${USER_ID}${category_string}`
-    console.log(url)
-    //if (isNaN(temp["average"]))  temp["average"] = 0
-    var temp = await handleGet(url)
-    setMonthlyAvg(temp["average"])
+    // var url = `http://${DEVICE_IP}:3000/api/recommender/monthlyAverage?userId=${USER_ID}${category_string}`
+    // console.log(url)
+    // //if (isNaN(temp["average"]))  temp["average"] = 0
+    // var temp = await handleGet(url)
+    // setMonthlyAvg(temp["average"])
   }
 
   const showByCategory = () => {

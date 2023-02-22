@@ -37,10 +37,10 @@ function TabScreen() {
 					);
 				},
 				tabBarActiveTintColor: "#FFFFFF",
-				tabBarInactiveTintColor: "#EDFFE7",
-				tabBarActiveBackgroundColor: "#249000",
-				tabBarInactiveBackgroundColor: "#28A200",
-				headerStyle: {backgroundColor: '#E4FFDD'}, 
+				tabBarInactiveTintColor: "#FFFFFF",
+				tabBarActiveBackgroundColor: "#73C0FF",
+				tabBarInactiveBackgroundColor: "#73D1FF",
+				headerStyle: {backgroundColor: '#CCEFFD'}, 
 			})}
 		>
 			<Tab.Screen name="Scanner" component={ScannerScreen} />

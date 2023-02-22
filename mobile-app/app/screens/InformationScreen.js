@@ -14,6 +14,9 @@ import * as React from "react";
 import "../GlobalVars"
 import { Receipt } from "../GlobalVars";
 import { SortByProperty } from "../functions/SortByProperty";
+import {Picker} from '@react-native-picker/picker';
+import mainStyles from "../Styles";
+import { LinearGradient } from 'expo-linear-gradient'
 
 var receiptId = null;
 function InformationScreen() {
@@ -106,10 +109,15 @@ function InformationScreen() {
     }, [sortProperty])
 
     return (
-        <View style={styles.pageBackground}>
+        <View style={mainStyles.pageBackground}>
             <Modal visible={isModalVisible} animationType="fade">
-                <View style={styles.Modal}>
-                    <Text style={styles.bigText}>Store</Text>
+                <LinearGradient
+                    colors={['#73D1FF', '#73C0FF']}
+                    style={styles.Modal}
+                    start={{ x: 0.5, y: 0 }}
+                    end={{ x: 0.7, y: 1 }}
+                >
+                    <Text style={styles.bigTextDark}>Store</Text>
                     <TextInput
                         multiline={true}
                         style={styles.textInput}
@@ -121,7 +129,7 @@ function InformationScreen() {
                         }}
                     />
 
-                    <Text style={styles.bigText}>Category</Text>
+                    <Text style={styles.bigTextDark}>Category</Text>
                     <TextInput
                         multiline={true}
                         style={styles.textInput}
@@ -133,7 +141,7 @@ function InformationScreen() {
                         }}
                     />
 
-                    <Text style={styles.bigText}>Date</Text>
+                    <Text style={styles.bigTextDark}>Date</Text>
                     <TextInput
                         multiline={true}
                         style={styles.textInput}
@@ -145,7 +153,7 @@ function InformationScreen() {
                         }}
                     />
 
-                    <Text style={styles.bigText}>Amount</Text>
+                    <Text style={styles.bigTextDark}>Amount</Text>
                     <TextInput
                         multiline={true}
                         style={styles.textInput}
@@ -156,28 +164,30 @@ function InformationScreen() {
                             setReceipt(temp)
                         }}
                     />
+                    <View flexDirection="row" style={{width: "80%"}}>
+                        <TouchableOpacity
+                        onPress={handleCancel}
+                        style={styles.modalButton}
+                        >
+                            <Text style={{fontWeight: 'bold'}}>Cancel</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                    onPress={handleCancel}
-                    style={styles.modalButton}
-                    >
-                    <Text>Cancel</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                    onPress={handleModalSubmit}
-                    style={styles.modalButton}
-                    >
-                    <Text>Submit</Text>
-                    </TouchableOpacity>
-                </View>
+                        <TouchableOpacity
+                        onPress={handleModalSubmit}
+                        style={styles.modalButton}
+                        >
+                            <Text style={{fontWeight: 'bold'}}>Submit</Text>
+                        </TouchableOpacity>
+                    </View>
+                    
+                </LinearGradient>
             </Modal>
 
             <TouchableOpacity
                 onPress={handleGetReceipts}
                 style={styles.wideButton}>
                 <View style={{ flex: 1 }}>
-                    <Ionicons name={"refresh"} size={26} color={"black"} />
+                    <Ionicons name={"refresh"} size={26} color={"white"} />
                 </View>
                 <View style={{ flex: 1 }}>
                     <Text style={styles.bigText}>Refresh</Text>
@@ -185,22 +195,22 @@ function InformationScreen() {
                 <View style={{ flex: 1 }}/>
             </TouchableOpacity>
 
-            <View style={{ flexDirection: "row", marginTop: 10, justifyContent: "center", alignItems: "center", width:"93%"}}>
+            <View style={{ flexDirection: "row", marginTop: 10, marginBottom: 5, justifyContent: "center", alignItems: "center", width:"93%"}}>
                 <View style={{flex: 2}}>
-                    <Text style={styles.bigText}>Sort By: </Text>
+                    <Text style={styles.bigTextDark}>Sort By: </Text>
                 </View>
-                <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("store")}>
-                    <Text>Store</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("total")}>
-                    <Text>Amount</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("category")}>
-                    <Text>Category</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("date")}>
-                    <Text>Date</Text>
-                </TouchableOpacity>
+                <View style={{flex:6, height:"100%", backgroundColor:"white", borderRadius:20, borderColor: "#73D1FF", borderWidth: 2}}>
+                    <Picker
+                        selectedValue={sortProperty}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSortProperty(itemValue)
+                        }>
+                        <Picker.Item label="Store" value="store" />
+                        <Picker.Item label="Amount" value="total" />
+                        <Picker.Item label="Category" value="category" />
+                        <Picker.Item label="Date" value="date" />
+                    </Picker>
+                </View>
             </View>
 
             <ScrollView style={styles.scroll}>
@@ -208,27 +218,28 @@ function InformationScreen() {
                 {receiptList.map((receipt, index) => {
                     return (
                     <View key={receipt.id} style={styles.receipt}>
-                        <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
-                            Store: {receipt.store}{"\n"}
-                            Amount: ${parseFloat(receipt.total).toFixed(2)}{"\n"}
-                            Category: {receipt.category}{"\n"}
-                            Date: {new Date(receipt.date).toLocaleDateString()}
-                        </Text>
-
-                        <View style={{ flexDirection: "row", marginTop: 10}}>
-                            <TouchableOpacity style={{ marginHorizontal: 50 }}>
-                                <Text style={{fontWeight:"bold"}} onPress={() => {
-                                    receiptId = receipt.id
-                                    setReceipt(getReceiptById(receipt.id))
-                                    toggleModal()
-                                }}>Edit</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ marginHorizontal: 50 }}>
-                                <Text style={{fontWeight:"bold"}} onPress={() => {
-                                    handleDeleteReceipt(receipt.id)
-                                    receiptId = null
-                                }}>Delete</Text>
-                            </TouchableOpacity>
+                        <View style={{ flexDirection: "row", marginTop: 5}}>
+                            <Text style={{ alignSelf: "flex-start", fontSize: 15, flex: 8}}>
+                                Store: {receipt.store}{"\n"}
+                                Amount: ${parseFloat(receipt.total).toFixed(2)}{"\n"}
+                                Category: {receipt.category}{"\n"}
+                                Date: {new Date(receipt.date).toLocaleDateString()}
+                            </Text>
+                            <View style={{ flexDirection: "column", flex: 1}}>
+                                <TouchableOpacity style={{ flex: 1, marginBottom: 5}}>
+                                    <Ionicons name={"create-outline"} size={26} color={"black"} onPress={() => {
+                                        receiptId = receipt.id
+                                        setReceipt(getReceiptById(receipt.id))
+                                        toggleModal()
+                                    }}/>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ flex: 1 }}>
+                                    <Ionicons name={"trash-outline"} size={26} color={"black"} onPress={() => {
+                                        handleDeleteReceipt(receipt.id)
+                                        receiptId = null
+                                    }}/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                     );
@@ -254,17 +265,14 @@ const styles = StyleSheet.create({
     },
     receipt: {
       flex: 1,
-      backgroundColor: "lightblue",
+      backgroundColor: "#B1E8FF",
       alignItems: "center",
       justifyContent: "center",
       padding: 10,
       borderRadius: 10,
-      margin: 5,
-    },
-    pageBackground: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
+      marginBottom: 5,
+      borderColor: "#73D1FF",
+      borderWidth: 2,
     },
     scroll: {
       width: "100%",
@@ -278,22 +286,21 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       marginTop: 5,
       justifyContent: "center",
-      backgroundColor: "lightblue",
-    },
-    smallButton: {
-      flexDirection: "row",
-      width: "47%",
-      padding: 10,
-      borderRadius: 10,
-      marginTop: 20,
-      justifyContent: "center",
-      backgroundColor: "lightblue",
+      backgroundColor: "#73D1FF",
     },
     bigText: {
       fontSize: 20,
       fontFamily: "Roboto",
       fontWeight: "bold",
       textAlign: 'center',
+      color: '#FFFFFF'
+    },
+    bigTextDark: {
+        fontSize: 20,
+        fontFamily: "Roboto",
+        fontWeight: "bold",
+        textAlign: 'center',
+        color: 'black'
     },
     Modal: {
       flex: 1,
@@ -301,30 +308,23 @@ const styles = StyleSheet.create({
       alignItems: "center",
     },
     modalButton: {
-      width: "80%",
+      flex: 1,
       height: 40,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "lightblue",
+      backgroundColor: "white",
       margin: 5,
       borderRadius: 10,
     },
-    sortButton: {
-        flex: 2,
-        height: 40,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "lightblue",
-        margin: 2,
-        borderRadius: 10,
-    },
     textInput: {
-      borderColor: "gray",
+      borderColor: '#73C0FF',
+      backgroundColor: 'white',
+      borderRadius: 20,
       width: "80%",
       height: 50,
       padding: 8,
       margin: 10,
-      borderWidth: 1,
+      borderWidth: 2,
     },
   });
 
