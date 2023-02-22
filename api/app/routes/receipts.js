@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const receipt = require('../controllers/receipt.controller');
 
-// /api/receipt: GET, POST
-// /api/receipt/:id: GET, PUT, DELETE
+// /api/receipts: GET, POST
+// /api/receipts/:id: GET, PUT, DELETE
 
 // create a receipt
 router.post('/', receipt.create);

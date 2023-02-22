@@ -1,0 +1,23 @@
+const express = require('express');
+const router = express.Router();
+const reminder = require('../controllers/reminder.controller');
+
+// /api/reminders: GET, POST
+// /api/reminders/:id: GET, PUT, DELETE
+
+// create a reminder
+router.post('/', reminder.create);
+
+// get all reminder
+router.get('/', reminder.findAll);
+
+// get one reminder
+router.get('/:id', reminder.findOne);
+
+// update a reminder
+router.put('/:id', reminder.update);
+
+// delete a reminder
+router.delete('/:id', reminder.delete);
+
+module.exports = router;
