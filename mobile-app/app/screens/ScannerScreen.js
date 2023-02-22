@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import "../GlobalVars"
 import {Receipt, Item} from "../GlobalVars";
 import mainStyles from "../Styles";
+import { LinearGradient } from 'expo-linear-gradient'
 
 function ScannerScreen() {
     const [photoPath, setPhotoPath] = React.useState("a")
@@ -114,18 +115,23 @@ function ScannerScreen() {
     return (
         <View style={mainStyles.pageBackground}>
             <TouchableOpacity style={styles.button} onPress={pickImage}>
-                <Text>Upload Image From Device</Text>
+                <Text style={styles.itemText}>Upload Image From Device</Text>
             </TouchableOpacity>
             <View style={{ flexDirection: "row"}}>
                 <TouchableOpacity style={styles.button} onPress={handleGetScanData}>
-                    <Text>Get Scan Data</Text>
+                    <Text style={styles.itemText}>Get Scan Data</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={handleUploadScanData}>
-                    <Text>Confirm Data and Upload</Text>
+                    <Text style={styles.itemText}>Confirm Data and Upload</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.receipt}>
+            <LinearGradient
+                colors={['#73D1FF', '#73C0FF']}
+                style={styles.receipt}
+                start={{ x: 0.5, y: 0 }}
+                end={{ x: 0.7, y: 1 }}
+            >
                 <Text style={styles.itemText}>Store</Text>
                 <TextInput multiline={true} style={styles.textInput} defaultValue={scanData["receipt"]["store"]} 
                 onChangeText={(val) => {handleEditReceiptText(val, "store")}}/>
@@ -137,7 +143,7 @@ function ScannerScreen() {
                 <Text style={styles.itemText}>Total Amount</Text>
                 <TextInput multiline={true} style={styles.textInput} defaultValue={scanData["receipt"]["total"]} 
                 onChangeText={(val) => {handleEditReceiptText(val, "store")}}/>
-            </View>
+            </LinearGradient>
 
             <View style={{height:"50%", width: "100%"}}>
             <ScrollView style={styles.scroll}>
@@ -170,16 +176,10 @@ function ScannerScreen() {
 const styles = StyleSheet.create({
     button: {
         alignItems: "center",
-        backgroundColor: "#E6FFDE",
+        backgroundColor: "#73D1FF",
         padding: 10,
         borderRadius: 10,
         margin: 5
-    },
-    pageBackground: {
-        flex: 1, 
-        justifyContent: "center", 
-        alignItems: "center",
-        backgroundColor: "#FFFFFF"
     },
     item: {
         flex: 1,
@@ -191,12 +191,16 @@ const styles = StyleSheet.create({
         margin: 5,
       },
     textInput: {
-        borderColor: "gray",
+        borderColor: "#FFFFFF",
+        borderWidth: 1,
+        borderRadius: 15,
+        marginBottom: 10,
         width: "100%",
         height: 40,
         padding: 8,
         margin: 5,
-        borderWidth: 1,
+        color: '#FFFFFF',
+        
     },
     scroll: {
         width: "100%",
@@ -207,11 +211,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontFamily: "Roboto",
         fontWeight: "bold",
-        alignSelf: "flex-start"
+        alignSelf: "flex-start",
+        color: '#FFFFFF'
     },
     receipt: {
         width: "93%",
-        backgroundColor: "lightblue",
         alignItems: "center",
         justifyContent: "center",
         padding: 10,

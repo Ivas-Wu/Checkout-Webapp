@@ -16,6 +16,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import "../GlobalVars"
 import { SortByProperty } from "../functions/SortByProperty";
 import {mainStyles, colorMap} from "../Styles";
+import {Picker} from '@react-native-picker/picker';
+import { LinearGradient } from 'expo-linear-gradient'
 
 var editGoalId = null    // indicates id of goal when editing goals, if null then it is an add operation
 const GOAL_STORAGE_KEY = "goal_storage_key" //used for local storage
@@ -57,8 +59,8 @@ function GoalsScreen() {
           fetch(`http://${DEVICE_IP}:3000/api/goals?userId=${USER_ID}`)
           .then(response => response.json())
           .then(goalsJSON => {
-            console.log(goalsJSON)
-            var sortedList = SortByProperty(goalsList, sortProperty)
+            var sortedList = SortByProperty(goalsJSON, sortProperty)
+            console.log(sortedList)
             setGoals(sortedList)
           })
       } catch (error) {
@@ -191,7 +193,12 @@ function GoalsScreen() {
   return (
     <View style={styles.pageBackground}>
       <Modal visible={isGoalModalVisible} animationType="fade">
-        <View style={styles.GoalModal}>
+        <LinearGradient
+          colors={['#73D1FF', '#73C0FF']}
+          style={styles.GoalModal}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.7, y: 1 }}
+        >
           <KeyboardAvoidingView
             behaviour="position"
             style={{
@@ -225,7 +232,7 @@ function GoalsScreen() {
 
               <TouchableOpacity onPress={() => setIsDatePickerVisible(true)}
                 style={styles.dateButton}>
-                <Text style={styles.bigText}>
+                <Text style={styles.bigTextDark}>
                   {goal.targetDate === null
                   ? "Choose a Date"
                   : goal.targetDate.toString()}
@@ -233,7 +240,7 @@ function GoalsScreen() {
               </TouchableOpacity>
 
               {isDatePickerVisible && <DateTimePicker
-                style={{width: '80%', height: 50}}
+                style={{width: '80%', height: '30%'}}
                 mode="date"
                 value={new Date()}
                 is24Hour={true}
@@ -246,31 +253,33 @@ function GoalsScreen() {
                   setIsDatePickerVisible(false);
                 }}
               />}
-              
 
             </View>
-            <TouchableOpacity
-              onPress={handleCancel}
-              style={styles.modalButton}
-            >
-              <Text>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleGoalModalSubmit}
-              style={styles.modalButton}
-            >
-              <Text>Submit</Text>
-            </TouchableOpacity>
+            <View style={{flexDirection: 'row', width: '80%'}}>
+              <TouchableOpacity
+                onPress={handleCancel}
+                style={styles.modalButton}
+              >
+                <Text>Cancel</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={handleGoalModalSubmit}
+                style={styles.modalButton}
+              >
+                <Text>Submit</Text>
+              </TouchableOpacity>
+            </View>
           </KeyboardAvoidingView>
-        </View>
+        </LinearGradient>
       </Modal>
 
       {<TouchableOpacity
         onPress={handleGetGoals}
-        style={styles.newGoalButton}
+        style={styles.wideButton}
       >
         <View style={{ flex: 1 }}>
-          <Ionicons name={"refresh"} size={26} color={"black"} />
+          <Ionicons name={"refresh"} size={26} color={"white"} />
         </View>
         <View style={{ flex: 1 }}>
           <Text style={styles.bigText}>Refresh</Text>
@@ -294,10 +303,10 @@ function GoalsScreen() {
 
       <TouchableOpacity
         onPress={toggleGoalModal}
-        style={styles.newGoalButton}
+        style={styles.wideButton}
       >
         <View style={{ flex: 1 }}>
-          <Ionicons name={"add-circle-outline"} size={26} color={"black"} />
+          <Ionicons name={"add-circle-outline"} size={26} color={"white"} />
         </View>
         <View style={{ flex: 2 }}>
           <Text style={styles.bigText}>Add New Goal</Text>
@@ -305,49 +314,57 @@ function GoalsScreen() {
         <View style={{ flex: 1 }}/>
       </TouchableOpacity>
 
-      <View style={{ flexDirection: "row", marginTop: 10, justifyContent: "center", alignItems: "center", width:"95%"}}>
+      <View style={{ flexDirection: "row", marginTop: 10, marginBottom: 5, justifyContent: "center", alignItems: "center", width:"93%"}}>
         <View style={{flex: 2}}>
-            <Text style={styles.bigText}>Sort By: </Text>
+            <Text style={styles.bigTextDark}>Sort By: </Text>
         </View>
-        <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("goalName")}>
-            <Text>Name</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("goalDesc")}>
-            <Text>Description</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("createdAt")}>
-            <Text>Creation Date</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.sortButton} onPress={() => setSortProperty("targetDate")}>
-            <Text>Target Date</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={{flex:6, height:"100%", backgroundColor:"white", borderRadius:20, borderColor: "#73D1FF", borderWidth: 2}}>
+            <Picker
+                selectedValue={sortProperty}
+                onValueChange={(itemValue, itemIndex) =>
+                    setSortProperty(itemValue)
+                }>
+                <Picker.Item label="Name" value="goalName" />
+                <Picker.Item label="Description" value="goalDesc" />
+                <Picker.Item label="Creation Date" value="createdAt" />
+                <Picker.Item label="Target Date" value="targetDate" />
+            </Picker>
+        </View>
+    </View>
 
       <ScrollView style={styles.goalScroll}>
         <View>
           {GoalList.map((goal, index) => {
             return (
               <View key={goal.id} style={styles.goal}>
-                <Text style={{ alignSelf: "flex-start", fontSize: 20 }}>
-                  {goal.goalName}
-                </Text>
-                <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
-                  {goal.goalDesc}
-                </Text>
-                <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
-                  Created On: {goal.createdAt}
-                </Text>
-                {/* <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
-                  Target Date: {goal.targetDate}
-                </Text> */}
-                <View style={{ flexDirection: "row", marginTop: 10}}>
-                  <TouchableOpacity style={{ marginHorizontal: 50 }}>
-                    <Text style={{fontWeight:"bold"}} onPress={() => handleEditGoal(goal.id)}>Edit</Text>
+                <View style={{flex: 8}}>
+                  <Text style={{ alignSelf: "flex-start", fontSize: 20 }}>
+                    {goal.goalName}
+                  </Text>
+                  <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
+                    {goal.goalDesc}
+                  </Text>
+                  <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
+                    Created On: {goal.createdAt}
+                  </Text>
+                  {/* <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
+                    Target Date: {goal.targetDate}
+                  </Text> */}
+                </View>
+                  
+                <View style={{ flexDirection: "column", marginTop: 10, flex:1}}>
+                  <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
+                    <Ionicons name={"create-outline"} size={26} color={"black"} onPress={() => {
+                        handleEditGoal(goal.id)
+                    }}/>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{ marginHorizontal: 50 }}>
-                    <Text style={{fontWeight:"bold"}} onPress={() => handleDeleteGoal(goal.id)}>Delete</Text>
+                  <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
+                    <Ionicons name={"trash-outline"} size={26} color={"black"} onPress={() => {
+                        handleDeleteGoal(goal.id)
+                    }}/>
                   </TouchableOpacity>
                 </View>
+                
               </View>
             );
           })}
@@ -360,31 +377,35 @@ function GoalsScreen() {
 const styles = StyleSheet.create({
   goal: {
     flex: 1,
-    backgroundColor: "lightblue",
+    backgroundColor: "#B1E8FF",
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
     borderRadius: 10,
-    margin: 5,
+    flexDirection: "row",
+    marginTop: 5,
+    borderColor: "#73D1FF",
+    borderWidth: 2,
   },
   pageBackground: {
-    flex: 1,
-    justifyContent: "center",
+    flex: 1, 
+    justifyContent: "center", 
     alignItems: "center",
+    backgroundColor: "#E7F8FF"
   },
   goalScroll: {
     width: "100%",
     padding: 10,
     borderRadius: 10,
   },
-  newGoalButton: {
+  wideButton: {
     flexDirection: "row",
     width: "94%",
     padding: 10,
     borderRadius: 10,
     marginTop: 5,
     justifyContent: "center",
-    backgroundColor: "#A0FF88",
+    backgroundColor: "#73D1FF",
   },
   smallButton: {
     flexDirection: "row",
@@ -398,19 +419,27 @@ const styles = StyleSheet.create({
   dateButton: {
     flexDirection: "row",
     width: "50%",
-    height: "20%",
+    height: "15%",
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 20,
     marginTop: 20,
+    marginBottom: 20,
     justifyContent: "center",
-    backgroundColor: "lightblue",
+    backgroundColor: 'white'
   },
   bigText: {
     fontSize: 20,
     fontFamily: "Roboto",
     fontWeight: "bold",
     textAlign: 'center',
-    color: "black",
+    color: '#FFFFFF'
+  },
+  bigTextDark: {
+      fontSize: 20,
+      fontFamily: "Roboto",
+      fontWeight: "bold",
+      textAlign: 'center',
+      color: 'black'
   },
   formFieldText: {
     fontSize: 20,
@@ -426,23 +455,23 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   modalButton: {
-    width: "80%",
+    flex: 1,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightblue",
+    backgroundColor: "white",
     margin: 5,
     borderRadius: 10,
   },
   textInput: {
-    borderColor: "gray",
+    borderColor: '#73C0FF',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    width: "80%",
     height: 50,
     padding: 8,
     margin: 10,
     borderWidth: 2,
-    borderRadius: 10,
-    width: "90%",
-    marginBottom: 30,
   },
   sortButton: {
     flex: 2,
