@@ -4,8 +4,8 @@ export type Reminder = {
     reminderName: string;
     reminderDesc?: string;
     date?: Date;
-    urgent: boolean;
-    remindme?: number;
+    alertMe: boolean;
+    altertAt?: number;
   };
   
   export type ReminderCreateReq = {
@@ -13,15 +13,15 @@ export type Reminder = {
     reminderName: string;
     reminderDesc?: string;
     date?: Date;
-    urgent: boolean;
-    remindme?: number;
+    alertMe: boolean;
+    alertAt?: number;
   };
   
   export type ReminderUpdateReq = {
     reminderName?: string;
     reminderDesc?: string;
     date?: Date;
-    urgent: boolean;
-    remindme?: number;
+    alertMe: boolean;
+    alertAt?: number;
   };
   

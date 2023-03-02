@@ -44,12 +44,14 @@ const goal = require('./app/routes/goals')
 app.use('/api/goals', goal)
 const receipt = require('./app/routes/receipts')
 app.use('/api/receipts', receipt)
-const item = require('./app/routes/items')
-app.use('/api/items', item)
-const scanner = require('./app/routes/scanner')
-app.use('/api/scanner', scanner)
 const recommender = require('./app/routes/recommender')
 app.use('/api/recommender', recommender)
+const reminder = require('./app/routes/reminders')
+app.use('/api/reminders', reminder)
+const scanner = require('./app/routes/scanner')
+app.use('/api/scanner', scanner)
+const target = require('./app/routes/targets')
+app.use('/api/targets', target)
 
 // listening port
 const PORT = process.env.PORT || 3000;

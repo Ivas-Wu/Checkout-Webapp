@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const goal = require('../controllers/goal.controller');
 
-// /api/receipt: GET, POST
-// /api/receipt/:id: GET, PUT, DELETE
+// /api/goals: GET, POST
+// /api/goals/:id: GET, PUT, DELETE
 
 // create a goal
 router.post('/', goal.create);

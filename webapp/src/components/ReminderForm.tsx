@@ -24,8 +24,8 @@ interface IReminderTask {
   taskDescription: string;
   date?: Date;
   id: number;
-  urgent: boolean;
-  remindme?: number;
+  alertMe: boolean;
+  alertAt?: number;
 }
 
 export const Reminderform: React.FC<IReminderFormProps> = () => {
@@ -35,8 +35,8 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
     taskDescription: "HardCoded to Test before API is made",
     date: undefined,
     id: 1,
-    urgent: true,
-    remindme: 1,
+    alertMe: true,
+    alertAt: 1,
   }]);
   const [selectedRows, setSelectedRows] = useState<IReminderTask[]>([]);
   const [openCreate, setOpenCreate] = useState<boolean>(false);
@@ -78,8 +78,8 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
         taskDescription: reminder.reminderDesc ? reminder.reminderDesc : '',
         date: reminder.date,
         id: reminder.id,
-        urgent: reminder.urgent,
-        remindme: reminder.remindme,
+        alertMe: reminder.alertMe,
+        alertAt: reminder.altertAt,
       };
       returnValue.push(newTask);
     });
