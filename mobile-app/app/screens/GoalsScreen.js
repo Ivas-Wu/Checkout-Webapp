@@ -92,6 +92,7 @@ function GoalsScreen() {
       } catch (error) {
         console.error(error)
       }
+      handleGetGoals()
     }
 
     const handleUpdateGoal = async () => {
@@ -172,6 +173,30 @@ function GoalsScreen() {
           console.error(error)
       }
     };
+
+    const handleToggleGoalCheckbox = async (goal) => {
+      goal.completed = !goal.completed
+      editGoalId = goal.id
+      console.log(goal.completed)
+      console.log(`http://${DEVICE_IP}:3000/api/goals/` + editGoalId)
+      try {
+        const response = await fetch(
+            `http://${DEVICE_IP}:3000/api/goals/` + editGoalId,
+            {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(goal)
+            }
+        )
+        const text = await response.text()
+        console.log(text)
+      } catch (error) {
+        console.error(error)
+      }
+      handleGetGoals()
+    }
 
 /*
     const handleSaveGoals = async () => {
@@ -353,6 +378,11 @@ function GoalsScreen() {
                 </View>
                   
                 <View style={{ flexDirection: "column", marginTop: 10, flex:1}}>
+                  <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
+                    <Ionicons name={goal.completed ? "checkbox-outline" : "square-outline"} size={26} color={"black"} onPress={() => {
+                        handleToggleGoalCheckbox(goal)
+                    }}/>
+                  </TouchableOpacity>
                   <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
                     <Ionicons name={"create-outline"} size={26} color={"black"} onPress={() => {
                         handleEditGoal(goal.id)

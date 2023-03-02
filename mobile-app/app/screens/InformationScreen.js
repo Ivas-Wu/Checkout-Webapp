@@ -51,7 +51,7 @@ function InformationScreen() {
 
     const handleUpdateReceipt = async () => {
         var updatedReceipt = getReceiptById(receiptId)
-        console.log(receipt)
+        //console.log(receipt)
         updatedReceipt.store = receipt.store
         updatedReceipt.category = receipt.category
         updatedReceipt.date = receipt.date
@@ -75,6 +75,7 @@ function InformationScreen() {
         } catch (error) {
           console.error(error)
         }
+        handleGetReceipts()
     }
 
     const handleDeleteReceipt = async (receiptId) => {
@@ -202,9 +203,11 @@ function InformationScreen() {
                 <View style={{flex:6, height:"100%", backgroundColor:"white", borderRadius:20, borderColor: "#73D1FF", borderWidth: 2}}>
                     <Picker
                         selectedValue={sortProperty}
-                        onValueChange={(itemValue, itemIndex) =>
+                        onValueChange={(itemValue, itemIndex) => {
                             setSortProperty(itemValue)
-                        }>
+                            handleGetReceipts()
+                        } 
+                    }>
                         <Picker.Item label="Store" value="store" />
                         <Picker.Item label="Amount" value="total" />
                         <Picker.Item label="Category" value="category" />

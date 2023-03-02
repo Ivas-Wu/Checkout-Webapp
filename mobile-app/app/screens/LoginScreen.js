@@ -2,73 +2,14 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput} from "reac
 import * as React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as AuthSession from "expo-auth-session";
-import Auth0 from 'react-native-auth0';
+import mainStyles from "../Styles";
+import { LinearGradient } from 'expo-linear-gradient'
 //https://github.com/GuyAvraham/expo-auth0-example-2020/blob/master/Utils/Auth.ts
 //https://itnext.io/user-authentication-with-expo-cli-6ac853c272d4
 function LoginScreen({navigation}) {
 
 	const [userName, setUserName] = React.useState("");
 	const [password, setPassword] = React.useState("");
-
-	const auth0ClientId = "kvxyMO4VLss2cshj9N7dgL8BG9Oy6tXh";
-	const auth0Domain = 'dev-6jv88y2a.us.auth0.com/';
-
-	const useProxy = Platform.select({ web: false, default: true });
-	const redirectUri = AuthSession.makeRedirectUri({ useProxy });
-	console.log(redirectUri)
-
-	/*const [request, result, promptAsync] = AuthSession.useAuthRequest(
-		{
-		  redirectUri,
-		  clientId: auth0ClientId,
-		  // id_token will return a JWT token
-		  responseType: 'id_token',
-		  // retrieve the user's profile
-		  scopes: ['openid', 'profile', 'email'],
-		  extraParams: {
-			// ideally, this will be a random value
-			nonce: 'nonce',
-		  },
-		},
-		{ authorizationEndpoint }
-	);*/
-
-	const toQueryString = (params) => {
-		var resultString = '?'// + new URLSearchParams(params).toString()
-		let str = [];
-		for (let p in params)
-    		if (params.hasOwnProperty(p)) {
-      			str.push(encodeURIComponent(p) + "=" + encodeURIComponent(params[p]));
-    		}
-  		resultString += str.join("&");
-		console.log("resultString: ", resultString)
-		return resultString
-	}
-
-	const login = async() => {
-		console.log("login start")
-		const params = {
-			client_id: auth0ClientId,
-			redirect_uri: redirectUri,
-			// response_type:
-			// id_token will return a JWT token with the profile as described on the scope
-			// token will return access_token to use with further api calls
-			response_type: "id_token",
-			//nonce: "nonce", // ideally, this will be a random value
-			//rememberLastLogin: true,
-		};
-		const queryParams = toQueryString(params);
-		const authUrl = `https://${auth0Domain}/authorize${queryParams}`;
-		console.log("full url: ", authUrl)
-
-		const response = await AuthSession.startAsync({
-			authUrl,
-			showInRecents: true
-		});
-
-		console.log(response)
-	}
-	
 
 	const handleLogIn = () => {
 		navigation.navigate("Tab")
@@ -81,7 +22,12 @@ function LoginScreen({navigation}) {
 	}
 
 	return (
-		<View style={styles.container}>
+		<LinearGradient
+			colors={['#73D1FF', '#B1DBFF']}
+			style={styles.background}
+			start={{ x: 1, y: 1.5 }}
+			end={{ x: 0, y: 0 }}
+		>
 			<View>
 				<Ionicons name="wallet-outline" size={100}/>
 			</View>
@@ -107,37 +53,40 @@ function LoginScreen({navigation}) {
 			<TouchableOpacity style={styles.button} onPress={handleLogIn}>
 				<Text style={{fontWeight: "bold", fontSize: 15}}>Log In</Text>
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.button} onPress={handleSignup}>
+			{/* <TouchableOpacity style={styles.button} onPress={handleSignup}>
 				<Text style={{fontWeight: "bold", fontSize: 15}}>Sign Up</Text>
-			</TouchableOpacity>
-		</View>
+			</TouchableOpacity> */}
+		</LinearGradient>
 	)
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "ghostwhite",
-		alignItems: "center",
+	background: {
+		width: "100%",
+		height: "100%",
 		justifyContent: "center",
+		alignItems: "center",
 	},
 	button: {
 		width: "80%",
 		height: 40,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "lightblue",
+		backgroundColor: "white",
 		margin: 5,
-		borderRadius: 20,
+		borderRadius: 15,
 	},
 	textInput: {
-		borderColor: "gray",
-		width: "80%",
-		height: 50,
-		padding: 10,
-		margin: 5,
-		borderWidth: 1,
-		borderRadius: 10
+		borderColor: "#FFFFFF",
+        borderWidth: 2,
+        borderRadius: 15,
+        marginBottom: 10,
+        width: "80%",
+        height: 40,
+        padding: 8,
+        margin: 5,
+		backgroundColor: "white",
+        color: 'black',
 	},
 	titleText: {
 		fontSize: 40,

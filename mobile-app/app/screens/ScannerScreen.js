@@ -200,7 +200,6 @@ const styles = StyleSheet.create({
         padding: 8,
         margin: 5,
         color: '#FFFFFF',
-        
     },
     scroll: {
         width: "100%",

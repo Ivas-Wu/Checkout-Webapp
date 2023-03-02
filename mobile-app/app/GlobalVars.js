@@ -1,5 +1,6 @@
 //global.DEVICE_IP = "192.168.0.155"
-global.DEVICE_IP = "192.168.1.147"
+//global.DEVICE_IP = "192.168.1.147"
+global.DEVICE_IP = "192.168.50.44"  // 201 Lester
 global.USER_ID = 4
 
 export class Receipt {

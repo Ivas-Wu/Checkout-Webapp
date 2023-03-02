@@ -20,6 +20,7 @@ function compare (a, b) {
 
 export const SortByProperty = (list, property) => {
     sort_property = property
-    return list.sort(compare)
+    console.log("sort property:" , property)
+    return list.sort(compare).reverse()
 }
 
