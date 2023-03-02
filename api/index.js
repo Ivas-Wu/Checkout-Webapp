@@ -52,6 +52,8 @@ const scanner = require('./app/routes/scanner')
 app.use('/api/scanner', scanner)
 const target = require('./app/routes/targets')
 app.use('/api/targets', target)
+const item = require('./app/routes/items')
+app.use('/api/items', item)
 
 // listening port
 const PORT = process.env.PORT || 3000;
