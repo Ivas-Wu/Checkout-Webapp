@@ -1,10 +1,13 @@
 import requests
 import json
 import re
+import sys
+from PIL import Image
 
 PLACE_NAME = 'Store'
 TOTAL = 'Total'
-def ocr_receipt(filename, api_key, overlay=False, tabulate=True, language='eng'):
+
+def ocr_receipt(image_file, api_key, overlay=False, tabulate=True, language='eng'):
     """ OCR.space API request with local file.
     :param filename: Your file path & name.
     :param overlay: Is OCR.space overlay required in your response.
@@ -21,11 +24,11 @@ def ocr_receipt(filename, api_key, overlay=False, tabulate=True, language='eng')
                'language': language,
                'isTable': tabulate,
                }
-    with open(filename, 'rb') as f:
-        r = requests.post('https://api.ocr.space/parse/image',
-                          files={filename: f},
-                          data=payload,
-                          )
+    #img = Image.open(image_file)
+    r = requests.post('https://api.ocr.space/parse/image',
+                        files={"image_file": image_file},
+                        data=payload,
+                        )
     ocr_content = r.content.decode()
     ocr_content_json = json.loads(ocr_content)
     return_json = convert_to_json(ocr_content_json['ParsedResults'][0]['ParsedText'])
@@ -80,8 +83,9 @@ def process_num(string):
 
 def main():
     api_key = 'K83047060888957'
-    file_path = './app/controllers/scanner_util/uploads/current_receipt.jpg'
-    return_file = ocr_receipt(filename=file_path, api_key=api_key, overlay=False)
+    image_file_path = sys.argv[1]
+    with open(image_file_path, 'rb') as f:
+        return_file = ocr_receipt(image_file=f, api_key=api_key, overlay=False)
     print(return_file)
     
 
