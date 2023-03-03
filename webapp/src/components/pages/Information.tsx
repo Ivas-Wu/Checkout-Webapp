@@ -47,7 +47,7 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
           buttonSize="btn--medium"
           onClick={togglePopup}
         >
-          Add Value
+          Add Receipt
         </Button>
         <Modal
           open={isPopupVisible}

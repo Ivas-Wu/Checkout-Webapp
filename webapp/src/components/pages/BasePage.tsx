@@ -152,10 +152,10 @@ const Home: React.FC = () => {
                         Area of Focus: Backend and infastructure
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Interests: 
+                        Interests: Soccer, Surfing, Video Games
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                      Song on Repeat:
+                        Song on Repeat: Glass Animals - Youth
                       </Typography>
                     </div>
                     <div>
