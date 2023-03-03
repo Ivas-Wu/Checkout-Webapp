@@ -19,7 +19,7 @@ import mainStyles from "../Styles";
 import { LinearGradient } from 'expo-linear-gradient'
 
 var receiptId = null;
-function InformationScreen() {
+function InformationScreen({navigation}) {
     
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const toggleModal = () => setIsModalVisible(() => !isModalVisible);
