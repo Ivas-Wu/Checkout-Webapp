@@ -8,6 +8,9 @@ const target = require('../controllers/target.controller');
 // create a target
 router.post('/', target.create);
 
+// create a target
+router.get('/total', target.total);
+
 // get all targets
 router.get('/', target.findAll);
 

@@ -1,18 +1,12 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as React from "react";
-import * as ImagePicker from 'expo-image-picker';
 
 function SettingsScreen({navigation}) {
-    const handleLogOut = () => {
-		navigation.navigate("Login")
-	}
 
 	return (
-		<View style={styles.container}>
-			<TouchableOpacity style={styles.Button} onPress={handleLogOut}>
-				<Text>Log Out</Text>
-			</TouchableOpacity>
+		<View style={styles.pageBackground}>
+			
 		</View>
 	)
 }
@@ -33,6 +27,7 @@ const styles = StyleSheet.create({
         flex: 1, 
         justifyContent: "center", 
         alignItems: "center",
+        backgroundColor: "#E7F8FF"
     },
     Button: {
 		width: "60%",

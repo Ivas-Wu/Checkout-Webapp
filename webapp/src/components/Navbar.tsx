@@ -13,6 +13,7 @@ export const Navbar: React.FC = () => {
   const closeMMenu = () => setClick(false);
 
   const { isAuthenticated, isLoading } = useAuth0();
+  const { user } = useAuth0();
 
   return (
     <>
@@ -51,7 +52,7 @@ export const Navbar: React.FC = () => {
                 </Link>
               </li>
             </ul>
-            <Menu name="Test 1"/>
+            <Menu name={user?.name}/>
           </div>
         )}
         {!isAuthenticated && !isLoading && (

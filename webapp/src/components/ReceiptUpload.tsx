@@ -17,15 +17,13 @@ const ReceiptUpload = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: window.innerWidth*0.3,
+    width: window.innerWidth*0.5,
     height: window.innerHeight*0.6,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    bgcolor: '#F1FCFF',
     boxShadow: 24,
-    margin: 0,
-    pt: 2,
-    px: 4,
-    pb: 3,
+    pb: 2,
+    padding: '4%',
+    paddingTop: '2%'
   };
 
   const handleSubmit = async (event: any) => {
@@ -58,14 +56,12 @@ const ReceiptUpload = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{position:'relative'}}>
-      <input type="file" onChange={handleFileSelect} />
-      <input type="submit" value="Upload File" />
+    <form onSubmit={handleSubmit} style={{position:'relative', top:'30%'}}>
+      <input type="file" onChange={handleFileSelect} style={{position:'relative', left:'30%'}} />
+      <input type="submit" value="Upload File" style={{position:'relative', left:'30%'}} />
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <ImageEditData

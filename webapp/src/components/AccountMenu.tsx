@@ -13,7 +13,7 @@ import LogoutButton from './auth/LogoutButton';
 import './AccountMenu.css';
  
 export interface MenuProps {
-  name: string;
+  name: string | undefined;
 }
 
 export default function AccountMenu(props: MenuProps) {
@@ -26,6 +26,8 @@ export default function AccountMenu(props: MenuProps) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const user_name = (typeof props.name === 'undefined') ? "User" : props.name
 
   function stringToColor(string: string) {
     let hash = 0;
@@ -71,8 +73,8 @@ export default function AccountMenu(props: MenuProps) {
             aria-expanded={open ? 'true' : undefined}
           >
             <Avatar
-              {...stringAvatar(props.name)}
-              sx={{ width: 52, height: 52, bgcolor: stringToColor(props.name) }}
+              {...stringAvatar(user_name)}
+              sx={{ width: 52, height: 52, bgcolor: stringToColor(user_name) }}
             />
           </IconButton>
         </Tooltip>

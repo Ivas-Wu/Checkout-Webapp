@@ -19,15 +19,14 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
 
   const style = {
     position: 'relative',
+    display: 'inline-block',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: window.innerWidth*0.6,
-    height: window.innerHeight*0.3,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    width: window.innerWidth * 0.6,
+    height: window.innerHeight * 0.3,
+    bgcolor: '#F1FCFF',
     boxShadow: 24,
-    margin: 0,
     pt: 2,
     px: 4,
     pb: 3,
@@ -42,25 +41,26 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
   return (
     <>
       <Welcome>This is the Information Page</Welcome>
-      <div className="header" style={{background:'#F1FCFF'}}>
+      <div className="header" style={{ background: '#F1FCFF' }}>
         <Button
           buttonStyle="btn--extra"
           buttonSize="btn--medium"
           onClick={togglePopup}
         >
-          Add Value
+          Add Receipt
         </Button>
-      </div>
-      <Modal
+        <Modal
           open={isPopupVisible}
           onClose={togglePopup}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={{...style}}>
+          <Box sx={{ ...style }}>
             <ReceiptUpload />
           </Box>
-      </Modal>
+        </Modal>
+      </div>
+
       <Box sx={{ ...outer_style }}>
         <Table2 rerender={isPopupVisible} />
       </Box>

@@ -5,29 +5,32 @@ import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import Recomender from '../Recomender';
 
 export interface ISettingsPagePros {}
 
 const Settings: React.FC<ISettingsPagePros> = () => {
-    const style = {
-        width: window.innerWidth*0.8,
-    }
+  const style = {
+    width: window.innerWidth * 0.8,
+  };
   return (
     <>
-      <Welcome>Settings Page TODO</Welcome>
+      <Welcome>TEMP Recomender</Welcome>
       <Box
         component="form"
         sx={{
-            width: window.innerWidth*0.8,
-            height: window.innerHeight*0.8,
-            marginLeft: window.innerWidth*0.01,
-            marginRight: window.innerWidth*0.01,
+          width: window.innerWidth * 0.8,
+          height: window.innerHeight * 0.8,
+          marginLeft: window.innerWidth * 0.01,
+          marginRight: window.innerWidth * 0.01,
           '& .MuiTextField-root': { m: 1, width: '25ch' },
         }}
         noValidate
         autoComplete="off"
       >
-        <div>
+        <Recomender></Recomender>
+
+        {/* <div>
           <TextField
             required
             id="standard-required"
@@ -95,7 +98,7 @@ const Settings: React.FC<ISettingsPagePros> = () => {
           defaultValue={50}
           aria-label="Default"
           valueLabelDisplay="auto"
-        />
+        /> */}
       </Box>
     </>
   );

@@ -30,6 +30,7 @@ export interface IGraphsProps {
   graph: charts;
   width?: number;
   height?: number;
+  target: number;
 }
 
 export interface GraphReq {
@@ -38,17 +39,19 @@ export interface GraphReq {
   category: Category;
 }
 
-const Graphs: React.FC<IGraphsProps> = ({ graph, width, height }) => {
+const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
   const userId = localStorage.getItem('user-id');
   const [graphData, setData] = useState<GraphReq[]>([]);
+  const [totalA, setTotalA] = useState<number>(0);
   const containerWidth = width? width : window.innerWidth*0.5;
   const containerHeight = height? height : window.innerWidth*0.5;
   useEffect(() => {
     getData();
   }, []);
 
-  function convertGoals(data: Receipt[]): GraphReq[] {
+  function convertReceipts(data: Receipt[]): GraphReq[] {
     let returnValue: GraphReq[] = [];
+    let total = 0;
     data.forEach(function (data) {
       const newData = {
         date: data.date ? data.date : data.createdAt,
@@ -57,8 +60,10 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height }) => {
           ? convertCategory(data.category)
           : Category.OTHER,
       };
+      total += Number(data.total);
       returnValue.push(newData);
     });
+    setTotalA(total);
     return returnValue;
   }
 
@@ -66,7 +71,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height }) => {
     axios
       .get(`http://localhost:3000/api/receipts?userId=${userId}`)
       .then((res) => {
-        let data: GraphReq[] = convertGoals(res.data);
+        let data: GraphReq[] = convertReceipts(res.data);
         setData(data);
         console.log(res.data);
       });
@@ -147,19 +152,42 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height }) => {
       { name: 'Utilities', value: 0 },
     ];
 
+    const COLORS2 = [
+      '#64c2f5',
+      '#f57d87',
+      '#82e0a5',
+    ];
+
+    const compare = [
+      { name: 'On Budget', value: 0 },
+      { name: 'Over Budget', value: 0 },
+      { name: 'Under Budget', value: 0 },
+    ];
+
     graphData.forEach(function (data) {
       let flag = false;
       d.forEach(function (d2) {
         if (convertCategory(d2.name) === data.category) {
-          d2.value = d2.value + Number(data.amt);
+          d2.value += Number(data.amt);
           flag = true;
         }
       });
       if (!flag) {
         console.log(typeof data.amt);
-        d[0].value = d[0].value + Number(data.amt);
+        d[0].value += Number(data.amt);
       }
     });
+
+    if (totalA > target){
+      compare[1].value += totalA-target;
+      compare[0].value += target;
+    }
+    else {
+      compare[2].value += target-totalA;
+      compare[0].value += totalA;
+      console.log(totalA);
+    }
+
 
     return (
       <ResponsiveContainer width={containerWidth} height={containerHeight}>
@@ -170,13 +198,26 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height }) => {
             data={d}
             cx={'40%'}
             cy={'50%'}
-            outerRadius={'60%'}
-            innerRadius={'30%'}
+            outerRadius={'70%'}
+            // innerRadius={'60%'}
             fill="#8884d8"
-            label
           >
             {d.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index]} />
+            ))}
+          </Pie>
+          <Pie
+            dataKey="value"
+            isAnimationActive={false}
+            data={compare}
+            cx={'40%'}
+            cy={'50%'}
+            outerRadius={'90%'}
+            innerRadius={'80%'}
+            fill="#8884d8"
+          >
+            {d.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS2[index]} />
             ))}
           </Pie>
           <Tooltip />

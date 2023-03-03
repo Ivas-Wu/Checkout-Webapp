@@ -19,6 +19,25 @@ exports.create = (req, res) => {
       });
     });
 };
+// get total of all targets for a given user
+exports.total = (req, res) => {
+  const userId = req.query.userId;
+  if (!userId) {
+    res.status(500).send({
+      message: 'userId required to total targets',
+    });
+    return
+  }
+  Target.sum('value', {where: {userId: userId}})
+  .then((total) => {
+    res.send({total: total});
+  })
+  .catch((err) => {
+    res.status(500).send({
+      message: err.message || 'error totaling target',
+    });
+  });
+}
 // get all targets from the database.
 exports.findAll = (req, res) => {
   const userId = req.query.userId;

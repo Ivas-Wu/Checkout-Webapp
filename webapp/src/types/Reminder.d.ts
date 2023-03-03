@@ -5,7 +5,7 @@ export type Reminder = {
     reminderDesc?: string;
     date?: Date;
     alertMe: boolean;
-    altertAt?: number;
+    alertAt?: number;
   };
   
   export type ReminderCreateReq = {

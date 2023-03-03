@@ -11,6 +11,7 @@ const Stack = createNativeStackNavigator();
 var TabScreen = require("./app/screens/TabScreen");
 var LoginScreen = require("./app/screens/LoginScreen");
 var SignupScreen = require("./app/screens/SignupScreen");
+var ScannerScreen = require("./app/screens/ScannerScreen");
 
 export default function App() {
 	return (
@@ -21,6 +22,7 @@ export default function App() {
 					component={LoginScreen}
 				></Stack.Screen>
 				<Stack.Screen name="Tab" component={TabScreen}></Stack.Screen>
+				<Stack.Screen name="Scanner" component={ScannerScreen}></Stack.Screen>
 				<Stack.Screen name="Sign Up" component={SignupScreen}></Stack.Screen>
 			</Stack.Navigator>
 		</NavigationContainer>

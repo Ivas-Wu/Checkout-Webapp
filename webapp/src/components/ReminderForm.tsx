@@ -15,11 +15,11 @@ import Button from '@mui/material/Button';
 import { Button as Button2 } from './Button';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-// import ReminderModals from './ReminderModals';
+import ReminderModals from './ReminderModals';
 
 export interface IReminderFormProps {}
 
-interface IReminderTask {
+export interface IReminderTask {
   taskName: string;
   taskDescription: string;
   date?: Date;
@@ -30,14 +30,7 @@ interface IReminderTask {
 
 export const Reminderform: React.FC<IReminderFormProps> = () => {
   const userId = localStorage.getItem('user-id');
-  const [reminderList, setReminderList] = useState<IReminderTask[]>([{
-    taskName: "Test",
-    taskDescription: "HardCoded to Test before API is made",
-    date: undefined,
-    id: 1,
-    alertMe: true,
-    alertAt: 1,
-  }]);
+  const [reminderList, setReminderList] = useState<IReminderTask[]>([]);
   const [selectedRows, setSelectedRows] = useState<IReminderTask[]>([]);
   const [openCreate, setOpenCreate] = useState<boolean>(false);
   const [rowId, setRowId] = useState<GridRowId>();
@@ -53,17 +46,18 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
   };
 
   const style = {
-    position: 'absolute' as 'absolute',
+    position: 'relative',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    width: window.innerWidth*0.5,
+    height: window.innerHeight*0.5,
+    bgcolor: '#F1FCFF',
     boxShadow: 24,
-    pt: 2,
-    px: 4,
-    pb: 3,
+    pb: 2,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 
   useEffect(() => {
@@ -79,7 +73,7 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
         date: reminder.date,
         id: reminder.id,
         alertMe: reminder.alertMe,
-        alertAt: reminder.altertAt,
+        alertAt: reminder.alertAt,
       };
       returnValue.push(newTask);
     });
@@ -92,6 +86,7 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
       .then((res) => {
         let reminders: IReminderTask[] = convertReminders(res.data);
         setReminderList(reminders);
+        console.log(reminderList);
       });
   };
 
@@ -118,19 +113,6 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
     }
   };
 
-  const completeTask = (id: GridRowId) => {
-    if (reminderList.findIndex((element) => element.id === id) === -1) {
-      console.log('How did you get here, no task found!');
-    } else {
-      //Maybe symbol to show loading and lock user out of other actions?
-      axios
-        .put(`http://localhost:3000/api/reminders/` + id, { completed: true })
-        .then((res) => {
-          console.log(res.data);
-          getData();
-        });
-    }
-  };
   const deleteTask = (id?: GridRowId) => {
     let index = -1;
     if (id) {
@@ -174,14 +156,14 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
         width: window.innerWidth*width_table*0.001,
       },
       {
-        field: 'urgent',
+        field: 'alertMe',
         headerName: 'Urgent',
         type: 'boolean',
         width: window.innerWidth*width_table*0.0007,
       },
       {
-        field: 'remindme',
-        headerName: 'Remind Me',
+        field: 'alertAt',
+        headerName: 'Remind Me In',
         type: 'number',
         width: window.innerWidth*width_table*0.00085,
       },
@@ -190,15 +172,6 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
         type: 'actions',
         width: window.innerWidth*width_table*0.0005,
         getActions: (params) => [
-          <GridActionsCellItem
-            key="urgent"
-            icon={<PriorityHighIcon />}
-            label="Change to Urgent"
-            onClick={() => {
-              completeTask(params.id);
-            }}
-            showInMenu
-          />,
           <GridActionsCellItem
             key="edit"
             icon={<EditIcon />}
@@ -221,7 +194,7 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
         ],
       },
     ],
-    [completeTask, toggleModify, toggleCreate, deleteTask]
+    [toggleModify, toggleCreate, deleteTask]
   );
 
   return (
@@ -237,11 +210,9 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
         <Modal
           open={openCreate}
           onClose={toggleCreate}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            {/* <ReminderModals create={true} remindersCreateInfo={addTask}></ReminderModals> */}
+            <ReminderModals create={true} remindersCreateInfo={addTask}></ReminderModals>
           </Box>
         </Modal>
       </div>
@@ -272,15 +243,13 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
         <Modal
           open={openModify}
           onClose={toggleModify}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            {/* <ReminderModals
+            <ReminderModals
               create={false}
               remindersUpdateInfo={modifyTask}
               data={reminderList.find((element) => element.id === rowId)}
-            ></ReminderModals> */}
+            ></ReminderModals>
           </Box>
         </Modal>
         <Button
