@@ -136,7 +136,7 @@ const Home: React.FC = () => {
                       alignItems: 'center',
                     }}
                   >
-                    <div style={{padding: '0 0 50px 0'}}>
+                    <div style={{padding: '30px 0 50px 0'}}>
                       <Typography variant="h5" color="text.primary">
                         Alex Shim
                       </Typography>
@@ -150,12 +150,12 @@ const Home: React.FC = () => {
                       Song on Repeat:
                       </Typography>
                     </div>
-                    <div style={{padding: '0 0 50px 0'}}>
+                    <div style={{padding: '30px 0 50px 0'}}>
                       <Typography variant="h5" color="text.primary">
-                        Cole Cherney
+                        Daniel Li
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Area of Focus: Backend and infastructure
+                        Area of Focus: Mobile application
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
                         Interests: 
@@ -166,10 +166,10 @@ const Home: React.FC = () => {
                     </div>
                     <div>
                       <Typography variant="h5" color="text.primary">
-                        Daniel Li
+                        Cole Cherney
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Area of Focus: Mobile application
+                        Area of Focus: Backend and infastructure
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
                         Interests: 
