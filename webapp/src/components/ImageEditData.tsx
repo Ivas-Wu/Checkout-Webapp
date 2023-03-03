@@ -200,12 +200,22 @@ export const ImageEditData: React.FC<IImageEditDataProps> = ({
     list.innerHTML = str;
   }
 
+  const style = {
+    width: '100%',
+    height: '85%',
+    overflow: 'auto',
+    marginBottom: '2%',
+    padding: '3px',
+    border: '3px solid #ebf2ff',
+    borderRadius: '7px',
+  };
+
   return (
     <>
       {pageOne && (
         <>
-          <div className="review-list">
-            <Typography>Please review your data.</Typography>
+          <Typography variant="h6">Please review your data.</Typography>
+          <div className="review-list" style={{ ...style }}>
             <Typography>Receipt:</Typography>
             <ul>
               <li>
@@ -225,16 +235,17 @@ export const ImageEditData: React.FC<IImageEditDataProps> = ({
             <div id="slideContainer"></div>
           </div>
           <button disabled={!ready} onClick={editData}>
-            Edit Data
+            <Typography variant="button">Edit Data</Typography>
           </button>
           <button disabled={!ready} onClick={onSubmit}>
-            Submit Data
+            <Typography variant="button">Submit Data</Typography>
           </button>
         </>
       )}
       {!pageOne && (
         <>
-          <div className="review-list">
+          <Typography variant="h6">Edit Receipt.</Typography>
+          <div className="review-list" style={{ ...style }}>
             <Box
               component="form"
               sx={{
@@ -243,7 +254,6 @@ export const ImageEditData: React.FC<IImageEditDataProps> = ({
               noValidate
               autoComplete="off"
             >
-              <div>Edit Receipt</div>
               <ImageEditReceipt
                 data={data?.receipt!}
                 editData={editReceipt}
@@ -253,15 +263,20 @@ export const ImageEditData: React.FC<IImageEditDataProps> = ({
                 id="select-item"
                 select
                 label="Select"
-                // onChange={(nextValue) => setCurrentItem(nextValue)}
                 helperText="Please choose an item"
               >
                 {data?.items!.map((option) => (
-                  <MenuItem 
+                  <MenuItem
                     key={option.productName}
                     value={option.productName}
-                    onClick={(nextValue) => setCurrentItem(nextValue.currentTarget.dataset.value ? nextValue.currentTarget.dataset.value : '')}
-                    >
+                    onClick={(nextValue) =>
+                      setCurrentItem(
+                        nextValue.currentTarget.dataset.value
+                          ? nextValue.currentTarget.dataset.value
+                          : ''
+                      )
+                    }
+                  >
                     {option.productName}
                   </MenuItem>
                 ))}
@@ -280,7 +295,9 @@ export const ImageEditData: React.FC<IImageEditDataProps> = ({
               )}
             </Box>
           </div>
-          <button onClick={onSubmit}>Submit Data</button>
+          <button onClick={onSubmit}>
+            <Typography variant="button">Submit Data</Typography>
+          </button>
         </>
       )}
     </>

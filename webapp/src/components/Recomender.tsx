@@ -106,7 +106,7 @@ const Recomender: React.FC<IRecomenderProps> = () => {
   return (
     <div className="recomendations-wrapper">
       <div style={{marginRight: '15px'}}><button onClick={generateRecomendation}>Get a Recomendation!</button></div>
-      <div>{recomendationIs && <div>{recomendation}</div>}</div>
+      <div>{recomendationIs && <div style={{maxWidth:'100%'}}>{recomendation}</div>}</div>
     </div>
   );
 };

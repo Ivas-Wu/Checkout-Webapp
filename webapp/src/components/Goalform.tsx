@@ -46,17 +46,18 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
   };
 
   const style = {
-    position: 'absolute' as 'absolute',
+    position: 'relative',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    width: window.innerWidth*0.5,
+    height: window.innerHeight*0.4,
+    bgcolor: '#F1FCFF',
     boxShadow: 24,
-    pt: 2,
-    px: 4,
-    pb: 3,
+    pb: 2,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 
   useEffect(() => {
@@ -223,8 +224,6 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         <Modal
           open={openCreate}
           onClose={toggleCreate}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
             <GoalModals create={true} goalsCreateInfo={addTask}></GoalModals>
@@ -258,8 +257,6 @@ export const Goalform: React.FC<IGoalFormProps> = () => {
         <Modal
           open={openModify}
           onClose={toggleModify}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
             <GoalModals

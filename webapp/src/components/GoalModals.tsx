@@ -4,6 +4,8 @@ import 'react-widgets/styles.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ITask } from './Goalform';
+import TextField from '@mui/material/TextField';
+import Button from './Button';
 
 interface ITableModifyProps {
   create: boolean;
@@ -71,30 +73,47 @@ export const TableModify: React.FC<ITableModifyProps> = ({
 
   return (
     <>
-      <input
-        type="text"
-        placeholder={create ? 'Goal Name...' : 'New Goal Name...'}
-        name="goalName"
-        value={goalName}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        placeholder={create ? 'Goal Description...' : 'New Goal Description...'}
-        name="goalDesc"
-        value={goalDesc}
-        onChange={handleChange}
-      />
-      <DatePicker
-        dateFormat="yyyy/MM/dd"
-        selected={targetDate}
-        onChange={selectDateHandler}
-        minDate={new Date()}
-        todayButton={'Today'}
-      />
-      <button onClick={create ? onSubmitCreate : onSubmitUpdate}>
-        {create ? 'Create' : 'Modify'}
-      </button>
+      <div>
+        <TextField
+          required
+          id="standard-required"
+          label={create ? 'Goal Name...' : 'New Goal Name...'}
+          variant="standard"
+          style={{ width: '100%' }}
+          value={goalName}
+          name="goalName"
+          onChange={handleChange}
+        />
+        <TextField
+          required
+          id="standard-required"
+          label={create ? 'Goal Description...' : 'New Goal Description...'}
+          variant="standard"
+          style={{ width: '100%'}}
+          value={goalDesc}
+          name="goalDesc"
+          onChange={handleChange}
+        />
+        <div style={{ 
+          marginTop: '3%', 
+          marginBottom: '3%', 
+          }}>
+          <DatePicker
+            dateFormat="yyyy/MM/dd"
+            selected={targetDate}
+            onChange={selectDateHandler}
+            minDate={new Date()}
+            todayButton={'Today'}
+          />
+        </div>
+        <Button
+          buttonStyle="btn--extra"
+          buttonSize="btn--small"
+          onClick={create ? onSubmitCreate : onSubmitUpdate}
+        >
+          {create ? 'Create' : 'Modify'}
+        </Button>
+      </div>
     </>
   );
 };
