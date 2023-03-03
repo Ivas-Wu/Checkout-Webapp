@@ -1,31 +1,11 @@
 import '../../App.css';
 import Background from '../Background';
-import AnimatedList from '../CardListAnimated';
 import { Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 
 const Home: React.FC = () => {
-  const listData = [
-    [
-      'About Us',
-      'Something about Cole',
-      'Something about Daniel',
-      'Something about Alex',
-      'Something about Ivas',
-      'Images/aboutus.jpg',
-    ],
-    [
-      'Our Product',
-      'Checkout',
-      'What it does',
-      'Who its for',
-      'Why it does',
-      'Images/ourproduct.png',
-    ],
-    ['Values', 'Up', 'To', '4', 'Lines', 'Images/values.jpg'],
-  ];
 
   const box_body_style = {
     position: 'relative',
