@@ -153,9 +153,9 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
     ];
 
     const COLORS2 = [
-      '#EFCA08',
-      '#8884d8',
-      '#82ca9d',
+      '#64c2f5',
+      '#f57d87',
+      '#82e0a5',
     ];
 
     const compare = [

@@ -192,7 +192,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
                     variant="standard"
                     value={newValue}
                     onChange={(event) => {
-                      setNewValue(Number(event.target.value));
+                      setNewValue(Number(event.target.value) >= 0 ? Number(event.target.value) : 0);
                     }}
                   />
                 </div>
