@@ -9,10 +9,11 @@ import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 import Button from '../Button';
 import axios from 'axios';
 import { Target, TargetCreateReq, TargetUpdateReq } from '../../types/Target';
-import { Category } from '../../types/Category';
+import { Category, convertCategory } from '../../types/Category';
 import { dataValue } from 'react-widgets/esm/Accessors';
 
 export interface IStatisticsPageProps {}
@@ -21,6 +22,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
   const [targetData, setData] = useState<Target[]>([]);
   const [valueData, setValue] = useState<number>(0);
   const [newValue, setNewValue] = useState<number>(0);
+  const [category, setCategory] = useState<Category>(Category.OTHER);
   const [id, setId] = useState<number>(1);
   const userId = Number(localStorage.getItem('user-id')!);
   const graph_width = window.innerWidth * 0.45;
@@ -89,27 +91,16 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
   }
 
   const submitBudget = (): void => {
-    if (targetData.length != 0) {
-      let data: TargetUpdateReq = {
-        userId: userId,
-        category: Category.OTHER,
-        value: newValue,
-      };
-      // Popup Warning overwrite
-      axios.put(`http://localhost:3000/api/targets/${id}`, data).then((res) => {
-        getData();
-      });
-    } else {
-      let data: TargetCreateReq = {
-        userId: userId,
-        category: Category.OTHER,
-        value: newValue,
-      };
-      axios.post(`http://localhost:3000/api/targets/`, data).then((res) => {
-        getData();
-      });
-    }
+    let data: TargetCreateReq = {
+      userId: userId,
+      category: category,
+      value: newValue,
+    };
+    axios.post(`http://localhost:3000/api/targets/`, data).then((res) => {
+      getData();
+    });
     setNewValue(0);
+    setCategory(Category.OTHER);
   };
 
   return (
@@ -171,7 +162,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
             />
             <CardContent>
               <Box>
-                <div style={{ marginBottom: '10%' }}>
+                <div style={{ margin: '-3% 0 5% 2%' }}>
                   {/* <TextField
                     required
                     id="standard-required"
@@ -179,7 +170,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
                     defaultValue=""
                     variant="standard"
                   /> */}
-                  <Typography variant="body2" color="text.secondary" style={{marginBottom:'10%'}}>
+                  <Typography variant="body2" color="text.secondary" style={{marginBottom:'5%', marginLeft:'-2%'}}>
                     Set your personal budget and compare it to your current spending!
                   </Typography>
                   <TextField
@@ -195,6 +186,24 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
                       setNewValue(Number(event.target.value) >= 0 ? Number(event.target.value) : 0);
                     }}
                   />
+                </div>
+                <div style={{ marginBottom: '10%' }}>
+                <TextField
+                    id="select-category"
+                    select
+                    label="Select"
+                    defaultValue={category}
+                    helperText="Please choose a category"
+                  >
+                    {Object.values(Category).map((option) => (
+                      <MenuItem key={option} value={option} 
+                      onClick={(nextValue) => {
+                        setCategory(nextValue.currentTarget.dataset.value ? convertCategory(nextValue.currentTarget.dataset.value) : Category.OTHER);
+                      }}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                </TextField>
                 </div>
                 <Button
                   buttonStyle="btn--extra"
