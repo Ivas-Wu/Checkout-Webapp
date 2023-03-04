@@ -27,6 +27,7 @@ function TabScreen() {
 
 	return (
 		<Tab.Navigator
+			initialRouteName="Reminders"
 			screenOptions={({ route }) => ({
 				tabBarIcon: ({ focused, color, size }) => {
 					let iconName;
@@ -63,10 +64,10 @@ function TabScreen() {
 				tabBarShowLabel: true,
 			})}
 		>
+			<Tab.Screen name="Reminders" component={RemindersScreen} />
 			<Tab.Screen name="Scanner" component={ScannerScreen} />
 			<Tab.Screen name="Information" component={InformationScreen} />
 			<Tab.Screen name="Goals" component={GoalsScreen} />
-			<Tab.Screen name="Reminders" component={RemindersScreen} />
 			<Tab.Screen name="Statistics" component={StatisticsScreen} />
 		</Tab.Navigator>
 	);

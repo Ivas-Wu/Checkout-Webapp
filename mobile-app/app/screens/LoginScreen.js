@@ -3,6 +3,7 @@ import * as React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as AuthSession from "expo-auth-session";
 import mainStyles from "../Styles";
+import "../GlobalVars"
 import { LinearGradient } from 'expo-linear-gradient'
 //https://github.com/GuyAvraham/expo-auth0-example-2020/blob/master/Utils/Auth.ts
 //https://itnext.io/user-authentication-with-expo-cli-6ac853c272d4
@@ -12,8 +13,8 @@ function LoginScreen({navigation}) {
 	const [password, setPassword] = React.useState("");
 
 	const handleLogIn = () => {
+		global.INIT_LOGIN = true
 		navigation.navigate("Tab")
-		
 	}
 
 	const handleSignup = () => {
