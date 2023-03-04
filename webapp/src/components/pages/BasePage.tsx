@@ -124,10 +124,10 @@ const Home: React.FC = () => {
                         Area of Focus: Image processing / scanning
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Interests: 
+                        Interests: Snowboarding, Soccer, Video Games
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                      Song on Repeat:
+                      Song on Repeat: Tai Verdes - how deep?
                       </Typography>
                     </div>
                     <div style={{padding: '30px 0 50px 0'}}>
