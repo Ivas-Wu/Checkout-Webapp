@@ -8,7 +8,7 @@ const colorMap = {
 const mainStyles = StyleSheet.create({
     pageBackground: {
         flex: 1, 
-        justifyContent: "center", 
+        justifyContent: "flex-start", 
         alignItems: "center",
         backgroundColor: "#E7F8FF"
     },

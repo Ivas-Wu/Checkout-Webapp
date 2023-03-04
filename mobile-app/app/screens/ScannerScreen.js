@@ -6,9 +6,10 @@ import "../GlobalVars"
 import {Receipt, Item} from "../GlobalVars";
 import mainStyles from "../Styles";
 import { LinearGradient } from 'expo-linear-gradient'
+import { Buffer } from "buffer";
 
 function ScannerScreen() {
-    const [photoPath, setPhotoPath] = React.useState("a")
+    const [photo, setPhoto] = React.useState()
     const [scanData, setScanData] = React.useState({items:[],receipt:[]})
 
     const handleGetScanData = async () => {
@@ -102,29 +103,36 @@ function ScannerScreen() {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             quality: 1,
+            base64: true,
         });
+        
+        // base 64 output is incredibly long to print
+        //console.log(result)
     
-        console.log(result)
-    
-        if (!result.cancelled) {
-            setPhotoPath(result.uri)
-            console.log("photopath:", photoPath)
+        if (!result.canceled) {
+            setPhoto(result.assets[0])
+            console.log("photopath:", photo.uri)
         }
+
+        let bufferBytes = Buffer.from(photo.base64, "base64")
     };
 
     return (
         <View style={mainStyles.pageBackground}>
-            <TouchableOpacity style={styles.button} onPress={pickImage}>
-                <Text style={styles.itemText}>Upload Image From Device</Text>
-            </TouchableOpacity>
-            <View style={{ flexDirection: "row"}}>
-                <TouchableOpacity style={styles.button} onPress={handleGetScanData}>
-                    <Text style={styles.itemText}>Get Scan Data</Text>
+            <View flexDirection="column" style={{width: "93%", height: "18%", alignContent: "flex-end", alignSelf: "center"}}>
+                <TouchableOpacity style={styles.button} onPress={pickImage}>
+                    <Text style={styles.buttonText}>Upload Image From Device</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={handleUploadScanData}>
-                    <Text style={styles.itemText}>Confirm Data and Upload</Text>
-                </TouchableOpacity>
+                <View style={{ flexDirection: "row", width: "100%"}}>
+                    <TouchableOpacity style={styles.button} onPress={handleGetScanData}>
+                        <Text style={styles.smallButtonText}>Get Scan Data</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={handleUploadScanData}>
+                        <Text style={styles.smallButtonText}>Confirm Data and Upload</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
+            
 
             <LinearGradient
                 colors={['#73D1FF', '#73C0FF']}
@@ -168,18 +176,27 @@ function ScannerScreen() {
                 </View>
             </ScrollView>
             </View>
+            {/* <View>
+            {() => {
+                if (!(photo === null)) {
+                    return <Image source={{ uri: photo.uri }} style={{ width: 300, height: 400}} />
+                }
+            }}
+            </View> */}
         </View>
-        //{photoPath && <Image source={{ uri: photoPath }} style={{ width: 300, height: 400}} />}
+        
     );
 }
 
 const styles = StyleSheet.create({
     button: {
         alignItems: "center",
+        alignContent: "center",
         backgroundColor: "#73D1FF",
         padding: 10,
         borderRadius: 10,
-        margin: 5
+        margin: 5,
+        flex: 1,
     },
     item: {
         flex: 1,
@@ -211,6 +228,21 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto",
         fontWeight: "bold",
         alignSelf: "flex-start",
+        color: '#FFFFFF'
+    },
+    buttonText: {
+        fontSize: 20,
+        fontFamily: "Roboto",
+        fontWeight: "bold",
+        alignSelf: "center",
+        color: '#FFFFFF'
+    },
+    smallButtonText: {
+        fontSize: 15,
+        fontFamily: "Roboto",
+        fontWeight: "bold",
+        alignSelf: "center",
+        textAlign: "center",
         color: '#FFFFFF'
     },
     receipt: {

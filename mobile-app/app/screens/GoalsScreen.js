@@ -8,6 +8,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
+  Alert
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -18,8 +19,8 @@ import { SortByProperty } from "../functions/SortByProperty";
 import {mainStyles, colorMap} from "../Styles";
 import {Picker} from '@react-native-picker/picker';
 import { LinearGradient } from 'expo-linear-gradient'
+import moment from "moment";
 
-var editGoalId = null    // indicates id of goal when editing goals, if null then it is an add operation
 const GOAL_STORAGE_KEY = "goal_storage_key" //used for local storage
 
 class Goal {
@@ -29,7 +30,7 @@ class Goal {
     this.goalDesc = null;
     this.goalName = goalName;
     this.id = null;
-    this.targetDate = null;
+    this.targetDate = new Date();
     this.updatedAt = null;
     this.userId = USER_ID;
   }
@@ -45,22 +46,16 @@ function GoalsScreen() {
     const [sortProperty, setSortProperty] = React.useState("createdAt")
     const [isDatePickerVisible, setIsDatePickerVisible] =
         React.useState(false);
-
-    const getGoalByID = (goalId) => {
-      let result = GoalList.find(obj => {
-        return obj.id === goalId
-      })
-      return result
-    }
+    const dateFormat = global.DATE_FORMAT
 
     const handleGetGoals = async () => {
       try {
-          console.log(`http://${DEVICE_IP}:3000/api/goals?userId=${USER_ID}`)
+          //console.log(`http://${DEVICE_IP}:3000/api/goals?userId=${USER_ID}`)
           fetch(`http://${DEVICE_IP}:3000/api/goals?userId=${USER_ID}`)
           .then(response => response.json())
           .then(goalsJSON => {
             var sortedList = SortByProperty(goalsJSON, sortProperty)
-            console.log(sortedList)
+            //console.log(sortedList)
             setGoals(sortedList)
           })
       } catch (error) {
@@ -69,13 +64,7 @@ function GoalsScreen() {
     }
 
     const handleAddGoal = async () => {
-      var messageBody = JSON.stringify({
-        goalName: goal.goalName,
-        goalDesc: goal.goalDesc,
-        targetDate: goal.targetDate,
-        userId: USER_ID
-      })
-      console.log("body: ", messageBody)
+      console.log("add goal: ", goal)
       try {
         const response = await fetch(
             `http://${DEVICE_IP}:3000/api/goals`,
@@ -84,79 +73,81 @@ function GoalsScreen() {
               headers: {
                 'Content-Type': 'application/json'
               },
-              body: messageBody
+              body: JSON.stringify(goal)
             }
         )
         const json = await response.json()
-        console.log(json)
+        console.log("add result: ", json)
       } catch (error) {
         console.error(error)
       }
-      handleGetGoals()
+      //handleGetGoals()
     }
 
     const handleUpdateGoal = async () => {
-      var updatedGoal = getGoalByID(editGoalId)
-      updatedGoal.goalDesc = goal.goalDesc
-      updatedGoal.goalName = goal.goalName
-      var messageBody = JSON.stringify({
-        completed : getGoalByID(editGoalId).completed,
-        createdAt : getGoalByID(editGoalId).createdAt,
-        goalDesc : goal.goalDesc,
-        goalName : goal.goalName,
-        id : getGoalByID(editGoalId).id,
-        targetDate : goal.targetDate,
-        updatedAt : getGoalByID(editGoalId).updatedAt,
-        userId : getGoalByID(editGoalId).userId
-      })
-      console.log("body: ", messageBody)
-      console.log(`http://${DEVICE_IP}:3000/api/goals/` + editGoalId)
+      console.log("edit goal: ", goal)
       try {
         const response = await fetch(
-            `http://${DEVICE_IP}:3000/api/goals/` + editGoalId,
+            `http://${DEVICE_IP}:3000/api/goals/` + goal.id,
             {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify(updatedGoal)
+              body: JSON.stringify(goal)
             }
         )
         const text = await response.text()
-        console.log(text)
+        console.log("update result: " , text)
       } catch (error) {
         console.error(error)
       }
     }
 
     React.useEffect(() => {
-      console.log("effect")
+      //console.log("effect")
       handleGetGoals()
     }, [sortProperty, isGoalModalVisible])
 
     const handleCancel = () => {
-      setGoal(new Goal("New Goal"))
-      editGoalId = null
+      setGoal(null)
       toggleGoalModal()
     }
 
     const handleGoalModalSubmit = () => {
-      // If editGoalId is null, do add operation, otherwise do edit operation
-      console.log("editGoalId: ", editGoalId)
-      if (editGoalId === null) {
+      if (!moment(goal.targetDate, dateFormat).utc().isValid()) {
+        Alert.alert('Invalid Date', 'Please check that the date you have entered is in the correct format.', [
+          {
+            text: 'Ok',
+            style: 'cancel',
+          }
+        ]);
+
+        return
+      }
+
+      if (goal.id === null) {
         console.log("add")
         handleAddGoal().then(handleGetGoals())
+        setGoal(null)
       } else {
-        console.log("edit: ", editGoalId)
+        console.log("edit: ", goal.id)
         handleUpdateGoal().then(handleGetGoals())
-        editGoalId = null
+        setGoal(null)
       }
       
       toggleGoalModal();
     };
 
     const handleEditGoal = (goalId) => {
-      editGoalId = goalId
+      let tempGoal = null
+      for (var i=0; i<GoalList.length; i++) {
+        if (GoalList[i].id == goalId) {
+          tempGoal = GoalList[i]
+          break
+        }
+      }
+      setGoal(tempGoal)
       toggleGoalModal();
     }
 
@@ -176,12 +167,11 @@ function GoalsScreen() {
 
     const handleToggleGoalCheckbox = async (goal) => {
       goal.completed = !goal.completed
-      editGoalId = goal.id
       console.log(goal.completed)
-      console.log(`http://${DEVICE_IP}:3000/api/goals/` + editGoalId)
+      console.log(`http://${DEVICE_IP}:3000/api/goals/` + goal.id)
       try {
         const response = await fetch(
-            `http://${DEVICE_IP}:3000/api/goals/` + editGoalId,
+            `http://${DEVICE_IP}:3000/api/goals/` + goal.id,
             {
               method: 'PUT',
               headers: {
@@ -239,9 +229,10 @@ function GoalsScreen() {
                 multiline={true}
                 style={styles.textInput}
                 placeholder="Enter Goal Name"
+                defaultValue={goal === null ? "" : goal.goalName}
                 onChangeText={(val) => {
                   setGoal({...goal, goalName: val})
-                  console.log("Goal name: ", goal.goalName)
+                  //console.log("Goal name: ", goal.goalName)
                 }}
               />
                 <Text style={styles.formFieldText}>Goal Description</Text>
@@ -249,18 +240,30 @@ function GoalsScreen() {
                 multiline={true}
                 style={styles.textInput}
                 placeholder="Enter Goal Description"
+                defaultValue={goal === null ? "" : goal.goalDesc}
                 onChangeText={(val) => {
                   setGoal({...goal, goalDesc: val})
-                  console.log("Goal description: ", goal.goalDesc)
+                  //console.log("Goal description: ", goal.goalDesc)
                 }}
               />
 
-              <TouchableOpacity onPress={() => setIsDatePickerVisible(true)}
+              <Text style={styles.formFieldText}>Date ({dateFormat})</Text>
+              <TextInput
+                multiline={false}
+                style={styles.textInput}
+                placeholder={dateFormat}
+                //defaultValue={goal === null ? "" : moment(goal.targetDate).format(dateFormat)}
+                onChangeText={(val) => {
+                  setGoal({...goal, targetDate: moment(val, dateFormat)})
+                }}
+              />
+
+              {/* <TouchableOpacity onPress={() => setIsDatePickerVisible(true)}
                 style={styles.dateButton}>
                 <Text style={styles.bigTextDark}>
-                  {goal.targetDate === null
+                  {goal === null || goal.targetDate === null
                   ? "Choose a Date"
-                  : goal.targetDate.toString()}
+                  : new Date(goal.targetDate).toLocaleDateString()}
                 </Text>
               </TouchableOpacity>
 
@@ -272,12 +275,12 @@ function GoalsScreen() {
                 display="default"
                 onChange={(event, date) => {
                   if (event.type == "set") {
-                    setGoal({...goal, targetDate:date})
-                    console.log("Goal target date: ", goal.targetDate)
+                    setGoal({...goal, targetDate: new Date(date)})
                   }
+                  //console.log(goal.date)
                   setIsDatePickerVisible(false);
                 }}
-              />}
+              />} */}
 
             </View>
             <View style={{flexDirection: 'row', width: '80%'}}>
@@ -299,7 +302,7 @@ function GoalsScreen() {
         </LinearGradient>
       </Modal>
 
-      {<TouchableOpacity
+      <TouchableOpacity
         onPress={handleGetGoals}
         style={styles.wideButton}
       >
@@ -311,23 +314,13 @@ function GoalsScreen() {
         </View>
         <View style={{ flex: 1 }}/>
       </TouchableOpacity>
-      /* 
-      <TouchableOpacity
-        onPress={handleLoadGoals}
-        style={styles.newGoalButton}
-      >
-        <View style={{ flex: 1 }}>
-          <Ionicons name={"cloud-download-outline"} size={26} color={"black"} />
-        </View>
-        <View style={{ flex: 2 }}>
-          <Text style={styles.bigText}>Download Goals</Text>
-        </View>
-        <View style={{ flex: 1 }}/>
-        
-      </TouchableOpacity> */}
+      
 
       <TouchableOpacity
-        onPress={toggleGoalModal}
+        onPress={() => {
+          setGoal(new Goal("New Goal"))
+          toggleGoalModal()
+        }}
         style={styles.wideButton}
       >
         <View style={{ flex: 1 }}>
@@ -367,14 +360,10 @@ function GoalsScreen() {
                     {goal.goalName}
                   </Text>
                   <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
-                    {goal.goalDesc}
+                    Description: {goal.goalDesc + "\n"}
+                    Created On: {goal.createdAt === null ? "" : moment(goal.createdAt).utc().format(global.DATE_DISPLAY_FORMAT) + "\n"}
+                    Target Date: {goal.targetDate === null ? "" : moment(goal.targetDate).utc().format(global.DATE_DISPLAY_FORMAT) + "\n"}
                   </Text>
-                  <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
-                    Created On: {goal.createdAt}
-                  </Text>
-                  {/* <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
-                    Target Date: {goal.targetDate}
-                  </Text> */}
                 </View>
                   
                 <View style={{ flexDirection: "column", marginTop: 10, flex:1}}>
@@ -448,8 +437,8 @@ const styles = StyleSheet.create({
   },
   dateButton: {
     flexDirection: "row",
-    width: "50%",
-    height: "15%",
+    width: "80%",
+    height: 50,
     padding: 10,
     borderRadius: 20,
     marginTop: 20,
