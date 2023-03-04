@@ -2,7 +2,6 @@ import requests
 import json
 import re
 import sys
-from PIL import Image
 
 PLACE_NAME = 'Store'
 TOTAL = 'Total'
