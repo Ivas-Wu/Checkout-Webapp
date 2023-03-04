@@ -15,6 +15,7 @@
 .DS_Store
 .env.local
 .env.development.local
+/app/controllers/scanner_util/uploads/current_image.jpg
 .env.test.local
 .env.production.local
 npm-debug.log*
