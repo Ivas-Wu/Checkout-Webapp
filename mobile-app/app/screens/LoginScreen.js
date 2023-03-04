@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput} from "react-native";
+import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Alert} from "react-native";
 import * as React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as AuthSession from "expo-auth-session";
@@ -9,12 +9,35 @@ import { LinearGradient } from 'expo-linear-gradient'
 //https://itnext.io/user-authentication-with-expo-cli-6ac853c272d4
 function LoginScreen({navigation}) {
 
-	const [userName, setUserName] = React.useState("");
+	const demoUserName = 'demo1@example.com'
+	const [userName, setUserName] = React.useState(demoUserName);
 	const [password, setPassword] = React.useState("");
 
 	const handleLogIn = () => {
-		global.INIT_LOGIN = true
-		navigation.navigate("Tab")
+		try {
+            fetch(`http://${DEVICE_IP}:3000/api/users?email=${userName}`)
+            .then(response => response.json())
+            .then(JSON => {
+                var list = JSON
+				console.log(`http://${DEVICE_IP}:3000/api/users?email=${userName}`)
+				if (list.length != 1) {
+					Alert.alert('Invalid Login', 'Please check that your login information is correct.', 
+					[
+						{
+							text: 'Ok',
+							style: 'cancel',
+						}
+					]);
+					return
+				}
+
+				global.USER_ID = list[0].id
+				global.INIT_LOGIN = true
+				navigation.navigate("Tab")
+            })
+        } catch (error) {
+            console.error(error)
+        }
 	}
 
 	const handleSignup = () => {
@@ -41,7 +64,7 @@ function LoginScreen({navigation}) {
 				multiline={true}
 				style={styles.textInput}
 				//placeholder="User Name"
-				defaultValue="demo1@example.com"
+				defaultValue={demoUserName}
 				onChangeText={(val) => setUserName(val)}
           	/>
 			<TextInput
