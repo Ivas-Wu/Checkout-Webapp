@@ -146,13 +146,48 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
         <div style={{ background: '#F1FCFF', position: 'relative' }}>
           <Card sx={{ ...budget_style }}>
             <CardHeader
-              title="We can all budge it"
-              subheader="Let's (bud)get this bread 🍞"
+              title="Did You Know?"
+              subheader="We can all budge it"
             />
             <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                Somethign cool about budgeting facts idk
-              </Typography>
+              <div style={{ marginBottom: '7%' }}>
+                <Typography variant="body2" color="text.secondary">
+                  Canadians who budget are 8% less likely to fall behind on
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  making financial payments and are 10% less likely to
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  need to borrow money in order to pay for daily expenses*
+                </Typography>
+              </div>
+              <div style={{ marginBottom: '7%' }}>
+                <Typography variant="body2" color="text.secondary">
+                  The 20% of Canadians who use digital tools for their
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  budgeting are among the most successful in managing their expenses*
+                </Typography>
+              </div>
+              <div style={{ marginBottom: '7%' }}>
+                <Typography variant="body2" color="text.secondary">
+                  Those who budget are less likely to spend more than
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                their monthly income than those who do not (18% vs. 29%)*
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2" color="text.secondary">
+                  If you're still curious on just how much budgeting can
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  help improve your financial wellbeing, check out <a href="https://www.canada.ca/en/financial-consumer-agency/programs/research/canadian-financial-capability-survey-2019.html#toc3">this study</a>
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  done by the government of Canada in 2019.
+                </Typography>
+              </div>
             </CardContent>
           </Card>
           <Card sx={{ ...budget_style }}>
