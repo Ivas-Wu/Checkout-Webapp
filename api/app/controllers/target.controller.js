@@ -8,16 +8,48 @@ exports.create = (req, res) => {
     value: req.body.value,
     userId: req.body.userId,
   };
-  // save target to database
-  Target.create(target)
+  // see if target exists in database
+  Target.findOne({where: {userId: target.userId, category: target.category}})
     .then((data) => {
-      res.send(data);
+      if (data === null) {
+        Target.create(target).then((output) => {
+          res.send(output);
+        }).catch((err) => {
+          res.status(500).send({
+            message: err.message || 'error creating target',
+          });
+        });
+      } else {
+        let id = data.dataValues.id
+        Target.update(req.body, {
+          where: { id: id },
+        })
+          .then((num) => {
+            if (num == 1) {
+              Target.findByPk(id)
+              .then((output) => {
+                if (output) {
+                  res.send(output);
+                }
+              })
+              .catch((err) => {
+                res.status(500).send({
+                  message: 'error getting target id=' + id,
+                });
+              });
+            } else {
+              res.send({
+                message: `error updating target with id=${id}`,
+              });
+            }
+          })
+          .catch((err) => {
+            res.status(500).send({
+              message: 'error updating target with id=' + id,
+            });
+          });
+      }
     })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'error creating target',
-      });
-    });
 };
 // get total of all targets for a given user
 exports.total = (req, res) => {
