@@ -264,7 +264,9 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
           </Card>
         </div>
       </div>
-      <EndCard>Here you can view graphs with your statistics!</EndCard>
+      <EndCard>
+        *All stats pulled from the mentionned government of Canada study found&nbsp; <a href="https://www.canada.ca/en/financial-consumer-agency/programs/research/canadian-financial-capability-survey-2019.html#toc3">here</a>
+      </EndCard>
     </>
   );
 };
