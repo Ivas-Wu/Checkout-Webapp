@@ -8,5 +8,11 @@ router.get('/average', recommender.getAverage);
 router.get('/weeklyAverage', recommender.getAverageWeekly);
 // get monthly average
 router.get('/monthlyAverage', recommender.getAverageMonthly);
+// get total sum
+router.get('/total', recommender.getTotal);
+// get weekly sum
+router.get('/weeklyTotal', recommender.getTotalWeekly);
+// get monthly sum
+router.get('/monthlyTotal', recommender.getTotalMonthly);
 
 module.exports = router;
