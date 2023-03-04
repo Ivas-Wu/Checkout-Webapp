@@ -17,6 +17,8 @@ import { SortByProperty } from "../functions/SortByProperty";
 import {Picker} from '@react-native-picker/picker';
 import mainStyles from "../Styles";
 import { LinearGradient } from 'expo-linear-gradient'
+import moment from "moment";
+
 
 var receiptId = null;
 function InformationScreen({navigation}) {
@@ -26,12 +28,15 @@ function InformationScreen({navigation}) {
     const [receipt, setReceipt] = React.useState(new Receipt())
     const [receiptList, setReceiptList] = React.useState([]);
     const [sortProperty, setSortProperty] = React.useState("date")
+    const dateFormat = global.DATE_FORMAT
 
     const getReceiptById = (receiptId) => {
-        let result = receiptList.find(obj => {
-          return obj.id === receiptId
-        })
-        return result
+        for (var i=0; i<receiptList.length; i++) {
+            if (receiptList[i].id == receiptId) {
+              return receiptList[i]
+            }
+        }
+        return null
     }
 
     const handleGetReceipts = async () => {
@@ -98,6 +103,15 @@ function InformationScreen({navigation}) {
     }
 
     const handleModalSubmit = () => {
+        if (!moment(receipt.date, dateFormat).utc().isValid()) {
+            Alert.alert('Invalid Date', 'Please check that the date you have entered is in the correct format.', [
+              {
+                text: 'Ok',
+                style: 'cancel',
+              }
+            ]);
+            return
+        }
         console.log("edit: ", receiptId)
         handleUpdateReceipt().then(handleGetReceipts())
         receiptId = null
@@ -105,7 +119,7 @@ function InformationScreen({navigation}) {
     };
 
     React.useEffect(() => {
-        console.log("receipt effect")
+        //console.log("receipt effect")
         handleGetReceipts()
     }, [sortProperty])
 
@@ -142,15 +156,13 @@ function InformationScreen({navigation}) {
                         }}
                     />
 
-                    <Text style={styles.bigTextDark}>Date</Text>
+                    <Text style={styles.bigTextDark}>Date ({dateFormat})</Text>
                     <TextInput
-                        multiline={true}
+                        multiline={false}
                         style={styles.textInput}
-                        defaultValue={receipt.date}
+                        placeholder={dateFormat}
                         onChangeText={(val) => {
-                            var temp = receipt
-                            receipt.date = val
-                            setReceipt(temp)
+                        setReceipt({...receipt, date: moment(val, dateFormat)})
                         }}
                     />
 
@@ -226,7 +238,7 @@ function InformationScreen({navigation}) {
                                 Store: {receipt.store}{"\n"}
                                 Amount: ${parseFloat(receipt.total).toFixed(2)}{"\n"}
                                 Category: {receipt.category}{"\n"}
-                                Date: {new Date(receipt.date).toLocaleDateString()}
+                                Date: {receipt.date === null ? "" : moment(receipt.date).utc().format(global.DATE_DISPLAY_FORMAT)}
                             </Text>
                             <View style={{ flexDirection: "column", flex: 1}}>
                                 <TouchableOpacity style={{ flex: 1, marginBottom: 5}}>
@@ -329,6 +341,17 @@ const styles = StyleSheet.create({
       margin: 10,
       borderWidth: 2,
     },
+    dateButton: {
+        flexDirection: "row",
+        width: "80%",
+        height: 50,
+        padding: 10,
+        borderRadius: 20,
+        marginTop: 20,
+        marginBottom: 20,
+        justifyContent: "center",
+        backgroundColor: 'white'
+      }
   });
 
 module.exports = InformationScreen
