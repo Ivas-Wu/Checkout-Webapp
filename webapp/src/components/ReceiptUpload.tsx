@@ -5,7 +5,11 @@ import { Box } from '@mui/material';
 import { ImageEditData } from './ImageEditData';
 import { Scanner } from '../types/Scanner';
 
-const ReceiptUpload = () => {
+interface IReceiptUploadProps {
+  closeParent: () => void;
+}
+
+const ReceiptUpload: React.FC<IReceiptUploadProps> = ({closeParent}) => {
   const [selectedFile, setSelectedFile] = React.useState('');
   const [open, setOpen] = useState<boolean>(false);
   const [dataFromUpload, setDataFromUpload] = useState<Scanner>();
@@ -52,7 +56,7 @@ const ReceiptUpload = () => {
 
   const reset = () => {
     handleClose();
-    setSelectedFile('');
+    closeParent();
   };
 
   return (

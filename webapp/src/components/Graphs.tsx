@@ -63,7 +63,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
       total += Number(data.total);
       returnValue.push(newData);
     });
-    setTotalA(total);
+    setTotalA(Number(total.toFixed(2)));
     return returnValue;
   }
 
@@ -81,7 +81,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
     return (
       <ResponsiveContainer width={containerWidth} height={containerHeight}>
         <BarChart
-          data={dataGenBar(graphData)!}
+          data={dataGenBar(graphData, target)!}
           margin={{
             top: containerHeight*.1,
             right: containerWidth*0.1,
@@ -108,7 +108,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
     return (
       <ResponsiveContainer width={containerWidth} height={containerHeight}>
         <LineChart
-          data={dataGenBar(graphData)!}
+          data={dataGenBar(graphData, target)!}
           margin={{
             top: containerHeight*.1,
             right: containerWidth*0.1,
@@ -128,6 +128,8 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
           <Line dataKey="Housing" stroke="#0B3954" legendType="circle" />
           <Line dataKey="Utilities" stroke="#F49F0A" legendType="circle" />
           <Line dataKey="Other" stroke="#EFCA08" legendType="circle" />
+          <Line dataKey="Total" stroke="#64c2f5" legendType="circle" />
+          <Line dataKey="Budget" stroke="#f57d87" legendType="circle" />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -176,6 +178,10 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
         console.log(typeof data.amt);
         d[0].value += Number(data.amt);
       }
+    });
+
+    d.forEach(function (d2) {
+      d2.value = Number(Number(d2.value).toFixed(2));
     });
 
     if (totalA > target){

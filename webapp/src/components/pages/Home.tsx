@@ -39,9 +39,9 @@ const Home: React.FC<IHomePageProps> = () => {
   }, [user?.email]);
 
   const pages = [
-    ['videos/goals.gif', 'Goals page', '/goals'],
-    ['videos/information.gif', 'Information page', '/information'],
-    ['videos/stats2.gif', 'Statistics page', '/stats'],
+    ['videos/goals.gif', 'Goals and Reminders', '/goals'],
+    ['videos/information.gif', 'Receipt Management', '/receipts'],
+    ['videos/stats2.gif', 'Statistics and Budgeting', '/stats'],
   ];
   return (
     <>

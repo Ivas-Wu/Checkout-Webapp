@@ -4,6 +4,7 @@ import {
   GridActionsCellItem,
   GridColumns,
   GridRowId,
+  GridValueFormatterParams,
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -143,31 +144,43 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
         type: 'dateTime',
         width: window.innerWidth*width_table*0.001,
       },
-      { field: 'store', headerName: 'Store', width: window.innerWidth*width_table*0.0015 },
+      { field: 'store', headerName: 'Store', width: window.innerWidth*width_table*0.002 },
       {
         field: 'category',
         headerName: 'Category',
         type: 'singleSelect',
-        width: window.innerWidth*width_table*0.001,
+        width: window.innerWidth*width_table*0.00185,
       },
       {
         field: 'tAmount',
         headerName: 'Total Amount',
         type: 'number',
         width: window.innerWidth*width_table*0.001,
+        valueFormatter: (params: GridValueFormatterParams<number>) => {return Number(params.value).toFixed(2)},
       },
+      // {
+      //   field: 'dateCreated',
+      //   headerName: 'Date Created',
+      //   type: 'dateTime',
+      //   width: window.innerWidth*width_table*0.002,
+      // },
+      // {
+      //   field: 'dateModified',
+      //   headerName: 'Date Modified',
+      //   type: 'dateTime',
+      //   width: window.innerWidth*width_table*0.002,
+      // },
       {
-        field: 'dateCreated',
-        headerName: 'Date Created',
-        type: 'dateTime',
-        width: window.innerWidth*width_table*0.002,
-      },
-      {
-        field: 'dateModified',
-        headerName: 'Date Modified',
-        type: 'dateTime',
-        width: window.innerWidth*width_table*0.002,
-      },
+          field: 'dateModified',
+          headerName: 'Last Updated',
+          type: 'dateTime',
+          width: window.innerWidth*width_table*0.002,
+          valueFormatter: (params: GridValueFormatterParams<Date>) => {
+            var a = new Date(params.value);
+            return `${a.getFullYear()}-${a.getMonth()}-${a.getDate()}`;     
+            // return a.toUTCString(); 
+          },
+        },
       {
         field: 'actions',
         type: 'actions',

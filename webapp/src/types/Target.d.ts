@@ -5,6 +5,10 @@ export type Target = {
   value: number;
 };
 
+export type TargetTotal = {
+  total: number;
+};
+
 export type TargetCreateReq = {
   userId: number;
   category: string;

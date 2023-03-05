@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<BasePage />} />
         <Route path="/home" element={<ProtectedRoute component={Home} />} />
         <Route
-          path="/information"
+          path="/receipts"
           element={<ProtectedRoute component={Information} />}
         />
         <Route path="/stats" element={<ProtectedRoute component={Stats} />} />
