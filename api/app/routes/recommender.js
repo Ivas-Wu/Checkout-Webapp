@@ -14,5 +14,7 @@ router.get('/total', recommender.getTotal);
 router.get('/weeklyTotal', recommender.getTotalWeekly);
 // get monthly sum
 router.get('/monthlyTotal', recommender.getTotalMonthly);
+// get spending notification
+router.get('/spendingNotification', recommender.getSpendingNotification);
 
 module.exports = router;
