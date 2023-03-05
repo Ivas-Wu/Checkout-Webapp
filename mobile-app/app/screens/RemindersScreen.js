@@ -38,19 +38,69 @@ function RemindersScreen({navigation}) {
     const toggleModal = () => setIsModalVisible(() => !isModalVisible);
     const [reminder, setReminder] = React.useState(new Reminder("New Reminder"))
     const [reminderList, setReminderList] = React.useState([]);
+    const [alerts, setAlerts] = React.useState([])
     const dateFormat = global.DATE_FORMAT
 
-    const handleGetReminders = async () => {
+    const handleGetReminders = () => {
         try {
             fetch(`http://${DEVICE_IP}:3000/api/reminders?userId=${USER_ID}`)
             .then(response => response.json())
             .then(JSON => {
                 var sortedList = SortByProperty(JSON, 'date')
-                //console.log(sortedList)
+                //console.log("reminders:", sortedList)
                 setReminderList(sortedList)
+            })
+
+            handleGetAlerts()
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    React.useEffect(() => {
+        if (alerts.length > 0){
+            showAlertMessage()
+        }
+    }, [alerts])
+
+    const handleGetAlerts = () => {
+        try {
+            fetch(`http://${DEVICE_IP}:3000/api/reminders/alerts?userId=${USER_ID}`)
+            .then(response => response.json())
+            .then(JSON => {
+                var list = JSON
+                setAlerts(list)
             })
         } catch (error) {
             console.error(error)
+        }
+    }
+
+    const showAlertMessage = () => {
+        if (global.INIT_LOGIN == true) {
+            console.log("ALERTS:", alerts)
+            var message = ""
+            if (alerts.length > 0) {
+                for (var i=0; i<alerts.length; i++) {
+                    console.log(alerts[i].reminderName)
+                    message +=  '\n' + alerts[i].reminderName + 
+                                '\n' + alerts[i].reminderDesc + 
+                                '\n' + 'on ' + 
+                                moment(alerts[i].date).utc().format(global.DATE_DISPLAY_FORMAT) + 
+                                '\n'
+                }
+                console.log("message:" , message)
+            } else {
+                message = "No reminders for today, you're good to go!"
+            }
+            Alert.alert('Today\'s Reminders:', message, 
+            [
+                {
+                    text: 'Ok',
+                    style: 'cancel',
+                }
+            ]);
+            global.INIT_LOGIN = false
         }
     }
 
@@ -60,9 +110,9 @@ function RemindersScreen({navigation}) {
             const response = await fetch(
                 endpoint,
                 {
-                        method: method,
-                        headers: {'Content-Type': 'application/json'},
-                        body: body
+                    method: method,
+                    headers: {'Content-Type': 'application/json'},
+                    body: body
                 }
             )
             const json = await response.json()

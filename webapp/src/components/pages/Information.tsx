@@ -1,7 +1,6 @@
 import '../../App.css';
 import React, { useState } from 'react';
 import { Button } from '../Button';
-import BasePopupWrapper from '../Popup/BasedPopupWrapper';
 import Table2 from '../Table';
 import { Welcome, EndCard } from './pages.styled';
 import Modal from '@mui/material/Modal';
@@ -56,7 +55,7 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={{ ...style }}>
-            <ReceiptUpload />
+            <ReceiptUpload closeParent={togglePopup}/>
           </Box>
         </Modal>
       </div>

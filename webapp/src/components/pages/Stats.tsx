@@ -12,9 +12,8 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '../Button';
 import axios from 'axios';
-import { Target, TargetCreateReq, TargetUpdateReq } from '../../types/Target';
+import { Target, TargetCreateReq, TargetUpdateReq, TargetTotal } from '../../types/Target';
 import { Category, convertCategory } from '../../types/Category';
-import { dataValue } from 'react-widgets/esm/Accessors';
 
 export interface IStatisticsPageProps {}
 
@@ -65,14 +64,16 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
       .then((res) => {
         let data: Target[] = convertTargets(res.data);
         setData(data);
-        console.log(valueData);
-        console.log(id);
+      });
+    axios
+      .get(`http://localhost:3000/api/targets/total?userId=${userId}`)
+      .then((res) => {
+        setValue(res.data.total);
       });
   };
 
   function convertTargets(data: Target[]): Target[] {
     let returnValue: Target[] = [];
-    let once = true;
     data.forEach(function (data) {
       const newData = {
         id: data.id,
@@ -80,11 +81,6 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
         category: data.category,
         value: data.value,
       };
-      if (once) {
-        setValue(data.value);
-        setId(data.id);
-        once = false;
-      }
       returnValue.push(newData);
     });
     return returnValue;

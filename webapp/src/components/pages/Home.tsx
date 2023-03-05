@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../../App.css';
 import IndexPage from '../HomeWidget/index';
 import { Welcome } from './pages.styled';
+import { UserCreateReq } from '../../types/User';
 import React, { useEffect } from 'react';
 import axios from 'axios';
 
@@ -18,8 +19,18 @@ const Home: React.FC<IHomePageProps> = () => {
         axios
           .get(`http://localhost:3000/api/users?email=${user?.email}`)
           .then((res) => {
-            console.log(res);
-            localStorage.setItem('user-id', res.data[0].id.toString());
+            if (res.data.length === 0) {
+              let data : UserCreateReq = {
+                email: user?.email || "",
+              }
+              axios
+                .post(`http://localhost:3000/api/users`, data)
+                .then((res) => {
+                  localStorage.setItem('user-id', res.data[0].id.toString());
+                })
+            } else {
+              localStorage.setItem('user-id', res.data[0].id.toString());
+            }
           });
       };
 
@@ -28,9 +39,9 @@ const Home: React.FC<IHomePageProps> = () => {
   }, [user?.email]);
 
   const pages = [
-    ['videos/goals.gif', 'Goals page', '/goals'],
-    ['videos/information.gif', 'Information page', '/information'],
-    ['videos/stats2.gif', 'Statistics page', '/stats'],
+    ['videos/goals.gif', 'Goals and Reminders', '/goals'],
+    ['videos/information.gif', 'Receipt Management', '/receipts'],
+    ['videos/stats2.gif', 'Statistics and Budgeting', '/stats'],
   ];
   return (
     <>

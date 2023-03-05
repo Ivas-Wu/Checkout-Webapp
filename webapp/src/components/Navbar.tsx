@@ -34,11 +34,11 @@ export const Navbar: React.FC = () => {
               </li>
               <li className="nav-item">
                 <Link
-                  to="/information"
+                  to="/receipts"
                   className="nav-links"
                   onClick={closeMMenu}
                 >
-                  Information
+                  Receipts
                 </Link>
               </li>
               <li className="nav-item">

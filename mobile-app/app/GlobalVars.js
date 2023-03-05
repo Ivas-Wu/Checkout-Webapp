@@ -4,6 +4,7 @@ global.DEVICE_IP = "192.168.50.44"  // 201 Lester
 global.USER_ID = 4
 global.DATE_FORMAT = "DD/MM/YYYY"
 global.DATE_DISPLAY_FORMAT = "MMMM DD YYYY"
+global.INIT_LOGIN = false
 
 export class Receipt {
     constructor() {
