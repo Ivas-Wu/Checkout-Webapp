@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from '@mui/material/Modal';
 import { Box } from '@mui/material';
 import Notifications from '@mui/icons-material/Notifications';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 
@@ -26,6 +27,7 @@ const Home: React.FC<IHomePageProps> = () => {
   const [alertsToShow, setAlertsToShow]= useState<AlertInfo[]>([]);
   const handleAlertsClose = () => setAlertsModalShow(false);
   const handleAlertsOpen = () => setAlertsModalShow(true);
+  const userId = localStorage.getItem('user-id');
 
   function convertReminderstoAlerts(data: Reminder[]): AlertInfo[] {
     let returnValue: AlertInfo[] = [];
@@ -57,21 +59,27 @@ const Home: React.FC<IHomePageProps> = () => {
     flexDirection: 'column'
   };
 
+  useEffect(() =>{
+    if (userId){
+      checkAlerts(userId, false);
+    }
+  },[]);
 
-  const checkAlerts = async (uid: string) => {
+
+  const checkAlerts = async (uid: string, popup: boolean = true) => {
     axios(`http://localhost:3000/api/reminders/alerts?userId=` + uid)
     .then((res) => {
       if (res.data.length !== 0) {
         let alerts: AlertInfo[] = convertReminderstoAlerts(res.data);
         setAlertsToShow(alerts);
-        setAlertsModalShow(true);
+        if (popup) {
+          setAlertsModalShow(true);
+        }
       }
     })
   }
 
   useEffect(() => {
-    const userId = localStorage.getItem('user-id');
-
     if (!userId) {
 
       const fetchUserDb = async () => {
@@ -111,7 +119,7 @@ const Home: React.FC<IHomePageProps> = () => {
       <div style={{background:"#F1FCFF", display: "flex", flexDirection: "row", justifyContent: "center"}}>
         <Welcome>Welcome back, {user?.name} </Welcome>
         <IconButton style={{ backgroundColor: "#F1FCFF"}} onClick={handleAlertsOpen}>
-          <Notifications />
+          {alertsToShow.length != 0 ? <NotificationsActiveIcon color='primary'/> : <Notifications color='action'/>}
         </IconButton>
       </div>
       <Modal
