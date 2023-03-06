@@ -354,12 +354,16 @@ function GoalsScreen() {
         <View>
           {GoalList.map((goal, index) => {
             return (
-              <View key={goal.id} style={styles.goal}>
+              <LinearGradient key={goal.id} style={styles.goal}
+                  colors={['#418CD6', '#73C0FF']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 0.5, y: 0.8 }}
+              >
                 <View style={{flex: 8}}>
-                  <Text style={{ alignSelf: "flex-start", fontSize: 20 }}>
+                  <Text style={{ alignSelf: "flex-start", fontSize: 20, color: 'white', fontWeight: 'bold' }}>
                     {goal.goalName}
                   </Text>
-                  <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
+                  <Text style={{ alignSelf: "flex-start", fontSize: 15, color: 'white' }}>
                     Description: {goal.goalDesc + "\n"}
                     Created On: {goal.createdAt === null ? "" : moment(goal.createdAt).utc().format(global.DATE_DISPLAY_FORMAT) + "\n"}
                     Target Date: {goal.targetDate === null ? "" : moment(goal.targetDate).utc().format(global.DATE_DISPLAY_FORMAT) + "\n"}
@@ -368,23 +372,23 @@ function GoalsScreen() {
                   
                 <View style={{ flexDirection: "column", marginTop: 10, flex:1}}>
                   <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
-                    <Ionicons name={goal.completed ? "checkbox-outline" : "square-outline"} size={26} color={"black"} onPress={() => {
+                    <Ionicons name={goal.completed ? "checkbox-outline" : "square-outline"} size={26} color={"white"} onPress={() => {
                         handleToggleGoalCheckbox(goal)
                     }}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
-                    <Ionicons name={"create-outline"} size={26} color={"black"} onPress={() => {
+                    <Ionicons name={"create-outline"} size={26} color={"white"} onPress={() => {
                         handleEditGoal(goal.id)
                     }}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
-                    <Ionicons name={"trash-outline"} size={26} color={"black"} onPress={() => {
+                    <Ionicons name={"trash-outline"} size={26} color={"white"} onPress={() => {
                         handleDeleteGoal(goal.id)
                     }}/>
                   </TouchableOpacity>
                 </View>
                 
-              </View>
+              </LinearGradient>
             );
           })}
         </View>
@@ -396,15 +400,15 @@ function GoalsScreen() {
 const styles = StyleSheet.create({
   goal: {
     flex: 1,
-    backgroundColor: "#B1E8FF",
+    //backgroundColor: "#B1E8FF",
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
     borderRadius: 10,
     flexDirection: "row",
     marginTop: 5,
-    borderColor: "#73D1FF",
-    borderWidth: 2,
+    //borderColor: "#73D1FF",
+    //borderWidth: 2,
   },
   pageBackground: {
     flex: 1, 
@@ -424,7 +428,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 5,
     justifyContent: "center",
-    backgroundColor: "#73D1FF",
+    backgroundColor: "#73C0FF",
   },
   smallButton: {
     flexDirection: "row",

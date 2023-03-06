@@ -232,9 +232,13 @@ function InformationScreen({navigation}) {
                 <View>
                 {receiptList.map((receipt, index) => {
                     return (
-                    <View key={receipt.id} style={styles.receipt}>
+                    <LinearGradient key={receipt.id} style={styles.receipt}
+                        colors={['#418CD6', '#73C0FF']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 0.5, y: 0.8 }}
+                    >
                         <View style={{ flexDirection: "row", marginTop: 5}}>
-                            <Text style={{ alignSelf: "flex-start", fontSize: 15, flex: 8}}>
+                            <Text style={{ alignSelf: "flex-start", fontSize: 15, flex: 8, color: 'white'}}>
                                 Store: {receipt.store}{"\n"}
                                 Amount: ${parseFloat(receipt.total).toFixed(2)}{"\n"}
                                 Category: {receipt.category}{"\n"}
@@ -242,21 +246,21 @@ function InformationScreen({navigation}) {
                             </Text>
                             <View style={{ flexDirection: "column", flex: 1}}>
                                 <TouchableOpacity style={{ flex: 1, marginBottom: 5}}>
-                                    <Ionicons name={"create-outline"} size={26} color={"black"} onPress={() => {
+                                    <Ionicons name={"create-outline"} size={26} color={"white"} onPress={() => {
                                         receiptId = receipt.id
                                         setReceipt(getReceiptById(receipt.id))
                                         toggleModal()
                                     }}/>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ flex: 1 }}>
-                                    <Ionicons name={"trash-outline"} size={26} color={"black"} onPress={() => {
+                                    <Ionicons name={"trash-outline"} size={26} color={"white"} onPress={() => {
                                         handleDeleteReceipt(receipt.id)
                                         receiptId = null
                                     }}/>
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </View>
+                    </LinearGradient>
                     );
                 })}
                 </View>
@@ -280,14 +284,14 @@ const styles = StyleSheet.create({
     },
     receipt: {
       flex: 1,
-      backgroundColor: "#B1E8FF",
+      //backgroundColor: "#B1E8FF",
       alignItems: "center",
       justifyContent: "center",
       padding: 10,
       borderRadius: 10,
       marginBottom: 5,
-      borderColor: "#73D1FF",
-      borderWidth: 2,
+      //borderColor: "#73D1FF",
+      //borderWidth: 2,
     },
     scroll: {
       width: "100%",
@@ -301,7 +305,7 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       marginTop: 5,
       justifyContent: "center",
-      backgroundColor: "#73D1FF",
+      backgroundColor: "#73C0FF",
     },
     bigText: {
       fontSize: 20,

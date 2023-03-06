@@ -6,6 +6,16 @@ global.DATE_FORMAT = "DD/MM/YYYY"
 global.DATE_DISPLAY_FORMAT = "MMMM DD YYYY"
 global.INIT_LOGIN = false
 
+export class Category {
+    GROCERIES = 'Groceries';
+    ENTERTAINMENT = 'Entertainment';
+    MEDICAL = 'Medical';
+    TRANSPORTATION = 'Transportation';
+    HOUSING = 'Housing';
+    UTILITIES = 'Utilities';
+    OTHER = 'Other';
+}
+
 export class Receipt {
     constructor() {
         this.id = null;
