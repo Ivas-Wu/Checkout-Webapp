@@ -163,7 +163,7 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
       },
       {
         field: 'alertAt',
-        headerName: 'Remind Me In',
+        headerName: 'Remind Me Days Before',
         type: 'number',
         width: window.innerWidth*width_table*0.00085,
       },
