@@ -177,7 +177,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
           width: window.innerWidth*width_table*0.002,
           valueFormatter: (params: GridValueFormatterParams<Date>) => {
             var a = new Date(params.value);
-            return `${a.getFullYear()}-${a.getMonth()}-${a.getDate()}`;     
+            return `${a.getFullYear()}-${a.getMonth()+1}-${a.getDate()}`;     
             // return a.toUTCString(); 
           },
         },
