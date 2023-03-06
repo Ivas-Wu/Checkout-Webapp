@@ -10,6 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import { Link } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import './AccountMenu.css';
  
 export interface MenuProps {
@@ -121,9 +122,9 @@ export default function AccountMenu(props: MenuProps) {
         <Link to="/settings" className="drop-links">
             <MenuItem onClick={handleClose}>
                 <ListItemIcon>
-                    <Settings fontSize="small" />
+                    <TipsAndUpdatesIcon fontSize="small" />
                 </ListItemIcon>
-                Settings
+                Recommender
             </MenuItem>
         </Link>
         
