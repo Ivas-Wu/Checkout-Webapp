@@ -14,6 +14,7 @@ const Home: React.FC = () => {
     marginLeft: '5%',
     marginRight: '5%',
     height: 450,
+    padding: '2%',
   };
 
   return (
@@ -116,7 +117,7 @@ const Home: React.FC = () => {
                       alignItems: 'center',
                     }}
                   >
-                    <div style={{padding: '30px 0 50px 0'}}>
+                    <div>
                       <Typography variant="h5" color="text.primary">
                         Alex Shim
                       </Typography>

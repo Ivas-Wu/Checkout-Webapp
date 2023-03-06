@@ -62,7 +62,7 @@ export const TableModify: React.FC<ITableModifyProps> = ({
         type="text"
         placeholder="New Total..."
         name="total"
-        value={total}
+        value={Number(Number(total).toFixed(2))}
         onChange={handleChange}
       />
       <DropdownList
