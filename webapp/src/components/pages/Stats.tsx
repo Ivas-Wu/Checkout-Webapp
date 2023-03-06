@@ -234,13 +234,13 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
             <CardContent>
               <div style={{ marginBottom: '7%' }}>
                 <Typography variant="body2" color="text.secondary">
-                  Canadians who budget are 8% less likely to fall behind on
+                  Canadians who budget are 8% less likely to fall behind
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  making financial payments and are 10% less likely to
+                  on making financial payments and are 10% less likely
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  need to borrow money in order to pay for daily expenses*
+                  to need to borrow money in order to pay for daily expenses*
                 </Typography>
               </div>
               <div style={{ marginBottom: '7%' }}>
