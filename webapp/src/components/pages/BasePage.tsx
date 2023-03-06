@@ -166,10 +166,10 @@ const Home: React.FC = () => {
                         Area of Focus: Web application
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Interests: 
+                        Interests: Traveling, Collecting, Video Games
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                      Song on Repeat:
+                      Song on Repeat: The Chainsmokers & Coldplay - Something Just Like This
                       </Typography>
                     </div>
                   </div>
