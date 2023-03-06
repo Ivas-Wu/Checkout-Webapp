@@ -155,7 +155,7 @@ const Statistics: React.FC<IStatisticsPageProps> = () => {
               select
               label="Select"
               helperText="Select a Month"
-              defaultValue={0}
+              defaultValue={1}
             >
               {monthList.map((option) => (
                 <MenuItem

@@ -265,8 +265,10 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target, month, a
     } else {
       compare[2].value += target - totalFound;
       compare[0].value += totalFound;
-      console.log(totalA);
     }
+    compare[0].value = Number(Number(compare[0].value).toFixed(2));
+    compare[1].value = Number(Number(compare[1].value).toFixed(2));
+    compare[2].value = Number(Number(compare[2].value).toFixed(2));
 
     return (
       <ResponsiveContainer width={containerWidth} height={containerHeight}>
