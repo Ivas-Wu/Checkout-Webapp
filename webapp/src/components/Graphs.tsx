@@ -15,7 +15,7 @@ import {
   Tooltip,
   Legend,
   Cell,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts';
 import { dataGenBar } from './GraphData';
 
@@ -31,6 +31,8 @@ export interface IGraphsProps {
   width?: number;
   height?: number;
   target: number;
+  month: number;
+  activeDate: (months:boolean[], years:number[]) => void;
 }
 
 export interface GraphReq {
@@ -39,19 +41,36 @@ export interface GraphReq {
   category: Category;
 }
 
-const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
+interface TimeGraphReq {
+  month: number;
+  year: number;
+  data: GraphReq[];
+}
+
+interface TimeTotals {
+  month: number;
+  year: number;
+  total: number;
+}
+
+const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target, month, activeDate }) => {
   const userId = localStorage.getItem('user-id');
-  const [graphData, setData] = useState<GraphReq[]>([]);
-  const [totalA, setTotalA] = useState<number>(0);
-  const containerWidth = width? width : window.innerWidth*0.5;
-  const containerHeight = height? height : window.innerWidth*0.5;
+  const [graphDataTime, setDataTime] = useState<GraphReq[]>([]);
+  const [totalA, setTotalA] = useState<TimeTotals[]>([]);
+  const containerWidth = width ? width : window.innerWidth * 0.5;
+  const containerHeight = height ? height : window.innerWidth * 0.5;
+
   useEffect(() => {
     getData();
   }, []);
 
-  function convertReceipts(data: Receipt[]): GraphReq[] {
-    let returnValue: GraphReq[] = [];
-    let total = 0;
+  useEffect(() => {
+    getData();
+  }, [month]);
+
+  function convertReceipts(data: Receipt[]): TimeGraphReq[] {
+    let returnValue: TimeGraphReq[] = [];
+    let totals: TimeTotals[] = [];
     data.forEach(function (data) {
       const newData = {
         date: data.date ? data.date : data.createdAt,
@@ -60,10 +79,41 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
           ? convertCategory(data.category)
           : Category.OTHER,
       };
-      total += Number(data.total);
-      returnValue.push(newData);
+      var date = new Date(newData.date);
+      let found = returnValue.find(function (element) {
+        if (element.month === date.getMonth()) {
+          return element;
+        }
+        return null;
+      });
+      if (found != null) {
+        found.data.push(newData);
+      } else {
+        const newVal = {
+          month: date.getMonth(),
+          year: date.getFullYear(),
+          data: [newData],
+        };
+        returnValue.push(newVal);
+      }
+      let found2 = totals.find(function (element) {
+        if (element.month === date.getMonth()) {
+          return element;
+        }
+        return null;
+      });
+      if (found2 != null) {
+        found2.total += Number(Number(data.total).toFixed(2));
+      } else {
+        const newVal = {
+          month: date.getMonth(),
+          year: date.getFullYear(),
+          total: Number(Number(data.total).toFixed(2)),
+        };
+        totals.push(newVal);
+      }
     });
-    setTotalA(Number(total.toFixed(2)));
+    setTotalA(totals);
     return returnValue;
   }
 
@@ -71,22 +121,49 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
     axios
       .get(`http://localhost:3000/api/receipts?userId=${userId}`)
       .then((res) => {
-        let data: GraphReq[] = convertReceipts(res.data);
-        setData(data);
-        console.log(res.data);
+        let data: TimeGraphReq[] = convertReceipts(res.data);
+        let found = data.find(element => element.month == month);
+        setDataTime(found ? found.data : data[0].data);
+        updateDate(data);
       });
+  };
+
+  const updateDate = (data: TimeGraphReq[]) => {
+    let months = [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ];
+    let years:number[] = [];
+    data.forEach(element => {
+      months[element.month] = true;
+      if (!years.find(x => x == element.year)){
+        years.push(element.year);
+      }
+    });
+    years = years.sort((n1,n2) => n1 - n2)
+    activeDate(months, years);
   };
 
   if (graph === charts.BAR) {
     return (
       <ResponsiveContainer width={containerWidth} height={containerHeight}>
         <BarChart
-          data={dataGenBar(graphData, target)!}
+          data={dataGenBar(graphDataTime, target)!}
           margin={{
-            top: containerHeight*.1,
-            right: containerWidth*0.1,
-            left: containerWidth*0.05,
-            bottom: containerHeight*.01,
+            top: containerHeight * 0.1,
+            right: containerWidth * 0.1,
+            left: containerWidth * 0.05,
+            bottom: containerHeight * 0.01,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -108,12 +185,12 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
     return (
       <ResponsiveContainer width={containerWidth} height={containerHeight}>
         <LineChart
-          data={dataGenBar(graphData, target)!}
+          data={dataGenBar(graphDataTime, target)!}
           margin={{
-            top: containerHeight*.1,
-            right: containerWidth*0.1,
-            left: containerWidth*0.05,
-            bottom: containerHeight*.01,
+            top: containerHeight * 0.1,
+            right: containerWidth * 0.1,
+            left: containerWidth * 0.05,
+            bottom: containerHeight * 0.01,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -154,11 +231,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
       { name: 'Utilities', value: 0 },
     ];
 
-    const COLORS2 = [
-      '#64c2f5',
-      '#f57d87',
-      '#82e0a5',
-    ];
+    const COLORS2 = ['#64c2f5', '#f57d87', '#82e0a5'];
 
     const compare = [
       { name: 'On Budget', value: 0 },
@@ -166,7 +239,7 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
       { name: 'Under Budget', value: 0 },
     ];
 
-    graphData.forEach(function (data) {
+    graphDataTime.forEach(function (data) {
       let flag = false;
       d.forEach(function (d2) {
         if (convertCategory(d2.name) === data.category) {
@@ -184,16 +257,16 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
       d2.value = Number(Number(d2.value).toFixed(2));
     });
 
-    if (totalA > target){
-      compare[1].value += totalA-target;
+    let found = totalA.find(element => element.month == month);
+    let totalFound = found ? found.total : 0;
+    if (totalFound > target) {
+      compare[1].value += totalFound - target;
       compare[0].value += target;
-    }
-    else {
-      compare[2].value += target-totalA;
-      compare[0].value += totalA;
+    } else {
+      compare[2].value += target - totalFound;
+      compare[0].value += totalFound;
       console.log(totalA);
     }
-
 
     return (
       <ResponsiveContainer width={containerWidth} height={containerHeight}>
@@ -227,7 +300,11 @@ const Graphs: React.FC<IGraphsProps> = ({ graph, width, height, target }) => {
             ))}
           </Pie>
           <Tooltip />
-          <Legend layout={"vertical"} verticalAlign={"middle"} align={"right"}/>
+          <Legend
+            layout={'vertical'}
+            verticalAlign={'middle'}
+            align={'right'}
+          />
         </PieChart>
       </ResponsiveContainer>
     );
