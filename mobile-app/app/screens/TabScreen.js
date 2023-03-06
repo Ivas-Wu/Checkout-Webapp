@@ -68,7 +68,7 @@ function TabScreen() {
 			<Tab.Screen name="Scanner" component={ScannerScreen} />
 			<Tab.Screen name="Information" component={InformationScreen} />
 			<Tab.Screen name="Goals" component={GoalsScreen} />
-			<Tab.Screen name="Statistics" component={StatisticsScreen} />
+			{/* <Tab.Screen name="Statistics" component={StatisticsScreen} /> */}
 		</Tab.Navigator>
 	);
 }

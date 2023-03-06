@@ -3,6 +3,8 @@ const colorMap = {
     // Just for reference, haven't figured out how to pass these to stylesheet
     lightblue: "#73D1FF",
 	darkblue: "#73C0FF",
+    darkerblue: "#1478aa",
+    darkishblue: "#418CD6"
 }
 
 const mainStyles = StyleSheet.create({

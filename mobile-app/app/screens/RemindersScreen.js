@@ -302,33 +302,42 @@ function RemindersScreen({navigation}) {
         <ScrollView style={{width: "100%", padding: 10,borderRadius: 10,}}>
             {reminderList.map((reminder, index) => {
                 return (
-                <View key={reminder.id} style={styles.reminder}>
-                    <View style={{flex: 8}}>
-                        <Text style={{ alignSelf: "flex-start", fontSize: 20 }}>
+                //<View key={reminder.id} style={styles.reminder}>
+                    <LinearGradient
+                        colors={['#418CD6', '#73C0FF']}
+                        style={styles.reminder}
+                        start={{ x: 0.5, y: 0 }}
+                        end={{ x: 0.7, y: 1 }}
+                        key={reminder.id}
+                    >
+                        <View style={{flex: 8}}>
+                        <Text style={{ alignSelf: "flex-start", fontSize: 20, fontWeight:'bold', color: '#E7F8FF'}}>
                             {reminder.reminderName}
                         </Text>
-                        <Text style={{ alignSelf: "flex-start", fontSize: 15 }}>
+                        <Text style={{ alignSelf: "flex-start", fontSize: 15, color: '#E7F8FF'}}>
                             {reminder.reminderDesc + "\n"}
                             {reminder.date === null ? "" : moment(reminder.date).utc().format(global.DATE_DISPLAY_FORMAT) + "\n"}
-                            Remind me: {reminder.alertAt} days before
+                            {reminder.alertMe == true ? "Remind me: " + reminder.alertAt + " days before" : "Don't remind me"}
                         </Text>
-                    </View>
+                        </View>
+                        
+                        <View style={{ flexDirection: "column", marginTop: 10, flex:1}}>
+                            <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
+                                <Ionicons name={"create-outline"} size={26} color={"white"} onPress={() => {
+                                    setReminder(reminder)
+                                    toggleModal()
+                                }}/>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
+                                <Ionicons name={"trash-outline"} size={26} color={"white"} onPress={() => {
+                                    handleDeleteReminder(reminder.id)
+                                }}/>
+                            </TouchableOpacity>
+                        </View>
+                    </LinearGradient>
                     
-                    <View style={{ flexDirection: "column", marginTop: 10, flex:1}}>
-                        <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
-                            <Ionicons name={"create-outline"} size={26} color={"black"} onPress={() => {
-                                setReminder(reminder)
-                                toggleModal()
-                            }}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ flex: 1, marginBottom: 5 }}>
-                            <Ionicons name={"trash-outline"} size={26} color={"black"} onPress={() => {
-                                handleDeleteReminder(reminder.id)
-                            }}/>
-                        </TouchableOpacity>
-                    </View>
                     
-                </View>
+                //</View>
                 );
             })}
         </ScrollView>
@@ -350,7 +359,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 5,
         justifyContent: "center",
-        backgroundColor: "#73D1FF",
+        backgroundColor: "#73C0FF",
     },
     bigText: {
         fontSize: 20,
@@ -411,15 +420,15 @@ const styles = StyleSheet.create({
     },
     reminder: {
         flex: 1,
-        backgroundColor: "#B1E8FF",
+        //backgroundColor: "#B1E8FF",
         alignItems: "center",
         justifyContent: "center",
         padding: 10,
         borderRadius: 10,
         flexDirection: "row",
         marginTop: 5,
-        borderColor: "#73D1FF",
-        borderWidth: 2,
+        //borderColor: "#73D1FF",
+        //borderWidth: 2,
       },
 });
 

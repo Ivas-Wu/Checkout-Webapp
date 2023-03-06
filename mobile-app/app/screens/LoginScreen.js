@@ -19,7 +19,7 @@ function LoginScreen({navigation}) {
             .then(response => response.json())
             .then(JSON => {
                 var list = JSON
-				console.log(`http://${DEVICE_IP}:3000/api/users?email=${userName}`)
+				console.log(list)
 				if (list.length != 1) {
 					Alert.alert('Invalid Login', 'Please check that your login information is correct.', 
 					[
@@ -47,13 +47,13 @@ function LoginScreen({navigation}) {
 
 	return (
 		<LinearGradient
-			colors={['#73D1FF', '#B1DBFF']}
+			colors={['#73D1FF', '#1478aa']}
 			style={styles.background}
 			start={{ x: 1, y: 1.5 }}
 			end={{ x: 0, y: 0 }}
 		>
 			<View>
-				<Ionicons name="wallet-outline" size={100}/>
+				<Ionicons name="wallet-outline" size={100} style={{color: 'white'}}/>
 			</View>
 			<View style={{marginBottom: 40}}>
 				<Text style={styles.titleText}>
@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
 	},
 	titleText: {
 		fontSize: 40,
-		fontWeight: "bold"
+		fontWeight: "bold",
+		color: 'white'
 	}
 });
 
