@@ -57,6 +57,7 @@ const ReceiptUpload: React.FC<IReceiptUploadProps> = ({closeParent}) => {
   const reset = () => {
     handleClose();
     closeParent();
+    window.location.reload();
   };
 
   return (

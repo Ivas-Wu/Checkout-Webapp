@@ -121,7 +121,7 @@ const Home: React.FC = () => {
                         Alex Shim
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Area of Focus: Image processing / scanning
+                        Area of Focus: Image Processing / Scanning
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
                         Interests: Snowboarding, Soccer, Video Games
@@ -135,13 +135,13 @@ const Home: React.FC = () => {
                         Daniel Li
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Area of Focus: Mobile application
+                        Area of Focus: Mobile Application
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Interests: 
+                        Interests: Music, Video Games, Swimming
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                      Song on Repeat:
+                      Song on Repeat: Coldplay - Viva la Vida
                       </Typography>
                     </div>
                     <div>
@@ -149,7 +149,7 @@ const Home: React.FC = () => {
                         Cole Cherney
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Area of Focus: Backend and infastructure
+                        Area of Focus: Backend / Infastructure
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
                         Interests: Soccer, Surfing, Video Games
@@ -163,7 +163,7 @@ const Home: React.FC = () => {
                         Ivas Wu
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        Area of Focus: Web application
+                        Area of Focus: Web Application
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
                         Interests: Traveling, Collecting, Video Games

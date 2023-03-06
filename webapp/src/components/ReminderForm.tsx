@@ -146,8 +146,8 @@ export const Reminderform: React.FC<IReminderFormProps> = () => {
 
   const columns = React.useMemo<GridColumns<IReminderTask>>(
     () => [
-      { field: 'id', headerName: 'ID', type: 'number', width: window.innerWidth*width_table*0.0005 },
-      { field: 'taskName', headerName: 'Task', width: window.innerWidth*width_table*0.002 },
+      // { field: 'id', headerName: 'ID', type: 'number', width: window.innerWidth*width_table*0.0005 },
+      { field: 'taskName', headerName: 'Title', width: window.innerWidth*width_table*0.002 },
       { field: 'taskDescription', headerName: 'Description', width: window.innerWidth*width_table*0.00355 },
       {
         field: 'date',

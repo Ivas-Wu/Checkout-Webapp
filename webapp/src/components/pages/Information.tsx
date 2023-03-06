@@ -39,7 +39,7 @@ const Information: React.FC<IInformationPtAmountProps> = () => {
 
   return (
     <>
-      <Welcome>This is the Information Page</Welcome>
+      <Welcome>This is the Receipts Page</Welcome>
       <div className="header" style={{ background: '#F1FCFF' }}>
         <Button
           buttonStyle="btn--extra"
