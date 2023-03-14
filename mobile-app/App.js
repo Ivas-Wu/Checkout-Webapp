@@ -1,8 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Button, TouchableOpacity, LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import { YellowBox } from "react-native";
+YellowBox.ignoreWarnings([""]);
 
 const Stack = createNativeStackNavigator();
 

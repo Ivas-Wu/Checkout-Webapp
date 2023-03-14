@@ -10,19 +10,20 @@ import { Buffer } from "buffer";
 import {Picker} from '@react-native-picker/picker';
 
 function ScannerScreen() {
-    const [photo, setPhoto] = React.useState(null)
+    const [photo, setPhoto] = React.useState({uri: '1'})
     const [scanData, setScanData] = React.useState({items:[],receipt:[]})
-    const [update, setUpdate] = React.useState(0)
+    const [update, setUpdate] = React.useState(false)
     const [showLoading, setShowLoading] = React.useState(false)
 
     React.useEffect(() => {
         if (photo !== null){
             console.log("effect photopath:", photo.uri)
+            handleGetScanData()
         }
-    }, [photo])
+    }, [photo, update])
 
     React.useEffect(() => {
-        console.log("hi")
+        console.log("useEffect")
     }, [scanData])
 
     const handleGetScanData = async () => {
@@ -48,6 +49,7 @@ function ScannerScreen() {
         console.log(formData)
 
         try {
+            setShowLoading(true)
             const response = await fetch(
                 `http://${DEVICE_IP}:3000/api/scanner?userId=${USER_ID}`,
                 {
@@ -63,17 +65,16 @@ function ScannerScreen() {
             setScanData(json)
         } catch (error) {
             console.error(error)
+        } finally {
+            setShowLoading(false)
         }
     }
 
     const handleEditReceiptText = (value, field) => {
         var tempReceipt = scanData["receipt"]
         tempReceipt[field] = value
-
-        var tempData = scanData
-        tempData["receipt"] = tempReceipt
-        setScanData(tempData)
-        //console.log(tempData)
+        setScanData({...scanData, receipt: tempReceipt})
+        console.log(scanData)
     }
 
     const handleEditItemText = (value, index, field) => {
@@ -106,7 +107,7 @@ function ScannerScreen() {
 
         // POST receipt and get generated receiptId
         var receiptId = null
-        console.log(tempReceipt)
+        console.log("tempReceipt: " , tempReceipt)
         try {
             const response = await fetch(
                 `http://${DEVICE_IP}:3000/api/receipts`,
@@ -167,6 +168,8 @@ function ScannerScreen() {
     }
 
     const pickImage = async () => {
+        setScanData({items:[],receipt:[]})
+
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -177,18 +180,26 @@ function ScannerScreen() {
 
         if (result.assets !== null) {
             setPhoto(result.assets[0])
-            handleGetScanData().then(setShowLoading(false))
         } else {
-            setShowLoading(false)
+            //setShowLoading(false)
         }
     };
 
     return (
         <KeyboardAvoidingView style={mainStyles.pageBackground}>
-            <View flexDirection="column" style={{width: "93%", height: "17%", alignContent: "flex-end", alignSelf: "center"}}>
+            <View flexDirection="column" style={{width: "93%", height: "25%", alignContent: "flex-end", alignSelf: "center"}}>
+                <TouchableOpacity
+                    onPress={() => {
+                        setUpdate(!update)
+                        console.log("update:", update)
+                    }}
+                    style={styles.button}>
+                    <View style={{ flex: 1 }}>
+                        <Text style={styles.buttonText}>Refresh</Text>
+                    </View>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => {
                     setShowLoading(true)
-                    setUpdate(1)
                     pickImage()
                 }}>
                     <View flexDirection="row">
@@ -220,7 +231,7 @@ function ScannerScreen() {
 
                         <Text style={styles.itemText}>Total Amount</Text>
                         <TextInput multiline={true} style={styles.textInput} defaultValue={scanData["receipt"]["total"]} 
-                        onChangeText={(val) => {handleEditReceiptText(val, "store")}}/>
+                        onChangeText={(val) => {handleEditReceiptText(val, "total")}}/>
 
                         <Text style={styles.itemText}>Receipt Category</Text>
                         <View style={{height: "25%", width:"100%", backgroundColor:"#E7F8FF", borderRadius:20, marginTop: 10}}>
