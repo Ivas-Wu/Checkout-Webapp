@@ -137,7 +137,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
 
   const columns = React.useMemo<GridColumns<TableReqs>>(
     () => [
-      { field: 'id', headerName: 'ID', type: 'number', width: window.innerWidth*width_table*0.0005 },
+      // { field: 'id', headerName: 'ID', type: 'number', width: window.innerWidth*width_table*0.0005 },
       {
         field: 'date',
         headerName: 'Date',
@@ -155,7 +155,7 @@ export default function DataTable<T extends TableReqs>(props: TableProps<T>) {
         field: 'tAmount',
         headerName: 'Total Amount',
         type: 'number',
-        width: window.innerWidth*width_table*0.001,
+        width: window.innerWidth*width_table*0.0015,
         valueFormatter: (params: GridValueFormatterParams<number>) => {return Number(params.value).toFixed(2)},
       },
       // {
